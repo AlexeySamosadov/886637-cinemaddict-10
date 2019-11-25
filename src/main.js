@@ -235,12 +235,12 @@ const render = (container, template, position = `beforeend`) => {
 const HeaderElement = document.querySelector(`.header`);
 render(HeaderElement, getProfileRaiting());
 
-const MainElement = document.querySelector(`.main`);
-render(MainElement, getMainNavigationTemplate());
-render(MainElement, getSortNavigationTemplate());
-render(MainElement, getFilmsTemplate());
+const mainElement = document.querySelector(`.main`);
+render(mainElement, getMainNavigationTemplate());
+render(mainElement, getSortNavigationTemplate());
+render(mainElement, getFilmsTemplate());
 
-const filmsElement = MainElement.querySelector(`.films`);
+const filmsElement = mainElement.querySelector(`.films`);
 render(filmsElement, getFilmsListTemplate());
 
 const filmsContainerElement = filmsElement.querySelector(`.films-list__container`);
