@@ -1,7 +1,7 @@
 'use strict';
 
 const FILMS_QUANTITY = 5;
-const QUANTITY_EXTRA_BLOCKS = 2;
+const EXTRA_BLOCKS_QUANTITY = 2;
 
 const getProfileRaiting = () => `  <section class="header__profile profile">
     <p class="profile__rating">Movie Buff</p>
@@ -61,29 +61,29 @@ const render = (container, template, position = `beforeend`) => {
   container.insertAdjacentHTML(position, template);
 };
 
-const siteHeader = document.querySelector(`.header`);
-render(siteHeader, getProfileRaiting());
+const siteHeaderElement = document.querySelector(`.header`);
+render(siteHeaderElement, getProfileRaiting());
 
-const siteMain = document.querySelector(`.main`);
-render(siteMain, getMainNavigationTemplate());
-render(siteMain, getSortNavigationTemplate());
-render(siteMain, getFilmsTemplate());
+const siteMainElement = document.querySelector(`.main`);
+render(siteMainElement, getMainNavigationTemplate());
+render(siteMainElement, getSortNavigationTemplate());
+render(siteMainElement, getFilmsTemplate());
 
-const films = siteMain.querySelector(`.films`);
-render(films, getFilmsListTemplate());
+const filmsElement = siteMainElement.querySelector(`.films`);
+render(filmsElement, getFilmsListTemplate());
 
-const filmsContainer = films.querySelector(`.films-list__container`);
-new Array(FILMS_QUANTITY).fill(``).forEach(()=> render(filmsContainer, getFilmeCardTemplate()));
-render(filmsContainer, getShowMoreButtonTemplate(), `afterend`);
+const filmsContainerElement = filmsElement.querySelector(`.films-list__container`);
+new Array(FILMS_QUANTITY).fill(``).forEach(()=> render(filmsContainerElement, getFilmeCardTemplate()));
+render(filmsContainerElement, getShowMoreButtonTemplate(), `afterend`);
 
-new Array(QUANTITY_EXTRA_BLOCKS).fill(``).forEach(()=> render(films, getFilmsExtraTemplate()));
-const extraBlocks = films.querySelectorAll(`.films-list--extra`);
+new Array(EXTRA_BLOCKS_QUANTITY).fill(``).forEach(()=> render(filmsElement, getFilmsExtraTemplate()));
+const extraBlockElements = filmsElement.querySelectorAll(`.films-list--extra`);
 
-const TopRatedDiv = extraBlocks[0].querySelector(`.films-list__container`);
-new Array(QUANTITY_EXTRA_BLOCKS).fill(``).forEach(()=> render(TopRatedDiv, getFilmeCardTemplate()));
+const topRatedDivElement = extraBlockElements[0].querySelector(`.films-list__container`);
+new Array(EXTRA_BLOCKS_QUANTITY).fill(``).forEach(()=> render(topRatedDivElement, getFilmeCardTemplate()));
 
-const mostCommentedTitle = extraBlocks[1].querySelector(`.films-list__title`);
-const mostCommentedDiv = extraBlocks[1].querySelector(`.films-list__container`);
-mostCommentedTitle.textContent = `Most commented`;
-new Array(QUANTITY_EXTRA_BLOCKS).fill(``).forEach(()=> render(mostCommentedDiv, getFilmeCardTemplate()));
+const mostCommentedTitleElement = extraBlockElements[1].querySelector(`.films-list__title`);
+const mostCommentedDivElement = extraBlockElements[1].querySelector(`.films-list__container`);
+mostCommentedTitleElement.textContent = `Most commented`;
+new Array(EXTRA_BLOCKS_QUANTITY).fill(``).forEach(()=> render(mostCommentedDivElement, getFilmeCardTemplate()));
 
