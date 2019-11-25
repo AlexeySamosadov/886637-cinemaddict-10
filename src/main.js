@@ -232,8 +232,8 @@ const render = (container, template, position = `beforeend`) => {
   container.insertAdjacentHTML(position, template);
 };
 
-const HeaderElement = document.querySelector(`.header`);
-render(HeaderElement, getProfileRaiting());
+const нeaderElement = document.querySelector(`.header`);
+render(нeaderElement, getProfileRaiting());
 
 const mainElement = document.querySelector(`.main`);
 render(mainElement, getMainNavigationTemplate());
