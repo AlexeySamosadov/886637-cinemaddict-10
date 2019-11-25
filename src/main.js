@@ -232,15 +232,15 @@ const render = (container, template, position = `beforeend`) => {
   container.insertAdjacentHTML(position, template);
 };
 
-const siteHeaderElement = document.querySelector(`.header`);
-render(siteHeaderElement, getProfileRaiting());
+const HeaderElement = document.querySelector(`.header`);
+render(HeaderElement, getProfileRaiting());
 
-const siteMainElement = document.querySelector(`.main`);
-render(siteMainElement, getMainNavigationTemplate());
-render(siteMainElement, getSortNavigationTemplate());
-render(siteMainElement, getFilmsTemplate());
+const MainElement = document.querySelector(`.main`);
+render(MainElement, getMainNavigationTemplate());
+render(MainElement, getSortNavigationTemplate());
+render(MainElement, getFilmsTemplate());
 
-const filmsElement = siteMainElement.querySelector(`.films`);
+const filmsElement = MainElement.querySelector(`.films`);
 render(filmsElement, getFilmsListTemplate());
 
 const filmsContainerElement = filmsElement.querySelector(`.films-list__container`);
@@ -262,6 +262,5 @@ const footerElement = document.querySelector(`.footer`);
 render(footerElement, getFilmDetailsTemplate(), `afterend`);
 const filmDetailsElement = document.querySelector(`.film-details`);
 filmDetailsElement.classList.add(`visually-hidden`);
-// filmDetailsElement.setAttribute(`style`, `display: done;`);
 
 
