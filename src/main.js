@@ -12,6 +12,7 @@ import {getShowMoreButtonTemplate} from './components/show-more-button.js';
 const FILMS_QUANTITY = 5;
 const EXTRA_BLOCKS_QUANTITY = 2;
 
+
 const headerElement = document.querySelector(`.header`);
 render(headerElement, getProfileRaiting());
 
