@@ -1,3 +1,5 @@
+import {getRandomItem, getRandomNumber} from "../util";
+
 const generateGenreContent = (genres) => {
   return [...genres]
     .map((genre)=> {
@@ -9,15 +11,100 @@ const generateGenreContent = (genres) => {
 const generateCountryContent = (countries) => {
   return [...countries]
     .map((country) => {
-      return `<td class="film-details__cell">${country}</td>`
+      return `<td class="film-details__cell">${country}</td>`;
     })
     .join(`\n`);
 };
+
+const EMOJIESLINKS = [
+  `smile.png`,
+  `angry.png`,
+  `puke.png`,
+  `sleeping.png`,
+];
+
+const COMMENTS = [
+  `stupid`,
+  `nice`,
+  `Я плакал`,
+  `Хотел бы быть как главный герой`,
+  `Почему он?`,
+  `Нереальная концовка`,
+  `Фильм хорош, чтобы уснуть`,
+];
+
+const COMENTATORS_NAME = [
+  `Antonio`,
+  `Hyan`,
+  `Genry`,
+  `Sergey Talizin`,
+  `Mark`,
+  `Fill`,
+  `Chipolino`
+];
+
+
+const setTimeFormat = (value) => {
+  return value < 10 ? `0${value}` : String(value);
+};
+
+export const generateDateTime = () => {
+  const currentTime = new Date();
+  const hours = setTimeFormat(currentTime.getHours() % 12);
+  const minutes = setTimeFormat(currentTime.getMinutes());
+  const month = setTimeFormat(currentTime.getMonth() - getRandomNumber(0, 5));
+  const year = currentTime.getFullYear();
+  const day = setTimeFormat(currentTime.getDate() - getRandomNumber(0, 5));
+
+  return `${year}/${month}/${day} ${hours}:${minutes}`;
+};
+
+const generateComment = () => {
+  return {
+    comment: getRandomItem(COMMENTS),
+    commentatorName: getRandomItem(COMENTATORS_NAME),
+    emojiLink: getRandomItem(EMOJIESLINKS),
+    commentTime: generateDateTime(),
+  };
+};
+
+const createComments = (count) => {
+  return new Array(count)
+    .fill(``)
+    .map(generateComment);
+};
+
+const generateCommentsTemplate = (count) => {
+  const comments = createComments(count);
+  return [...comments]
+    .map((com)=>{
+      const {comment, commentatorName, emojiLink, commentTime} = com;
+      return (`
+      <li class="film-details__comment">
+            <span class="film-details__comment-emoji">
+              <img src="./images/emoji/${emojiLink}" width="55" height="55" alt="emoji">
+            </span>
+            <div>
+              <p class="film-details__comment-text">${comment}</p>
+              <p class="film-details__comment-info">
+                <span class="film-details__comment-author">${commentatorName}</span>
+                <span class="film-details__comment-day">${commentTime}</span>
+                <button class="film-details__comment-delete">Delete</button>
+              </p>
+            </div>
+          </li>
+      `);
+    })
+    .join(`\n`);
+};
+
 
 export const getFilmDetailsTemplate = (filmData) => {
   const {title, titleDetails, rating, releaseDate, year, duration, genres, posterSource, country, description, commentsQuantity} = filmData;
   const genreContent = generateGenreContent(genres);
   const countriesContent = generateCountryContent(country);
+
+  const comments = generateCommentsTemplate(commentsQuantity);
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -70,6 +157,7 @@ export const getFilmDetailsTemplate = (filmData) => {
               ${countriesContent}
             </tr>
             <tr class="film-details__row">
+            <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
                 ${genreContent}
               </td>
@@ -96,61 +184,10 @@ export const getFilmDetailsTemplate = (filmData) => {
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsQuantity}</span></h3>
 
         <ul class="film-details__comments-list">
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/smile.png" width="55" height="55" alt="emoji">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Interesting setting and a good cast</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">Tim Macoveev</span>
-                <span class="film-details__comment-day">2019/12/31 23:59</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/sleeping.png" width="55" height="55" alt="emoji">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Booooooooooring</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">2 days ago</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/puke.png" width="55" height="55" alt="emoji">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Very very old. Meh</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">2 days ago</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/angry.png" width="55" height="55" alt="emoji">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Almost two hours? Seriously?</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">Today</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
+            ${comments}
         </ul>
 
         <div class="film-details__new-comment">
