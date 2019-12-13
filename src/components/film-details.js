@@ -33,7 +33,7 @@ const COMMENTS = [
   `Фильм хорош, чтобы уснуть`,
 ];
 
-const COMENTATORS_NAME = [
+const COMMENTATOR_NAMES = [
   `Antonio`,
   `Hyan`,
   `Genry`,
@@ -44,17 +44,17 @@ const COMENTATORS_NAME = [
 ];
 
 
-const setTimeFormat = (value) => {
+const setTimeStyle = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
 
 export const generateDateTime = () => {
   const currentTime = new Date();
-  const hours = setTimeFormat(currentTime.getHours() % 12);
-  const minutes = setTimeFormat(currentTime.getMinutes());
-  const month = setTimeFormat(currentTime.getMonth() - getRandomNumber(0, 5));
+  const hours = setTimeStyle(currentTime.getHours() % 12);
+  const minutes = setTimeStyle(currentTime.getMinutes());
+  const month = setTimeStyle(currentTime.getMonth() - getRandomNumber(0, 5));
   const year = currentTime.getFullYear();
-  const day = setTimeFormat(currentTime.getDate() - getRandomNumber(0, 5));
+  const day = setTimeStyle(currentTime.getDate() - getRandomNumber(0, 5));
 
   return `${year}/${month}/${day} ${hours}:${minutes}`;
 };
@@ -62,7 +62,7 @@ export const generateDateTime = () => {
 const generateComment = () => {
   return {
     comment: getRandomItem(COMMENTS),
-    commentatorName: getRandomItem(COMENTATORS_NAME),
+    commentatorName: getRandomItem(COMMENTATOR_NAMES),
     emojiLink: getRandomItem(EMOJIESLINKS),
     commentTime: generateDateTime(),
   };
@@ -77,15 +77,15 @@ const createComments = (count) => {
 const generateCommentsTemplate = (count) => {
   const comments = createComments(count);
   return [...comments]
-    .map((com)=>{
-      const {comment, commentatorName, emojiLink, commentTime} = com;
+    .map((comment)=>{
+      const {commentText, commentatorName, emojiLink, commentTime} = comment;
       return (`
       <li class="film-details__comment">
             <span class="film-details__comment-emoji">
               <img src="./images/emoji/${emojiLink}" width="55" height="55" alt="emoji">
             </span>
             <div>
-              <p class="film-details__comment-text">${comment}</p>
+              <p class="film-details__comment-text">${commentText}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${commentatorName}</span>
                 <span class="film-details__comment-day">${commentTime}</span>
@@ -103,6 +103,7 @@ export const getFilmDetailsTemplate = (filmData) => {
   const {title, titleDetails, rating, releaseDate, year, duration, genres, posterSource, country, description, commentsQuantity} = filmData;
   const genreContent = generateGenreContent(genres);
   const countriesContent = generateCountryContent(country);
+  const filmDateProduction = `${releaseDate} ${year}`;
 
   const comments = generateCommentsTemplate(commentsQuantity);
 
@@ -146,7 +147,7 @@ export const getFilmDetailsTemplate = (filmData) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${releaseDate} ${year}</td>
+              <td class="film-details__cell">${filmDateProduction}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>

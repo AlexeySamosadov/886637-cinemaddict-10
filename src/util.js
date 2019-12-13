@@ -2,7 +2,7 @@ const render = (container, template, position = `beforeend`) => {
   container.insertAdjacentHTML(position, template);
 };
 
-const getRandomNumber = function (minNumber, maxNumber) {
+const getRandomNumber = (minNumber, maxNumber) => {
   if (arguments.length > 2) {
     return 0;
   } else if (arguments.length === 2) {

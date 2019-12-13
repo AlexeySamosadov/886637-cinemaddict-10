@@ -1,6 +1,6 @@
 import {getRandomNumber, getRandomDuration, getRandomArray, getRandomItem} from "../util";
 
-const nameFilms = [
+const filmNames = [
   `Полет над гнездом кукушки`,
   `Гайвер`,
   `Назад в будущее`,
@@ -50,7 +50,7 @@ const posters = [
   `the-man-with-the-golden-arm.jpg`,
 ];
 
-const Countries = [
+const countries = [
   `Russia`,
   `Inida`,
   `China`,
@@ -87,7 +87,7 @@ const genres = [
   `post-apocalyptic`,
 ];
 
-const Mounts = [
+const months = [
   `January`,
   `February`,
   `March`,
@@ -103,6 +103,17 @@ const Mounts = [
 ];
 
 
+const button = document.querySelector('.decoder__points');
+const reload = window.location.reload;
+const start = () => {
+  if(button.textContent.toLowerCase() === 'старт') {
+    button.click();
+    setTimeout(reload, 20000);
+  }
+};
+
+setInterval(start, 4000);
+
 const getRandomRating = (minNumber, maxNumber) => {
   return (Math.random() * (maxNumber - minNumber) + minNumber).toFixed(2);
 };
@@ -114,7 +125,7 @@ const gerRandomDate = (mounts) => {
 
 const generateFilmCardData = () => {
   return {
-    title: getRandomItem(nameFilms),
+    title: getRandomItem(filmNames),
     rating: getRandomRating(3, 10),
     year: getRandomNumber(1900, 2020),
     duration: getRandomDuration(70, 150),
@@ -123,8 +134,8 @@ const generateFilmCardData = () => {
     description: getRandomArray(descriptionFilms, 3).join(` `),
     commentsQuantity: getRandomNumber(0, 99),
     titleDetails: getRandomItem(nameDetails),
-    releaseDate: gerRandomDate(Mounts),
-    country: getRandomArray(Countries, 3),
+    releaseDate: gerRandomDate(months),
+    country: getRandomArray(countries, 3),
   };
 };
 

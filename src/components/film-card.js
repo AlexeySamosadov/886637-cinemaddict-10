@@ -1,5 +1,5 @@
 const generateGenreContent = (genres) => {
-  return [...genres]
+  return genres
     .map((genre)=> {
       return `<span class="film-card__genre">${genre}</span>`;
     })
@@ -11,8 +11,8 @@ export const getFilmCardTemplate = (filmData) => {
   const genreContent = generateGenreContent(genres);
 
   return (`<article class="film-card">
-           
-    
+
+
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating">${rating}</p>
           <p class="film-card__info">
