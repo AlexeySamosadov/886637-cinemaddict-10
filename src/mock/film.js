@@ -103,10 +103,10 @@ const months = [
 ];
 
 
-const button = document.querySelector('.decoder__points');
+const button = document.querySelector(`.decoder__points`);
 const reload = window.location.reload;
 const start = () => {
-  if(button.textContent.toLowerCase() === 'старт') {
+  if (button.textContent.toLowerCase() === `старт`) {
     button.click();
     setTimeout(reload, 20000);
   }
