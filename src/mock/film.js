@@ -87,7 +87,7 @@ const genres = [
   `post-apocalyptic`,
 ];
 
-const months = [
+const MONTHS = [
   `January`,
   `February`,
   `March`,
@@ -101,18 +101,6 @@ const months = [
   `November`,
   `December`,
 ];
-
-
-const button = document.querySelector(`.decoder__points`);
-const reload = window.location.reload;
-const start = () => {
-  if (button.textContent.toLowerCase() === `старт`) {
-    button.click();
-    setTimeout(reload, 20000);
-  }
-};
-
-setInterval(start, 4000);
 
 const getRandomRating = (minNumber, maxNumber) => {
   return (Math.random() * (maxNumber - minNumber) + minNumber).toFixed(2);
@@ -134,7 +122,7 @@ const generateFilmCardData = () => {
     description: getRandomArray(descriptionFilms, 3).join(` `),
     commentsQuantity: getRandomNumber(0, 99),
     titleDetails: getRandomItem(nameDetails),
-    releaseDate: gerRandomDate(months),
+    releaseDate: gerRandomDate(MONTHS),
     country: getRandomArray(countries, 3),
   };
 };
