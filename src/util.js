@@ -3,15 +3,7 @@ const render = (container, template, position = `beforeend`) => {
 };
 
 const getRandomNumber = function (minNumber, maxNumber) {
-  if (arguments.length > 2) {
-    return 0;
-  } else if (arguments.length === 2) {
-    return Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber);
-  } else if (arguments.length === 1) {
-    return Math.round(Math.random() * minNumber);
-  } else {
-    return Math.round(Math.random());
-  }
+  return arguments.length === 2 ? Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber) : Math.round(Math.random() * minNumber);
 };
 
 const getRandomDuration = (min, max) => {
