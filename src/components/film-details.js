@@ -1,4 +1,113 @@
-export const getFilmDetailsTemplate = () => `<section class="film-details">
+import {getRandomItem, getRandomNumber} from "../util";
+
+const generateGenreContent = (genres) => {
+  return [...genres]
+    .map((genre)=> {
+      return `<span class="film-details__genre">${genre}</span>`;
+    })
+    .join(`\n`);
+};
+
+const generateCountryContent = (countries) => {
+  return [...countries]
+    .map((country) => {
+      return `<td class="film-details__cell">${country}</td>`;
+    })
+    .join(`\n`);
+};
+
+const EMOJIESLINKS = [
+  `smile.png`,
+  `angry.png`,
+  `puke.png`,
+  `sleeping.png`,
+];
+
+const COMMENTS = [
+  `stupid`,
+  `nice`,
+  `Я плакал`,
+  `Хотел бы быть как главный герой`,
+  `Почему он?`,
+  `Нереальная концовка`,
+  `Фильм хорош, чтобы уснуть`,
+];
+
+const COMMENTATOR_NAMES = [
+  `Antonio`,
+  `Hyan`,
+  `Genry`,
+  `Sergey Talizin`,
+  `Mark`,
+  `Fill`,
+  `Chipolino`
+];
+
+
+const setTimeStyle = (value) => {
+  return value < 10 ? `0${value}` : String(value);
+};
+
+export const generateDateTime = () => {
+  const currentTime = new Date();
+  const hours = setTimeStyle(currentTime.getHours() % 12);
+  const minutes = setTimeStyle(currentTime.getMinutes());
+  const month = setTimeStyle(currentTime.getMonth() - getRandomNumber(0, 5));
+  const year = currentTime.getFullYear();
+  const day = setTimeStyle(currentTime.getDate() - getRandomNumber(0, 5));
+
+  return `${year}/${month}/${day} ${hours}:${minutes}`;
+};
+
+const generateComment = () => {
+  return {
+    comment: getRandomItem(COMMENTS),
+    commentatorName: getRandomItem(COMMENTATOR_NAMES),
+    emojiLink: getRandomItem(EMOJIESLINKS),
+    commentTime: generateDateTime(),
+  };
+};
+
+const createComments = (count) => {
+  return new Array(count)
+    .fill(``)
+    .map(generateComment);
+};
+
+const generateCommentsTemplate = (count) => {
+  const comments = createComments(count);
+  return [...comments]
+    .map((comment)=>{
+      const {commentText, commentatorName, emojiLink, commentTime} = comment;
+      return (`
+      <li class="film-details__comment">
+            <span class="film-details__comment-emoji">
+              <img src="./images/emoji/${emojiLink}" width="55" height="55" alt="emoji">
+            </span>
+            <div>
+              <p class="film-details__comment-text">${commentText}</p>
+              <p class="film-details__comment-info">
+                <span class="film-details__comment-author">${commentatorName}</span>
+                <span class="film-details__comment-day">${commentTime}</span>
+                <button class="film-details__comment-delete">Delete</button>
+              </p>
+            </div>
+          </li>
+      `);
+    })
+    .join(`\n`);
+};
+
+
+export const getFilmDetailsTemplate = (filmData) => {
+  const {title, titleDetails, rating, releaseDate, year, duration, genres, posterSource, country, description, commentsQuantity} = filmData;
+  const genreContent = generateGenreContent(genres);
+  const countriesContent = generateCountryContent(country);
+  const filmDateProduction = `${releaseDate} ${year}`;
+
+  const comments = generateCommentsTemplate(commentsQuantity);
+
+  return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="form-details__top-container">
       <div class="film-details__close">
@@ -6,7 +115,7 @@ export const getFilmDetailsTemplate = () => `<section class="film-details">
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
+          <img class="film-details__poster-img" src="./images/posters/${posterSource}" alt="">
 
           <p class="film-details__age">18+</p>
         </div>
@@ -14,12 +123,12 @@ export const getFilmDetailsTemplate = () => `<section class="film-details">
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
-              <h3 class="film-details__title">The Great Flamarion</h3>
-              <p class="film-details__title-original">Original: The Great Flamarion</p>
+              <h3 class="film-details__title">${title}</h3>
+              <p class="film-details__title-original">${titleDetails}</p>
             </div>
 
             <div class="film-details__rating">
-              <p class="film-details__total-rating">8.9</p>
+              <p class="film-details__total-rating">${rating}</p>
             </div>
           </div>
 
@@ -38,27 +147,26 @@ export const getFilmDetailsTemplate = () => `<section class="film-details">
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">30 March 1945</td>
+              <td class="film-details__cell">${filmDateProduction}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">1h 18m</td>
+              <td class="film-details__cell">${duration}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
-              <td class="film-details__cell">USA</td>
+              ${countriesContent}
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">Genres</td>
+            <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">Drama</span>
-                <span class="film-details__genre">Film-Noir</span>
-                <span class="film-details__genre">Mystery</span></td>
+                ${genreContent}
+              </td>
             </tr>
           </table>
 
           <p class="film-details__film-description">
-            The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.
+            ${description}
           </p>
         </div>
       </div>
@@ -77,61 +185,10 @@ export const getFilmDetailsTemplate = () => `<section class="film-details">
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsQuantity}</span></h3>
 
         <ul class="film-details__comments-list">
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/smile.png" width="55" height="55" alt="emoji">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Interesting setting and a good cast</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">Tim Macoveev</span>
-                <span class="film-details__comment-day">2019/12/31 23:59</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/sleeping.png" width="55" height="55" alt="emoji">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Booooooooooring</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">2 days ago</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/puke.png" width="55" height="55" alt="emoji">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Very very old. Meh</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">2 days ago</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/angry.png" width="55" height="55" alt="emoji">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Almost two hours? Seriously?</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">Today</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
+            ${comments}
         </ul>
 
         <div class="film-details__new-comment">
@@ -166,4 +223,5 @@ export const getFilmDetailsTemplate = () => `<section class="film-details">
       </section>
     </div>
   </form>
-</section>`;
+</section>`);
+};
