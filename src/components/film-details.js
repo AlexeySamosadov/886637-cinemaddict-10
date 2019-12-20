@@ -1,4 +1,4 @@
-import {getRandomItem, getRandomNumber} from "../util";
+import {createElement, getRandomItem, getRandomNumber} from "../util";
 
 const generateGenreContent = (genres) => {
   return [...genres]
@@ -225,3 +225,26 @@ export const getFilmDetailsTemplate = (filmData) => {
   </form>
 </section>`);
 };
+
+
+export default class FilmDetails {
+  constructor(filmData) {
+    this._element = null;
+    this._filmData = filmData;
+  }
+
+  getTemplate() {
+    return getFilmDetailsTemplate(this._filmData);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,5 +1,5 @@
 import {render} from './util.js';
-import {getProfileRaiting} from './components/profile-raiting.js';
+import {getProfileRating} from './components/profile-raiting.js';
 import {getMainNavigationTemplate} from './components/main-navigation.js';
 import {getSortNavigationTemplate} from './components/sort-navigation.js';
 import {getFilmsTemplate} from './components/films.js';
@@ -17,7 +17,7 @@ const START_PAGE_FILMS_VISIBLE = 5;
 const EXTRA_BLOCKS_QUANTITY = 2;
 
 const headerElement = document.querySelector(`.header`);
-render(headerElement, getProfileRaiting());
+render(headerElement, getProfileRating());
 
 const mainElement = document.querySelector(`.main`);
 render(mainElement, getMainNavigationTemplate());

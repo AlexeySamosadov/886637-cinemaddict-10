@@ -1,3 +1,5 @@
+import {createElement} from "../util";
+
 const generateGenreContent = (genres) => {
   return genres
     .map((genre)=> {
@@ -30,3 +32,26 @@ export const getFilmCardTemplate = (filmData) => {
           </form>
         </article>`);
 };
+
+
+export default class FilmCard {
+  constructor(filmData) {
+    this._element = null;
+    this._filmData = filmData;
+  }
+
+  getTemplate() {
+    return getFilmCardTemplate(this._filmData);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

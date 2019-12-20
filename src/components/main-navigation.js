@@ -6,6 +6,8 @@
 //     .join(`\n`);
 // };
 
+import {createElement} from "../util";
+
 export const getMainNavigationTemplate = () => {
   // const navigationItems = (menuItems);
 
@@ -17,3 +19,25 @@ export const getMainNavigationTemplate = () => {
     <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
   </nav>`);
 };
+
+
+export default class MainNavigation {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return getMainNavigationTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

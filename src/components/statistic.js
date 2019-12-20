@@ -1,4 +1,4 @@
-import {getRandomItem, getRandomNumber} from "../util";
+import {createElement, getRandomItem, getRandomNumber} from "../util";
 import {genres} from "../mock/film";
 
 const filterDuration = [
@@ -25,7 +25,7 @@ const rangs = [
 const getFilterDurationTemplate = (filters) => {
   return [...filters]
     .map((filterElement) => (
-      `<input type="radio" 
+      `<input type="radio"
             class="statistic__filters-input visually-hidden"
             name="statistic-filter" id="statistic-${filterElement}"
             value="${filterElement}"
@@ -79,3 +79,26 @@ export const getStatisticTemplate = (watchedFilmsQuantity) => {
     </div>
   </section>`);
 };
+
+
+export default class Statistic {
+  constructor(watchedFilmsQuantity) {
+    this._element = null;
+    this._watchedFilmsQuantity = watchedFilmsQuantity;
+  }
+
+  getTemplate() {
+    return getStatisticTemplate(this._watchedFilmsQuantity);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
