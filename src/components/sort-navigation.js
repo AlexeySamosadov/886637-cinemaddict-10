@@ -1,6 +1,6 @@
 import {createElement} from "../util";
 
-export const getSortNavigationTemplate = () => `  <ul class="sort">
+export const getSortNavigationTemplate = () => `<ul class="sort">
     <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
     <li><a href="#" class="sort__button">Sort by date</a></li>
     <li><a href="#" class="sort__button">Sort by rating</a></li>

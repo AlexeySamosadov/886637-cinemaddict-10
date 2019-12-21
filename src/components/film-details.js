@@ -79,8 +79,8 @@ const generateCommentsTemplate = (count) => {
   return [...comments]
     .map((comment)=>{
       const {commentText, commentatorName, emojiLink, commentTime} = comment;
-      return (`
-      <li class="film-details__comment">
+      return (
+        `<li class="film-details__comment">
             <span class="film-details__comment-emoji">
               <img src="./images/emoji/${emojiLink}" width="55" height="55" alt="emoji">
             </span>
@@ -92,8 +92,8 @@ const generateCommentsTemplate = (count) => {
                 <button class="film-details__comment-delete">Delete</button>
               </p>
             </div>
-          </li>
-      `);
+          </li>`
+      );
     })
     .join(`\n`);
 };
