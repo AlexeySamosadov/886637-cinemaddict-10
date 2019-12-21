@@ -14,7 +14,7 @@ const createElement = (template) => {
 };
 
 const render = (container, element, position = RenderPosition.BEFOREEND) => {
-  // container.insertAdjacentHTML(position, template);
+  // container.insertAdjacentHTML(position, element);
   switch (position) {
     case RenderPosition.AFTERBEGIN:
       container.prepend(element);
@@ -48,6 +48,6 @@ const getRandomItem = (array) => {
   return array[index];
 };
 
-export {render, createElement, getRandomNumber, getRandomDuration, getRandomArray, getRandomItem};
+export {RenderPosition, render, createElement, getRandomNumber, getRandomDuration, getRandomArray, getRandomItem};
 
 
