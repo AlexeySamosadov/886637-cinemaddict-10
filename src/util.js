@@ -1,6 +1,3 @@
-// const render = (container, template, position = `beforeend`) => {
-//   container.insertAdjacentHTML(position, template);
-// };
 const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
