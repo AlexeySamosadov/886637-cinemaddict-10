@@ -45,6 +45,13 @@ const getRandomItem = (array) => {
   return array[index];
 };
 
+// const sort = (element, parameter) => {
+//   element
+//     .sort((a, b) => {
+//       return b[parameter] - a[parameter];
+//     });
+// };
+
 export {RenderPosition, render, createElement, getRandomNumber, getRandomDuration, getRandomArray, getRandomItem};
 
 

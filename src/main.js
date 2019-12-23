@@ -13,6 +13,7 @@ import FilmsExtraComponent from './components/film-extra.js';
 import ShowMoreButtonComponent from './components/show-more-button.js';
 import StatisticComponent from "./components/statistic";
 import {generateFilmCardsData} from "./mock/film";
+import {sortTopRated} from "./components/top-rated-films";
 
 
 const filmsData = generateFilmCardsData(30);
@@ -32,6 +33,7 @@ render(mainElement, new SortNavigationComponent().getElement());
 
 const filmsElement = new FilmsComponent().getElement();
 render(mainElement, filmsElement);
+
 const filmListElement = new FilmListComponent().getElement();
 render(filmsElement, filmListElement);
 
@@ -90,10 +92,9 @@ if (filmsData.length < 1) {
   const extraBlockElements = filmsElement.querySelectorAll(`.films-list--extra`);
 
   const topRatedDivElement = extraBlockElements[0].querySelector(`.films-list__container`);
-  const topRated = filmsData
-    .sort((a, b) => {
-      return b.rating - a.rating;
-    });
+
+
+  const topRated = sortTopRated(filmsData);
 
   topRated
     .slice(0, EXTRA_BLOCKS_QUANTITY)
