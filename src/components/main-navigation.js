@@ -6,7 +6,7 @@
 //     .join(`\n`);
 // };
 
-import {createElement} from "../util";
+import AbstractComponent from "./abstract-component";
 
 const getMainNavigationTemplate = () => {
   // const navigationItems = (menuItems);
@@ -21,23 +21,8 @@ const getMainNavigationTemplate = () => {
 };
 
 
-export default class MainNavigation {
-  constructor() {
-    this._element = null;
-  }
-
+export default class MainNavigation extends AbstractComponent {
   getTemplate() {
     return getMainNavigationTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

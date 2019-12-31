@@ -1,4 +1,4 @@
-import {createElement} from "../util";
+import AbstractComponent from "./abstract-component";
 
 const generateGenreContent = (genres) => {
   return genres
@@ -34,24 +34,13 @@ export const getFilmCardTemplate = (filmData) => {
 };
 
 
-export default class FilmCard {
+export default class FilmCard extends AbstractComponent {
   constructor(filmData) {
-    this._element = null;
+    super();
     this._filmData = filmData;
   }
 
   getTemplate() {
     return getFilmCardTemplate(this._filmData);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -1,4 +1,5 @@
-import {createElement, getRandomItem, getRandomNumber} from "../util";
+import {getRandomItem, getRandomNumber} from "../util";
+import AbstractComponent from "./abstract-component";
 
 const generateGenreContent = (genres) => {
   return [...genres]
@@ -227,24 +228,13 @@ export const getFilmDetailsTemplate = (filmData) => {
 };
 
 
-export default class FilmDetails {
+export default class FilmDetails extends AbstractComponent {
   constructor(filmData) {
-    this._element = null;
+    super();
     this._filmData = filmData;
   }
 
   getTemplate() {
     return getFilmDetailsTemplate(this._filmData);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
