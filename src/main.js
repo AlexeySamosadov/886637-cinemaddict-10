@@ -45,17 +45,19 @@ if (filmsData.length < 1) {
   let totalFilmsVisible = START_PAGE_FILMS_VISIBLE;
 
   const renderCard = (place, filmData) => {
-    const filmCardElement = new FilmCardComponent(filmData).getElement();
+    const filmCardComponent = new FilmCardComponent(filmData);
+    const filmCardElement = filmCardComponent.getElement();
     render(place, filmCardElement);
 
     const showPopup = () => {
       const footerElement = document.querySelector(`.footer`);
-      const filmDetailsElement = new FilmDetailsComponent(filmData).getElement();
+      const filmDetailsComponent = new FilmDetailsComponent(filmData)
+      const filmDetailsElement = filmDetailsComponent.getElement();
       render(footerElement, filmDetailsElement);
 
       const closePopup = () => {
         footerElement.removeChild(filmDetailsElement);
-        closePopupButton.removeEventListener(`click`, closePopup);
+        filmDetailsComponent.removeClickHandler(closePopup);
       };
 
       const onEscPress = (evt) => {
@@ -66,25 +68,19 @@ if (filmsData.length < 1) {
         }
       };
 
-      const closePopupButton = filmDetailsElement.querySelector(`.film-details__close-btn`);
-      closePopupButton.addEventListener(`click`, closePopup);
+      filmDetailsComponent.setClickHandler(closePopup);
       document.addEventListener(`keydown`, onEscPress);
     };
 
-    const filmLogotype = filmCardElement.querySelector(`.film-card__poster`);
-    filmLogotype.addEventListener(`click`, showPopup);
-
-    const filmTitle = filmCardElement.querySelector(`.film-card__title`);
-    filmTitle.addEventListener(`click`, showPopup);
-
-    const filmComments = filmCardElement.querySelector(`.film-card__comments`);
-    filmComments.addEventListener(`click`, showPopup);
+    filmCardComponent.setClickHandler(showPopup);
   };
 
   filmsData
     .slice(0, totalFilmsVisible)
     .forEach((filmData)=> renderCard(filmsContainerElement, filmData));
-  render(filmListElement, new ShowMoreButtonComponent().getElement());
+  const showMoreButtonComponent = new ShowMoreButtonComponent();
+  const showMoreButtonElement = showMoreButtonComponent.getElement();
+  render(filmListElement, showMoreButtonElement);
 
   new Array(EXTRA_BLOCKS_QUANTITY).fill(``).forEach(()=> render(filmsElement, new FilmsExtraComponent().getElement()));
   const extraBlockElements = filmsElement.querySelectorAll(`.films-list--extra`);
@@ -113,8 +109,6 @@ if (filmsData.length < 1) {
     .slice(0, EXTRA_BLOCKS_QUANTITY)
     .forEach((filmData)=> renderCard(mostCommentedDivElement, filmData));
 
-  const showMoreButton = document.querySelector(`.films-list__show-more`);
-
   const CARDS_VISIBLE_BY_BUTTON = 5;
 
   const onShowMoreButton = () => {
@@ -126,11 +120,11 @@ if (filmsData.length < 1) {
       .forEach((filmData) => renderCard(filmsContainerElement, filmData));
 
     if (totalFilmsVisible > filmsData.length) {
-      showMoreButton.remove();
+      showMoreButtonElement.remove();
     }
   };
 
-  showMoreButton.addEventListener(`click`, onShowMoreButton);
+  showMoreButtonComponent.setClickButtonHandler(onShowMoreButton);
 }
 
 
