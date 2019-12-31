@@ -51,7 +51,7 @@ if (filmsData.length < 1) {
 
     const showPopup = () => {
       const footerElement = document.querySelector(`.footer`);
-      const filmDetailsComponent = new FilmDetailsComponent(filmData)
+      const filmDetailsComponent = new FilmDetailsComponent(filmData);
       const filmDetailsElement = filmDetailsComponent.getElement();
       render(footerElement, filmDetailsElement);
 

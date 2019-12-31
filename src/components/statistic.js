@@ -1,4 +1,4 @@
-import {createElement, getRandomItem, getRandomNumber} from "../util/util";
+import {getRandomItem, getRandomNumber} from "../util/util";
 import {genres} from "../mock/film";
 import AbstractComponent from "./abstract-component";
 

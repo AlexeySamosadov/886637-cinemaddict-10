@@ -8,7 +8,7 @@ export const getSortNavigationTemplate = () => `<ul class="sort">
 
 
 export default class SortNavigation extends AbstractComponent {
-getTemplate() {
+  getTemplate() {
     return getSortNavigationTemplate();
   }
 }
