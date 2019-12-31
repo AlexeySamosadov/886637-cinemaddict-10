@@ -1,4 +1,4 @@
-import {render} from './util.js';
+import {render} from './util/render';
 import ProfileRatingComponent from './components/profile-raiting.js';
 import MainNavigationComponent from './components/main-navigation.js';
 import SortNavigationComponent from './components/sort-navigation.js';

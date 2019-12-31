@@ -1,4 +1,4 @@
-import {getRandomItem, getRandomNumber} from "../util";
+import {getRandomItem, getRandomNumber} from "../util/util";
 import AbstractComponent from "./abstract-component";
 
 const generateGenreContent = (genres) => {

@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomDuration, getRandomArray, getRandomItem} from "../util";
+import {getRandomNumber, getRandomDuration, getRandomArray, getRandomItem} from "../util/util";
 
 const filmNames = [
   `Полет над гнездом кукушки`,

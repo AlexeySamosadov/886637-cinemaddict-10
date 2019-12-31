@@ -1,4 +1,4 @@
-import {createElement} from "../util";
+import {createElement} from "../util/util";
 
 export default class AbstractComponent {
   constructor() {
