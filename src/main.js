@@ -1,7 +1,6 @@
 import {render} from './util/render';
 import ProfileRatingComponent from './components/profile-raiting.js';
 import MainNavigationComponent from './components/main-navigation.js';
-import SortNavigationComponent from './components/sort-navigation.js';
 import StatisticComponent from "./components/statistic";
 import PageController from "./controllers/page-controller";
 
@@ -13,7 +12,6 @@ const mainElement = document.querySelector(`.main`);
 const mainNavigationElement = new MainNavigationComponent().getElement();
 render(mainElement, mainNavigationElement);
 render(mainElement, new StatisticComponent(22).getElement());
-render(mainElement, new SortNavigationComponent().getElement());
 
 const pageController = new PageController();
 pageController.renderFilmList();
