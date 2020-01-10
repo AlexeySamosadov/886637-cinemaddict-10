@@ -8,10 +8,10 @@ const headerElement = document.querySelector(`.header`);
 render(headerElement, new ProfileRatingComponent().getElement());
 
 const mainElement = document.querySelector(`.main`);
-
 const mainNavigationElement = new MainNavigationComponent().getElement();
 render(mainElement, mainNavigationElement);
-render(mainElement, new StatisticComponent(22).getElement());
+const WATCHED_FILM_NUMBER = 27;
+render(mainElement, new StatisticComponent(WATCHED_FILM_NUMBER).getElement());
 
 const pageController = new PageController();
 pageController.renderFilmList();
