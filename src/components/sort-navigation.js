@@ -4,7 +4,6 @@ export const SortType = {
   DEFAULT: `default`,
   DATE: `date`,
   RATING: `rating`,
-  HUY: `pizda`,
 };
 
 export const getSortNavigationTemplate = (TypeOfSort) => {
