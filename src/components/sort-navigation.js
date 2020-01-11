@@ -4,14 +4,19 @@ export const SortType = {
   DEFAULT: `default`,
   DATE: `date`,
   RATING: `rating`,
+  HUY: `pizda`,
 };
 
 export const getSortNavigationTemplate = (TypeOfSort) => {
-  return (`<ul class="sort">
-    <li><a href="#" data-sort-type ="${TypeOfSort.DEFAULT}" class="sort__button sort__button--active">Sort by default</a></li>
-    <li><a href="#" data-sort-type ="${TypeOfSort.DATE}" class="sort__button">Sort by date</a></li>
-    <li><a href="#" data-sort-type ="${TypeOfSort.RATING}" class="sort__button">Sort by rating</a></li>
-  </ul>`);
+  const sortType = Object.values(TypeOfSort);
+  return `<ul class="sort">
+    ${
+  [...sortType]
+    .map((sortElement) => (
+      `<li><a href="#" data-sort-type ="${sortElement}" class="sort__button sort__button--active">Sort by ${sortElement}</a></li>`
+    )).join(`\n`)
+}
+  </ul>`;
 };
 
 
