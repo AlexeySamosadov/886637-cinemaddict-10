@@ -18,7 +18,7 @@ export const getSortNavigationTemplate = (TypeOfSort) => {
   </ul>`;
 };
 
-//sort__button sort__button--active;
+// sort__button sort__button--active;
 
 
 export default class SortNavigation extends AbstractComponent {
