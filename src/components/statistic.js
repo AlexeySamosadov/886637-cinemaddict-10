@@ -41,7 +41,7 @@ const generateDurationTemplate = (min, max) => {
   return (`<p class="statistic__item-text">${(minutes / 60).toFixed(0)}<span class="statistic__item-description">h</span> ${minutes % 60} <span class="statistic__item-description">m</span></p>`);
 };
 
-export const getStatisticTemplate = (watchedFilmsQuantity) => {
+const getStatisticTemplate = (watchedFilmsQuantity) => {
   const rang = getRandomItem(rangs);
   const filters = getFilterDurationTemplate(filterDuration);
   const watchedFilmsNumber = watchedFilmsQuantity;

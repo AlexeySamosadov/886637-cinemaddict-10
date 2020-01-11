@@ -1,6 +1,6 @@
 import AbstractComponent from "./abstract-component";
 
-export const getFilmsListContainerTemplate = () => {
+const getFilmsListContainerTemplate = () => {
   return (
     `<div class="films-list__container"></div>`
   );

@@ -8,7 +8,7 @@ const generateGenreContent = (genres) => {
     .join(`\n`);
 };
 
-export const getFilmCardTemplate = (filmData) => {
+const getFilmCardTemplate = (filmData) => {
   const {title, rating, year, duration, genres, posterSource, description, commentsQuantity} = filmData;
   const genreContent = generateGenreContent(genres);
 

@@ -1,6 +1,6 @@
 import AbstractComponent from "./abstract-component";
 
-export const getFilmsExtraTemplate = () => `<section class="films-list--extra">
+const getFilmsExtraTemplate = () => `<section class="films-list--extra">
       <h2 class="films-list__title">Top rated</h2>
 
       <div class="films-list__container"></div>

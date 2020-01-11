@@ -1,15 +1,7 @@
-// const generateNavigationItems = (menuItems) => {
-//   return [...menuItems]
-//     .map((menuItem)=>{
-//       return ``;
-//     })
-//     .join(`\n`);
-// };
-
 import AbstractComponent from "./abstract-component";
 
 const getMainNavigationTemplate = () => {
-  // const navigationItems = (menuItems);
+
 
   return (`<nav class="main-navigation">
     <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
