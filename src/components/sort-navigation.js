@@ -6,12 +6,11 @@ export const SortType = {
   RATING: `rating`,
 };
 
-export const getSortNavigationTemplate = (typeOfSorting) => {
-  typeOfSorting = Object.values(typeOfSorting);
+export const getSortNavigationTemplate = (TypeOfSort) => {
   return (`<ul class="sort">
-    <li><a href="#" data-sort-type ="${typeOfSorting[0]}" class="sort__button sort__button--active">Sort by default</a></li>
-    <li><a href="#" data-sort-type ="${typeOfSorting[1]}" class="sort__button">Sort by date</a></li>
-    <li><a href="#" data-sort-type ="${typeOfSorting[2]}" class="sort__button">Sort by rating</a></li>
+    <li><a href="#" data-sort-type ="${TypeOfSort.DEFAULT}" class="sort__button sort__button--active">Sort by default</a></li>
+    <li><a href="#" data-sort-type ="${TypeOfSort.DATE}" class="sort__button">Sort by date</a></li>
+    <li><a href="#" data-sort-type ="${TypeOfSort.RATING}" class="sort__button">Sort by rating</a></li>
   </ul>`);
 };
 
