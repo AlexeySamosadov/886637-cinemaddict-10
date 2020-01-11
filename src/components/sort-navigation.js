@@ -13,17 +13,21 @@ export const getSortNavigationTemplate = (TypeOfSort) => {
     ${
   [...sortType]
     .map((sortElement) => (
-      `<li><a href="#" data-sort-type ="${sortElement}" class="sort__button sort__button--active">Sort by ${sortElement}</a></li>`
+      `<li><a href="#" data-sort-type ="${sortElement}" class="sort__button ">Sort by ${sortElement}</a></li>`
     )).join(`\n`)
 }
   </ul>`;
 };
+
+//sort__button sort__button--active;
 
 
 export default class SortNavigation extends AbstractComponent {
   constructor() {
     super();
     this._currentSortType = SortType.DEFAULT;
+
+    this.save = null;
   }
   getTemplate() {
     return getSortNavigationTemplate(SortType);
@@ -32,6 +36,9 @@ export default class SortNavigation extends AbstractComponent {
   setSortTypeHandler(handler) {
     this._element.addEventListener(`click`, (evt)=>{
       evt.preventDefault();
+      if (this.save && this.save !== evt.target) {
+        this.save.classList.remove(`sort__button--active`);
+      }
       if (evt.target.tagName !== `A`) {
         return;
       }
@@ -41,6 +48,9 @@ export default class SortNavigation extends AbstractComponent {
       }
       this._currentSortType = sortType;
       handler(this._currentSortType);
+      evt.target.classList.add(`sort__button--active`);
+      this.save = evt.target;
     });
+
   }
 }
