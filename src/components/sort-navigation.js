@@ -18,6 +18,7 @@ export const getSortNavigationTemplate = (TypeOfSort) => {
   </ul>`;
 };
 
+
 export default class SortNavigation extends AbstractComponent {
   constructor() {
     super();
