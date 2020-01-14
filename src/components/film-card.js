@@ -1,4 +1,4 @@
-import {createElement} from "../util";
+import AbstractComponent from "./abstract-component";
 
 const generateGenreContent = (genres) => {
   return genres
@@ -8,7 +8,7 @@ const generateGenreContent = (genres) => {
     .join(`\n`);
 };
 
-export const getFilmCardTemplate = (filmData) => {
+const getFilmCardTemplate = (filmData) => {
   const {title, rating, year, duration, genres, posterSource, description, commentsQuantity} = filmData;
   const genreContent = generateGenreContent(genres);
 
@@ -34,9 +34,9 @@ export const getFilmCardTemplate = (filmData) => {
 };
 
 
-export default class FilmCard {
+export default class FilmCard extends AbstractComponent {
   constructor(filmData) {
-    this._element = null;
+    super();
     this._filmData = filmData;
   }
 
@@ -44,14 +44,9 @@ export default class FilmCard {
     return getFilmCardTemplate(this._filmData);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setClickHandler(handler) {
+    this._element.querySelector(`.film-card__poster`).addEventListener(`click`, handler);
+    this._element.querySelector(`.film-card__title`).addEventListener(`click`, handler);
+    this._element.querySelector(`.film-card__comments`).addEventListener(`click`, handler);
   }
 }

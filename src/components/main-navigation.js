@@ -1,15 +1,7 @@
-// const generateNavigationItems = (menuItems) => {
-//   return [...menuItems]
-//     .map((menuItem)=>{
-//       return ``;
-//     })
-//     .join(`\n`);
-// };
-
-import {createElement} from "../util";
+import AbstractComponent from "./abstract-component";
 
 const getMainNavigationTemplate = () => {
-  // const navigationItems = (menuItems);
+
 
   return (`<nav class="main-navigation">
     <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
@@ -21,23 +13,8 @@ const getMainNavigationTemplate = () => {
 };
 
 
-export default class MainNavigation {
-  constructor() {
-    this._element = null;
-  }
-
+export default class MainNavigation extends AbstractComponent {
   getTemplate() {
     return getMainNavigationTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

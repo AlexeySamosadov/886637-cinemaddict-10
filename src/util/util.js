@@ -1,8 +1,3 @@
-const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`,
-};
-
 const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
@@ -10,17 +5,6 @@ const createElement = (template) => {
   return newElement.firstChild;
 };
 
-const render = (container, element, position = RenderPosition.BEFOREEND) => {
-  // container.insertAdjacentHTML(position, element);
-  switch (position) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
 
 const getRandomNumber = function (minNumber, maxNumber) {
   return arguments.length === 2 ? Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber) : Math.round(Math.random() * minNumber);
@@ -45,6 +29,6 @@ const getRandomItem = (array) => {
   return array[index];
 };
 
-export {RenderPosition, render, createElement, getRandomNumber, getRandomDuration, getRandomArray, getRandomItem};
+export {createElement, getRandomNumber, getRandomDuration, getRandomArray, getRandomItem};
 
 
