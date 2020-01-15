@@ -2,8 +2,6 @@ import {render} from "../util/render";
 import NoFilms from "../components/no-films";
 import FilmsListTitle from "../components/film-list-title";
 import FilmsListContainerComponent from "../components/film-list-container";
-import FilmCardComponent from "../components/film-card";
-import FilmDetailsComponent from "../components/film-details";
 import ShowMoreButtonComponent from "../components/show-more-button";
 import FilmsExtraComponent from "../components/film-extra";
 import {generateFilmCardsData} from "../mock/film";
@@ -11,6 +9,7 @@ import FilmListComponent from "../components/films-list";
 import FilmsComponent from "../components/films";
 import SortNavigationComponent from "../components/sort-navigation";
 import {SortType} from "../components/sort-navigation";
+import MovieController from "./movie-controller";
 
 const filmsData = generateFilmCardsData(22);
 
@@ -24,6 +23,7 @@ export default class PageController {
     this._filmsContainerElement = null;
     this._mainElement = document.querySelector(`.main`);
     this._sortNavigationComponent = null;
+    this._renderingFilms = [];
 
     this._totalFilmsVisible = START_PAGE_FILMS_VISIBLE;
   }
@@ -79,39 +79,12 @@ export default class PageController {
     this.setSortNavigation();
   }
 
-  renderCard(place, filmData) {
-    const filmCardComponent = new FilmCardComponent(filmData);
-    const filmCardElement = filmCardComponent.getElement();
-    render(place, filmCardElement);
-
-    const showPopup = () => {
-      const footerElement = document.querySelector(`.footer`);
-      const filmDetailsComponent = new FilmDetailsComponent(filmData);
-      const filmDetailsElement = filmDetailsComponent.getElement();
-      render(footerElement, filmDetailsElement);
-
-      const closePopup = () => {
-        footerElement.removeChild(filmDetailsElement);
-        filmDetailsComponent.removeClickHandler(closePopup);
-      };
-
-      const onEscPress = (evt) => {
-        const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-        if (isEscKey) {
-          footerElement.removeChild(filmDetailsElement);
-          document.removeEventListener(`keydown`, onEscPress);
-        }
-      };
-
-      filmDetailsComponent.setClickHandler(closePopup);
-      document.addEventListener(`keydown`, onEscPress);
-    };
-
-    filmCardComponent.setClickHandler(showPopup);
-  }
-
   renderFilms(filmsListElement, films) {
-    films.forEach((film)=> this.renderCard(filmsListElement, film));
+    return films.map((film)=> {
+      const movieController = new MovieController(filmsListElement);
+      movieController.renderCard(film);
+      return movieController;
+    });
   }
 
   renderShowMoreButton() {
@@ -152,5 +125,16 @@ export default class PageController {
 
       this.renderFilms(this._filmsContainerElement, sortedFilms.slice(0, this._totalFilmsVisible));
     });
+  }
+
+  _onDataChange(place, oldFilmData, newFilmData) {
+    const index = this._renderingFilms.findIndex((it) => it === oldFilmData);
+
+    if (index === -1) {
+      return;
+    }
+
+    this._renderingFilms = [].concat(this._renderingFilms.slice(0, index), newFilmData, this._renderingFilms.slice(index + 1));
+    place.render(this._renderingFilms[index]);
   }
 }

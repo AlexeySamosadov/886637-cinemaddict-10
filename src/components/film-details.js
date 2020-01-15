@@ -1,5 +1,5 @@
 import {getRandomItem, getRandomNumber} from "../util/util";
-import AbstractComponent from "./abstract-component";
+import AbstractSmartComponent from "./abstract-smart-component";
 
 const generateGenreContent = (genres) => {
   return [...genres]
@@ -228,7 +228,7 @@ export const getFilmDetailsTemplate = (filmData) => {
 };
 
 
-export default class FilmDetails extends AbstractComponent {
+export default class FilmDetails extends AbstractSmartComponent {
   constructor(filmData) {
     super();
     this._filmData = filmData;
@@ -244,5 +244,17 @@ export default class FilmDetails extends AbstractComponent {
 
   removeClickHandler(handler) {
     this._element.querySelector(`.film-details__close-btn`).removeEventListener(`click`, handler);
+  }
+
+  setAddWatchlistClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, handler);
+  }
+
+  setMarkAsWatchedClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, handler);
+  }
+
+  setMarkAsFavoriteClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, handler);
   }
 }
