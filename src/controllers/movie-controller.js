@@ -50,7 +50,7 @@ export default class MovieController extends AbstractComponent {
 
     if (oldFilmCardComponent && this.oldFilmDetailsComponent) {
       replaceComponentElement(filmCardComponent, oldFilmCardComponent);
-      replaceComponentElement(this.filmDetailsComponent, this.oldFilmDetailsComponent);
+      replaceComponentElement(this.filmDetailsComponentgit, this.oldFilmDetailsComponent);
     } else {
       render(this.place, filmCardElement);
     }
@@ -77,7 +77,6 @@ export default class MovieController extends AbstractComponent {
     };
 
     const working = () => {
-      console.log(`This working`);
     };
 
     filmDetailsComponent.setClickHandler(closePopup);

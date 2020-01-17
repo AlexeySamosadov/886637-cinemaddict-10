@@ -97,9 +97,9 @@ export default class PageController {
       const prevShowedCards = this._totalFilmsVisible;
       this._totalFilmsVisible = this._totalFilmsVisible + CARDS_VISIBLE_BY_BUTTON;
 
-      this.renderFilms(this._filmsContainerElement, filmsData.slice(prevShowedCards, this._totalFilmsVisible), this._onDataChange);
+      this.renderFilms(this._filmsContainerElement, this._renderingFilms.slice(prevShowedCards, this._totalFilmsVisible), this._onDataChange);
 
-      if (this._totalFilmsVisible > filmsData.length) {
+      if (this._totalFilmsVisible > this._renderingFilms.length) {
         showMoreButtonElement.remove();
       }
     };
@@ -111,13 +111,13 @@ export default class PageController {
       let sortedFilms = [];
       switch (sortType) {
         case SortType.DATE:
-          sortedFilms = filmsData.slice().sort((a, b) => b.year - a.year);
+          sortedFilms = this._renderingFilms.slice().sort((a, b) => b.year - a.year);
           break;
         case SortType.RATING:
-          sortedFilms = filmsData.slice().sort((a, b) => b.rating - a.rating);
+          sortedFilms = this._renderingFilms.slice().sort((a, b) => b.rating - a.rating);
           break;
         case SortType.DEFAULT:
-          sortedFilms = filmsData.slice(0, this._totalFilmsVisible);
+          sortedFilms = this._renderingFilms.slice(0, this._totalFilmsVisible);
           break;
       }
       this._filmsContainerElement.innerHTML = ``;
