@@ -122,6 +122,9 @@ const generateFilmCardData = () => {
     titleDetails: getRandomItem(nameDetails),
     releaseDate: gerRandomDate(MONTHS),
     country: getRandomArray(countries, 3),
+    isAddWatch: false,
+    isWatched: false,
+    isFavorite: false,
   };
 };
 

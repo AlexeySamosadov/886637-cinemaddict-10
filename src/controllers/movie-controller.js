@@ -7,7 +7,7 @@ export default class MovieController extends AbstractComponent {
   constructor(place, filmData, onDataChange) {
     super();
     this.place = place;
-    this.onDataChange = onDataChange;
+    this.onDataChange = onDataChange.bind(this);
     this.filmData = null;
   }
 
@@ -22,18 +22,19 @@ export default class MovieController extends AbstractComponent {
     filmCardComponent.setCommentsClickHandler(this.showPopup.bind(this));
 
     filmCardComponent.setAddWatchlistClickHandler(()=>{
-      this.onDataChange(this, filmData, Object.assign({}, filmData), {
-
-      });
-      console.log(`This working`);
+      this.onDataChange(this, filmData, Object.assign({}, filmData, {
+        isAddWatch: !filmData.isAddWatch,
+      }));
     });
     filmCardComponent.setMarkAsWatchedClickHandler(() =>{
-      this.onDataChange(this, filmData);
-      console.log(`This working`);
+      this.onDataChange(this, filmData, Object.assign({}, filmData, {
+        isWatched: !filmData.isWatched,
+      }));
     });
     filmCardComponent.setMarkAsFavoriteClickHandler(()=>{
-      this.onDataChange(this, filmData);
-      console.log(`This working`);
+      this.onDataChange(this, filmData, Object.assign({}, filmData, {
+        isFavorite: !filmData.isFavorite,
+      }));
     });
   }
 
