@@ -50,8 +50,7 @@ export default class MovieController extends AbstractComponent {
 
     if (oldFilmCardComponent && this.oldFilmDetailsComponent) {
       replaceComponentElement(filmCardComponent, oldFilmCardComponent);
-      replaceComponentElement(this.filmCardComponent, this.oldFilmDetailsComponent);
-      console.log(`Работает`);
+      replaceComponentElement(this.filmDetailsComponent, this.oldFilmDetailsComponent);
     } else {
       render(this.place, filmCardElement);
     }

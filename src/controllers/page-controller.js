@@ -133,7 +133,6 @@ export default class PageController {
     }
 
     this._renderingFilms = [].concat(this._renderingFilms.slice(0, index), newFilmData, this._renderingFilms.slice(index + 1));
-    console.log(`что рендериим`, this._renderingFilms[index]);
     place.renderCard(this._renderingFilms[index]);
   }
 }
