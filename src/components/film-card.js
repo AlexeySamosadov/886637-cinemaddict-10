@@ -9,8 +9,10 @@ const generateGenreContent = (genres) => {
 };
 
 const getFilmCardTemplate = (filmData) => {
-  const {title, rating, year, duration, genres, posterSource, description, commentsQuantity} = filmData;
+  const {title, rating, year, duration, genres, posterSource, description, commentsQuantity, isAddWatch} = filmData;
   const genreContent = generateGenreContent(genres);
+
+  console.log(isAddWatch);
 
   return (`<article class="film-card">
 
@@ -21,6 +23,7 @@ const getFilmCardTemplate = (filmData) => {
             <span class="film-card__year">${year}</span>
             <span class="film-card__duration">${duration}</span>
             ${genreContent}
+            // <span>${isAddWatch ? `Добавил в избранное` : ``}</span>
           </p>
           <img src="./images/posters/${posterSource}" alt="" class="film-card__poster">
           <p class="film-card__description">${description}</p>

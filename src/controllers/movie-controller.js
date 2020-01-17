@@ -1,46 +1,66 @@
 import FilmCardComponent from "../components/film-card";
-import {render} from "../util/render";
+import {render, replaceComponentElement} from "../util/render";
 import FilmDetailsComponent from "../components/film-details";
 import AbstractComponent from "../components/abstract-component";
 
 export default class MovieController extends AbstractComponent {
-  constructor(place, filmData, onDataChange) {
+  constructor(place, onDataChange) {
     super();
     this.place = place;
-    this.onDataChange = onDataChange.bind(this);
+    this.onDataChange = onDataChange;
     this.filmData = null;
+    this.filmCardComponent = null;
+    this.filmDetailsComponent = null;
+    this.oldFilmDetailsComponent = null;
   }
 
   renderCard(filmData) {
+    const oldFilmCardComponent = this.filmCardComponent;
+    this.oldFilmDetailsComponent = this.filmDetailsComponent;
+
     this.filmData = filmData;
-    const filmCardComponent = new FilmCardComponent(filmData);
+    this.filmCardComponent = new FilmCardComponent(filmData);
+    this.filmDetailsComponent = new FilmDetailsComponent(this.filmData);
+
+    const filmCardComponent = this.filmCardComponent;
     const filmCardElement = filmCardComponent.getElement();
-    render(this.place, filmCardElement);
 
     filmCardComponent.setPosterClickHandler(this.showPopup.bind(this));
     filmCardComponent.setTittleClickHandler(this.showPopup.bind(this));
     filmCardComponent.setCommentsClickHandler(this.showPopup.bind(this));
 
-    filmCardComponent.setAddWatchlistClickHandler(()=>{
+    filmCardComponent.setAddWatchlistClickHandler((evt) => {
+      evt.preventDefault();
       this.onDataChange(this, filmData, Object.assign({}, filmData, {
         isAddWatch: !filmData.isAddWatch,
       }));
     });
-    filmCardComponent.setMarkAsWatchedClickHandler(() =>{
+    filmCardComponent.setMarkAsWatchedClickHandler((evt) => {
+      evt.preventDefault();
       this.onDataChange(this, filmData, Object.assign({}, filmData, {
         isWatched: !filmData.isWatched,
       }));
     });
-    filmCardComponent.setMarkAsFavoriteClickHandler(()=>{
+    filmCardComponent.setMarkAsFavoriteClickHandler((evt) => {
+      evt.preventDefault();
       this.onDataChange(this, filmData, Object.assign({}, filmData, {
         isFavorite: !filmData.isFavorite,
       }));
     });
+
+    if (oldFilmCardComponent && this.oldFilmDetailsComponent) {
+      replaceComponentElement(filmCardComponent, oldFilmCardComponent);
+      replaceComponentElement(this.filmCardComponent, this.oldFilmDetailsComponent);
+      console.log(`Работает`);
+    } else {
+      render(this.place, filmCardElement);
+    }
+
   }
 
   showPopup() {
     const footerElement = document.querySelector(`.footer`);
-    const filmDetailsComponent = new FilmDetailsComponent(this.filmData);
+    const filmDetailsComponent = this.filmDetailsComponent;
     const filmDetailsElement = filmDetailsComponent.getElement();
     render(footerElement, filmDetailsElement);
 

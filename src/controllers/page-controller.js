@@ -4,14 +4,12 @@ import FilmsListTitle from "../components/film-list-title";
 import FilmsListContainerComponent from "../components/film-list-container";
 import ShowMoreButtonComponent from "../components/show-more-button";
 import FilmsExtraComponent from "../components/film-extra";
-import {generateFilmCardsData} from "../mock/film";
 import FilmListComponent from "../components/films-list";
 import FilmsComponent from "../components/films";
 import SortNavigationComponent from "../components/sort-navigation";
 import {SortType} from "../components/sort-navigation";
 import MovieController from "./movie-controller";
 
-const filmsData = generateFilmCardsData(22);
 
 const START_PAGE_FILMS_VISIBLE = 5;
 const EXTRA_BLOCKS_QUANTITY = 2;
@@ -30,10 +28,11 @@ export default class PageController {
     this._totalFilmsVisible = START_PAGE_FILMS_VISIBLE;
   }
 
-  renderFilmList() {
+  renderFilmList(filmsData) {
     this._filmListElement = new FilmListComponent().getElement();
     this._filmsElement = new FilmsComponent().getElement();
     this._sortNavigationComponent = new SortNavigationComponent();
+    this._renderingFilms = filmsData;
 
     const mainElement = this._mainElement;
     const filmsElement = this._filmsElement;
@@ -83,7 +82,7 @@ export default class PageController {
 
   renderFilms(filmsListElement, films, onDataChange) {
     return films.map((film)=> {
-      const movieController = new MovieController(filmsListElement, onDataChange, this._onDataChange);
+      const movieController = new MovieController(filmsListElement, onDataChange);
       movieController.renderCard(film);
       return movieController;
     });
@@ -98,7 +97,7 @@ export default class PageController {
       const prevShowedCards = this._totalFilmsVisible;
       this._totalFilmsVisible = this._totalFilmsVisible + CARDS_VISIBLE_BY_BUTTON;
 
-      this.renderFilms(this._filmsContainerElement, filmsData.slice(prevShowedCards, this._totalFilmsVisible));
+      this.renderFilms(this._filmsContainerElement, filmsData.slice(prevShowedCards, this._totalFilmsVisible), this._onDataChange);
 
       if (this._totalFilmsVisible > filmsData.length) {
         showMoreButtonElement.remove();
@@ -132,7 +131,9 @@ export default class PageController {
     if (index === -1) {
       return;
     }
+
     this._renderingFilms = [].concat(this._renderingFilms.slice(0, index), newFilmData, this._renderingFilms.slice(index + 1));
-    place.render(this._renderingFilms[index]);
+    console.log(`что рендериим`, this._renderingFilms[index]);
+    place.renderCard(this._renderingFilms[index]);
   }
 }
