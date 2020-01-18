@@ -12,6 +12,7 @@ export default class MovieController extends AbstractComponent {
     this.filmCardComponent = null;
     this.filmDetailsComponent = null;
     this.oldFilmDetailsComponent = null;
+    this.filmDetailsElement = null;
   }
 
   renderCard(filmData) {
@@ -59,26 +60,25 @@ export default class MovieController extends AbstractComponent {
 
   showPopup() {
     const footerElement = document.querySelector(`.footer`);
-    const filmDetailsComponent = this.filmDetailsComponent;
-    const filmDetailsElement = filmDetailsComponent.getElement();
-    render(footerElement, filmDetailsElement);
+    this.filmDetailsElement = this.filmDetailsComponent.getElement();
+    render(footerElement, this.filmDetailsElement);
 
     const closePopup = () => {
-      footerElement.removeChild(filmDetailsElement);
-      filmDetailsComponent.removeClickHandler(closePopup);
+      footerElement.removeChild(this.filmDetailsElement);
+      this.filmDetailsComponent.removeClickHandler(closePopup);
     };
 
     const onEscPress = (evt) => {
       const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
       if (isEscKey) {
-        footerElement.removeChild(filmDetailsElement);
+        footerElement.removeChild(this.filmDetailsElement);
         document.removeEventListener(`keydown`, onEscPress);
       }
     };
 
 
-    filmDetailsComponent.setClickHandler(closePopup);
-    filmDetailsComponent._subscribeOnEvents();
+    this.filmDetailsComponent.setClickHandler(closePopup);
+    this.filmDetailsComponent._subscribeOnEvents();
 
     // filmDetailsComponent.setAddWatchlistClickHandler(working);
     // filmDetailsComponent.setMarkAsWatchedClickHandler(working);
