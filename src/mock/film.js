@@ -125,6 +125,7 @@ const generateFilmCardData = () => {
     isAddWatch: false,
     isWatched: false,
     isFavorite: false,
+    isRatingShowing: false,
   };
 };
 

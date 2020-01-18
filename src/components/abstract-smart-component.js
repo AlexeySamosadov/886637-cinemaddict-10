@@ -9,6 +9,7 @@ export default class AbstractSmartComponent extends AbstractComponent {
     const oldElement = this.getElement();
     const parent = oldElement.parentElement;
     this.removeElement();
+    console.log(`Ререндер работает!`);
 
     const newElement = this.getElement();
     parent.replaceChild(newElement, oldElement);

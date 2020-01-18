@@ -56,6 +56,7 @@ export default class MovieController extends AbstractComponent {
     if (oldFilmCardComponent && this.oldFilmDetailsComponent) {
       replaceComponentElement(filmCardComponent, oldFilmCardComponent);
       replaceComponentElement(this.filmDetailsComponent, this.oldFilmDetailsComponent);
+      this.subscribeEvents();
     } else {
       render(this.place, filmCardElement);
     }
@@ -66,20 +67,21 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsElement = this.filmDetailsComponent.getElement();
     render(this.footerElement, this.filmDetailsElement);
 
+    this.subscribeEvents();
+
+  }
+
+  subscribeEvents() {
     this.filmDetailsComponent.setClickHandler(this.closePopup);
     this.filmDetailsComponent._subscribeOnEvents();
-
-    // filmDetailsComponent.setAddWatchlistClickHandler(working);
-    // filmDetailsComponent.setMarkAsWatchedClickHandler(working);
-    // filmDetailsComponent.setMarkAsFavoriteClickHandler(working);
-
     document.addEventListener(`keydown`, this.onEscPress);
   }
 
   closePopup() {
     this.footerElement.removeChild(this.filmDetailsElement);
     this.filmDetailsComponent.removeClickHandler(this.closePopup);
-  };
+    document.removeEventListener(`keydown`, this.onEscPress);
+  }
 
   onEscPress(evt) {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
@@ -87,5 +89,5 @@ export default class MovieController extends AbstractComponent {
       this.footerElement.removeChild(this.filmDetailsElement);
       document.removeEventListener(`keydown`, this.onEscPress);
     }
-  };
+  }
 }
