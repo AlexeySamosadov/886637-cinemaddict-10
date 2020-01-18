@@ -50,7 +50,7 @@ export default class MovieController extends AbstractComponent {
 
     if (oldFilmCardComponent && this.oldFilmDetailsComponent) {
       replaceComponentElement(filmCardComponent, oldFilmCardComponent);
-      replaceComponentElement(this.filmDetailsComponentgit, this.oldFilmDetailsComponent);
+      replaceComponentElement(this.filmDetailsComponent, this.oldFilmDetailsComponent);
     } else {
       render(this.place, filmCardElement);
     }
@@ -76,14 +76,13 @@ export default class MovieController extends AbstractComponent {
       }
     };
 
-    const working = () => {
-    };
 
     filmDetailsComponent.setClickHandler(closePopup);
+    filmDetailsComponent._subscribeOnEvents();
 
-    filmDetailsComponent.setAddWatchlistClickHandler(working);
-    filmDetailsComponent.setMarkAsWatchedClickHandler(working);
-    filmDetailsComponent.setMarkAsFavoriteClickHandler(working);
+    // filmDetailsComponent.setAddWatchlistClickHandler(working);
+    // filmDetailsComponent.setMarkAsWatchedClickHandler(working);
+    // filmDetailsComponent.setMarkAsFavoriteClickHandler(working);
 
     document.addEventListener(`keydown`, onEscPress);
   }
