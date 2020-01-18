@@ -1,4 +1,5 @@
 import AbstractComponent from "./abstract-component";
+import AbstractSmartComponent from "./abstract-smart-component";
 
 const generateGenreContent = (genres) => {
   return genres
@@ -39,7 +40,7 @@ const getFilmCardTemplate = (filmData) => {
 };
 
 
-export default class FilmCard extends AbstractComponent {
+export default class FilmCard extends AbstractSmartComponent {
   constructor(filmData) {
     super();
     this._filmData = filmData;
@@ -47,6 +48,10 @@ export default class FilmCard extends AbstractComponent {
 
   getTemplate() {
     return getFilmCardTemplate(this._filmData);
+  }
+
+  rerender() {
+    super.rerender();
   }
 
   setPosterClickHandler(handler) {

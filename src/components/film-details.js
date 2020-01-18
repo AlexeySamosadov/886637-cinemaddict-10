@@ -238,6 +238,18 @@ export default class FilmDetails extends AbstractSmartComponent {
     return getFilmDetailsTemplate(this._filmData);
   }
 
+  recoveryListeners() {
+    this._subscribeOnEvents();
+  }
+
+  _subscribeOnEvents() {
+
+    this.setAddWatchlistClickHandler();
+    this.setMarkAsWatchedClickHandler();
+    this.setMarkAsFavoriteClickHandler();
+    this.setClickHandler();
+  }
+
   setClickHandler(handler) {
     this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
   }
@@ -246,15 +258,24 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._element.querySelector(`.film-details__close-btn`).removeEventListener(`click`, handler);
   }
 
-  setAddWatchlistClickHandler(handler) {
-    this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, handler);
+  setAddWatchlistClickHandler() {
+    this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, ()=>{
+      console.log(`Работает!`);
+      this.rerender();
+    });
   }
 
-  setMarkAsWatchedClickHandler(handler) {
-    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, handler);
+  setMarkAsWatchedClickHandler() {
+    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, ()=>{
+      console.log(`Работает!`);
+      this.rerender();
+    });
   }
 
-  setMarkAsFavoriteClickHandler(handler) {
-    this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, handler);
+  setMarkAsFavoriteClickHandler() {
+    this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, ()=>{
+      console.log(`Работает!`);
+      this.rerender();
+    });
   }
 }
