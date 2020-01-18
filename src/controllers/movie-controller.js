@@ -15,6 +15,8 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsElement = null;
     this.footerElement = document.querySelector(`.footer`);
 
+    this.closePopup = this.closePopup.bind(this);
+    this.onEscPress = this.onEscPress.bind(this);
   }
 
   renderCard(filmData) {
@@ -64,27 +66,26 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsElement = this.filmDetailsComponent.getElement();
     render(this.footerElement, this.filmDetailsElement);
 
-    const closePopup = () => {
-      this.footerElement.removeChild(this.filmDetailsElement);
-      this.filmDetailsComponent.removeClickHandler(closePopup);
-    };
-
-    const onEscPress = (evt) => {
-      const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-      if (isEscKey) {
-        this.footerElement.removeChild(this.filmDetailsElement);
-        document.removeEventListener(`keydown`, onEscPress);
-      }
-    };
-
-
-    this.filmDetailsComponent.setClickHandler(closePopup);
+    this.filmDetailsComponent.setClickHandler(this.closePopup);
     this.filmDetailsComponent._subscribeOnEvents();
 
     // filmDetailsComponent.setAddWatchlistClickHandler(working);
     // filmDetailsComponent.setMarkAsWatchedClickHandler(working);
     // filmDetailsComponent.setMarkAsFavoriteClickHandler(working);
 
-    document.addEventListener(`keydown`, onEscPress);
+    document.addEventListener(`keydown`, this.onEscPress);
   }
+
+  closePopup() {
+    this.footerElement.removeChild(this.filmDetailsElement);
+    this.filmDetailsComponent.removeClickHandler(this.closePopup);
+  };
+
+  onEscPress(evt) {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+    if (isEscKey) {
+      this.footerElement.removeChild(this.filmDetailsElement);
+      document.removeEventListener(`keydown`, this.onEscPress);
+    }
+  };
 }
