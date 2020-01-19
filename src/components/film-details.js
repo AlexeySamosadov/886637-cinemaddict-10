@@ -293,6 +293,9 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.filmDetailsRatingComponent = new FilmDetailsRating();
     this.isRatingShowing = filmData.isRatingShowing;
 
+    this.emotionImage = null;
+    this.emotionContainer = null;
+
 
     this.ratingHandler = () => {
       this.isRatingShowing = !this.isRatingShowing;
@@ -326,6 +329,16 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.setMarkAsWatchedClickHandler();
     this.setMarkAsFavoriteClickHandler();
     this.setSmileHandler();
+    this.setSleepHandler();
+    this.setGpukeHandler();
+    this.setAngryHandler();
+  }
+
+  setEmotionImage() {
+    this.emotionContainer = this._element.querySelector(`.film-details__add-emoji-label`);
+    this.emotionImage = document.createElement(`img`);
+    this.emotionImage.setAttribute(`width`, `55`);
+    this.emotionImage.setAttribute(`height`, `55`);
   }
 
   setClickHandler(handler) {
@@ -362,16 +375,47 @@ export default class FilmDetails extends AbstractSmartComponent {
   }
 
   setSmileHandler() {
-    this._element.querySelector(`.film-details__emoji-label`).addEventListener(`click`, ()=>{
-      console.log(`Работает!`);
-      const emotionContainer = this._element.querySelector(`.film-details__add-emoji-label`);
-      console.log(`Работа`, emotionContainer);
-      const emotionImage = document.createElement(`img`);
-      emotionImage.setAttribute(`src`, `./images/emoji/smile.png`);
-      emotionImage.setAttribute(`width`, `55`);
-      emotionImage.setAttribute(`height`, `55`);
-      emotionContainer.insertAdjacentElement(`afterbegin`, emotionImage);
-      console.log(`Работа111`, emotionImage);
+    this._element.querySelector(`.film-details__emoji-label[for="emoji-smile"]`).addEventListener(`click`, ()=>{
+      if (this.emotionImage) {
+        this.emotionImage.remove();
+      }
+      this.setEmotionImage();
+      this.emotionImage.setAttribute(`src`, `./images/emoji/smile.png`);
+      this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
     });
   }
+
+  setSleepHandler() {
+    this._element.querySelector(`.film-details__emoji-label[for="emoji-sleeping"]`).addEventListener(`click`, ()=>{
+      if (this.emotionImage) {
+        this.emotionImage.remove();
+      }
+      this.setEmotionImage();
+      this.emotionImage.setAttribute(`src`, `./images/emoji/sleeping.png`);
+      this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
+    });
+  }
+
+  setGpukeHandler() {
+    this._element.querySelector(`.film-details__emoji-label[for="emoji-gpuke"]`).addEventListener(`click`, ()=>{
+      if (this.emotionImage) {
+        this.emotionImage.remove();
+      }
+      this.setEmotionImage();
+      this.emotionImage.setAttribute(`src`, `./images/emoji/puke.png`);
+      this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
+    });
+  }
+
+  setAngryHandler() {
+    this._element.querySelector(`.film-details__emoji-label[for="emoji-angry"]`).addEventListener(`click`, ()=>{
+      if (this.emotionImage) {
+        this.emotionImage.remove();
+      }
+      this.setEmotionImage();
+      this.emotionImage.setAttribute(`src`, `./images/emoji/angry.png`);
+      this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
+    });
+  }
+
 }
