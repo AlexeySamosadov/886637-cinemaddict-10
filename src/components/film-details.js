@@ -1,4 +1,4 @@
-import {getRandomItem, getRandomNumber} from "../util/util";
+import {createElement, getRandomItem, getRandomNumber} from "../util/util";
 import AbstractSmartComponent from "./abstract-smart-component";
 import FilmDetailsRating from "./film-details-raiting";
 import MovieController from "../controllers/movie-controller";
@@ -325,6 +325,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.setAddWatchlistClickHandler();
     this.setMarkAsWatchedClickHandler();
     this.setMarkAsFavoriteClickHandler();
+    this.setSmileHandler();
   }
 
   setClickHandler(handler) {
@@ -357,6 +358,20 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, ()=>{
       console.log(`Работает!`);
       this.rerender();
+    });
+  }
+
+  setSmileHandler() {
+    this._element.querySelector(`.film-details__emoji-label`).addEventListener(`click`, ()=>{
+      console.log(`Работает!`);
+      const emotionContainer = this._element.querySelector(`.film-details__add-emoji-label`);
+      console.log(`Работа`, emotionContainer);
+      const emotionImage = document.createElement(`img`);
+      emotionImage.setAttribute(`src`, `./images/emoji/smile.png`);
+      emotionImage.setAttribute(`width`, `55`);
+      emotionImage.setAttribute(`height`, `55`);
+      emotionContainer.insertAdjacentElement(`afterbegin`, emotionImage);
+      console.log(`Работа111`, emotionImage);
     });
   }
 }
