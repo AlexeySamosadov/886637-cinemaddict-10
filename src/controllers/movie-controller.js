@@ -3,17 +3,25 @@ import {render, replaceComponentElement} from "../util/render";
 import FilmDetailsComponent from "../components/film-details";
 import AbstractComponent from "../components/abstract-component";
 
+const Mode = {
+  DEFAULT: `default`,
+  POPUP: `popup`,
+};
+
 export default class MovieController extends AbstractComponent {
-  constructor(place, onDataChange) {
+  constructor(place, onDataChange, onViewChange) {
     super();
     this.place = place;
     this.onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
     this.filmData = null;
     this.filmCardComponent = null;
     this.filmDetailsComponent = null;
     this.oldFilmDetailsComponent = null;
     this.filmDetailsElement = null;
     this.footerElement = document.querySelector(`.footer`);
+
+    this.mode = Mode.DEFAULT;
 
     this.closePopup = this.closePopup.bind(this);
     this.onEscPress = this.onEscPress.bind(this);
@@ -56,24 +64,33 @@ export default class MovieController extends AbstractComponent {
     if (oldFilmCardComponent && this.oldFilmDetailsComponent) {
       replaceComponentElement(filmCardComponent, oldFilmCardComponent);
       replaceComponentElement(this.filmDetailsComponent, this.oldFilmDetailsComponent);
-      this.subscribeEvents();
+      // this.subscribeEvents();
     } else {
       render(this.place, filmCardElement);
     }
-
   }
 
   showPopup() {
     this.filmDetailsElement = this.filmDetailsComponent.getElement();
     render(this.footerElement, this.filmDetailsElement);
-
+    // this._onViewChange();
     this.subscribeEvents();
+  }
 
+  setDefaultView() {
+    if (this.mode !== Mode.DEFAULT) {
+      this.closePopup();
+      this.mode = Mode.DEFAULT;
+    }
+    document.removeEventListener(`keydown`, this.onEscPress);
   }
 
   subscribeEvents() {
     this.filmDetailsComponent.setClickHandler(this.closePopup);
     this.filmDetailsComponent._subscribeOnEvents();
+    // this.filmDetailsComponent.setTest(() => {
+    //   this.isRatingShowing = !this.isRatingShowing;
+    // });
     document.addEventListener(`keydown`, this.onEscPress);
   }
 
@@ -81,6 +98,7 @@ export default class MovieController extends AbstractComponent {
     this.footerElement.removeChild(this.filmDetailsElement);
     this.filmDetailsComponent.removeClickHandler(this.closePopup);
     document.removeEventListener(`keydown`, this.onEscPress);
+    this.filmDetailsComponent.removeMarkAsWatchedClickHandler();
   }
 
   onEscPress(evt) {

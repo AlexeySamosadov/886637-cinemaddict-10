@@ -239,7 +239,6 @@ export const getFilmDetailsTemplate = (filmData, options) => {
       </section>
     </div>
 
-    ${isRatingShowing ? generateFilmRating() : ``}
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
@@ -284,14 +283,32 @@ export const getFilmDetailsTemplate = (filmData, options) => {
 </section>`);
 };
 
+/* ${isRatingShowing ? new FilmDetailsRating().getTemplate() : ``}*/
 
 export default class FilmDetails extends AbstractSmartComponent {
   constructor(filmData) {
     super();
     this._filmData = filmData;
-    // this.filmDetailsRatingElement = null;
-    // this.filmDetailsRatingComponent = new FilmDetailsRating();
+    this.filmDetailsRatingElement = null;
+    this.filmDetailsRatingComponent = new FilmDetailsRating();
     this.isRatingShowing = filmData.isRatingShowing;
+
+
+    this.ratingHandler = () => {
+      this.isRatingShowing = !this.isRatingShowing;
+      console.log(`Сейчас`, this.isRatingShowing);
+
+      if (this.isRatingShowing) {
+        this.filmDetailsRatingElement = this.filmDetailsRatingComponent.getElement();
+        const topContainer = this._element.querySelector(`.form-details__top-container`);
+        topContainer.insertAdjacentElement(`afterend`, this.filmDetailsRatingElement);
+      } else {
+        this.filmDetailsRatingComponent.removeElement();
+        this.filmDetailsRatingElement.remove();
+        this.isRatingShowing = false;
+      }
+      // this.rerender();
+    }
   }
 
   getTemplate() {
@@ -320,26 +337,20 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   setAddWatchlistClickHandler() {
     this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, ()=>{
-      this.isRatingShowing = !this.isRatingShowing;
-
-      // if (this.isRatingShowing) {
-      //   this.filmDetailsRatingElement = this.filmDetailsRatingComponent.getElement();
-      //   const topContainer = this._element.querySelector(`.form-details__top-container`);
-      //   topContainer.insertAdjacentElement(`afterend`, this.filmDetailsRatingElement);
-      // } else {
-      //   this.filmDetailsRatingComponent.removeElement();
-      //   this.filmDetailsRatingElement.remove();
-      //   this.filmDetailsRatingElement = null;
-      // }
       this.rerender();
     });
   }
 
   setMarkAsWatchedClickHandler() {
-    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, ()=>{
-      console.log(`Работает!`);
-      this.rerender();
-    });
+    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this.ratingHandler);
+  }
+
+  removeMarkAsWatchedClickHandler() {
+    this._element.querySelector(`.film-details__control-label--watched`).removeEventListener(`click`, this.ratingHandler);
+  }
+
+  setTest(test) {
+    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, test);
   }
 
   setMarkAsFavoriteClickHandler() {

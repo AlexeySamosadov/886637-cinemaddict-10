@@ -33,6 +33,7 @@ export default class PageController {
     this._filmsElement = new FilmsComponent().getElement();
     this._sortNavigationComponent = new SortNavigationComponent();
     this._renderingFilms = filmsData;
+    this.showedFilmControllers = [];
 
     const mainElement = this._mainElement;
     const filmsElement = this._filmsElement;
@@ -50,8 +51,9 @@ export default class PageController {
     this._filmsContainerElement = new FilmsListContainerComponent().getElement();
     render(this._filmListElement, this._filmsContainerElement);
 
-    this.renderFilms(this._filmsContainerElement, filmsData.slice(0, this._totalFilmsVisible), this._onDataChange);
-
+    let newFilms = this.renderFilms(this._filmsContainerElement, filmsData.slice(0, this._totalFilmsVisible), this._onDataChange);
+    this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
+    console.log(this.showedFilmControllers);
     this.renderShowMoreButton();
 
     new Array(EXTRA_BLOCKS_QUANTITY).fill(``).forEach(()=> render(filmsElement, new FilmsExtraComponent().getElement()));
@@ -64,7 +66,9 @@ export default class PageController {
           return b.rating - a.rating;
         });
 
-    this.renderFilms(topRatedDivElement, topRated.slice(0, EXTRA_BLOCKS_QUANTITY), this._onDataChange);
+    newFilms = this.renderFilms(topRatedDivElement, topRated.slice(0, EXTRA_BLOCKS_QUANTITY), this._onDataChange);
+    this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
+    console.log(this.showedFilmControllers);
 
     const mostCommentedTitleElement = extraBlockElements[1].querySelector(`.films-list__title`);
     const mostCommentedDivElement = extraBlockElements[1].querySelector(`.films-list__container`);
@@ -75,14 +79,15 @@ export default class PageController {
           return b.commentsQuantity - a.commentsQuantity;
         });
 
-    this.renderFilms(mostCommentedDivElement, mostCommented.slice(0, EXTRA_BLOCKS_QUANTITY), this._onDataChange);
-
+    newFilms = this.renderFilms(mostCommentedDivElement, mostCommented.slice(0, EXTRA_BLOCKS_QUANTITY), this._onDataChange);
+    this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
+    console.log(this.showedFilmControllers);
     this.setSortNavigation();
   }
 
-  renderFilms(filmsListElement, films, onDataChange) {
+  renderFilms(filmsListElement, films, onDataChange, onViewChange) {
     return films.map((film)=> {
-      const movieController = new MovieController(filmsListElement, onDataChange);
+      const movieController = new MovieController(filmsListElement, onDataChange, onViewChange);
       movieController.renderCard(film);
       return movieController;
     });
@@ -97,8 +102,10 @@ export default class PageController {
       const prevShowedCards = this._totalFilmsVisible;
       this._totalFilmsVisible = this._totalFilmsVisible + CARDS_VISIBLE_BY_BUTTON;
 
-      this.renderFilms(this._filmsContainerElement, this._renderingFilms.slice(prevShowedCards, this._totalFilmsVisible), this._onDataChange);
+      const newFilms = this.renderFilms(this._filmsContainerElement, this._renderingFilms.slice(prevShowedCards, this._totalFilmsVisible), this._onDataChange);
+      this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
 
+      console.log(this.showedFilmControllers);
       if (this._totalFilmsVisible > this._renderingFilms.length) {
         showMoreButtonElement.remove();
       }
@@ -122,8 +129,15 @@ export default class PageController {
       }
       this._filmsContainerElement.innerHTML = ``;
 
-      this.renderFilms(this._filmsContainerElement, sortedFilms.slice(0, this._totalFilmsVisible));
+      this.newFilms = this.renderFilms(this._filmsContainerElement, sortedFilms.slice(0, this._totalFilmsVisible), this._onDataChange);
+      this.showedFilmControllers = this.showedFilmControllers.concat(this.newFilms);
+      console.log(this.showedFilmControllers);
     });
+  }
+
+  _onViewChange() {
+    console.log(`Апп`,this.showedFilmControllers);
+    this.showedFilmControllers.forEach((it) => it.setDefaultView());
   }
 
   _onDataChange(place, oldFilmData, newFilmData) {
