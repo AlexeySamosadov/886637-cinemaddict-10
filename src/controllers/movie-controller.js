@@ -73,7 +73,6 @@ export default class MovieController extends AbstractComponent {
   showPopup() {
     this.filmDetailsElement = this.filmDetailsComponent.getElement();
     render(this.footerElement, this.filmDetailsElement);
-    // this._onViewChange();
     this.subscribeEvents();
   }
 
@@ -99,6 +98,8 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsComponent.removeClickHandler(this.closePopup);
     document.removeEventListener(`keydown`, this.onEscPress);
     this.filmDetailsComponent.removeMarkAsWatchedClickHandler();
+    this._onViewChange();
+
   }
 
   onEscPress(evt) {

@@ -14,6 +14,14 @@ import MovieController from "./movie-controller";
 const START_PAGE_FILMS_VISIBLE = 5;
 const EXTRA_BLOCKS_QUANTITY = 2;
 
+export const renderFilms = (filmsListElement, films, onDataChange, onViewChange) => {
+  return films.map((film)=> {
+    const movieController = new MovieController(filmsListElement, onDataChange, onViewChange);
+    movieController.renderCard(film);
+    return movieController;
+  });
+};
+
 export default class PageController {
   constructor() {
     this._filmListElement = null;
@@ -24,6 +32,7 @@ export default class PageController {
     this._renderingFilms = [];
 
     this._onDataChange = this._onDataChange.bind(this);
+    this._onViewChange = this._onViewChange.bind(this);
 
     this._totalFilmsVisible = START_PAGE_FILMS_VISIBLE;
   }
@@ -51,7 +60,7 @@ export default class PageController {
     this._filmsContainerElement = new FilmsListContainerComponent().getElement();
     render(this._filmListElement, this._filmsContainerElement);
 
-    let newFilms = this.renderFilms(this._filmsContainerElement, filmsData.slice(0, this._totalFilmsVisible), this._onDataChange);
+    let newFilms = renderFilms(this._filmsContainerElement, filmsData.slice(0, this._totalFilmsVisible), this._onDataChange, this._onViewChange);
     this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
     console.log(this.showedFilmControllers);
     this.renderShowMoreButton();
@@ -66,7 +75,7 @@ export default class PageController {
           return b.rating - a.rating;
         });
 
-    newFilms = this.renderFilms(topRatedDivElement, topRated.slice(0, EXTRA_BLOCKS_QUANTITY), this._onDataChange);
+    newFilms = renderFilms(topRatedDivElement, topRated.slice(0, EXTRA_BLOCKS_QUANTITY), this._onDataChange, this._onViewChange);
     this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
     console.log(this.showedFilmControllers);
 
@@ -79,18 +88,10 @@ export default class PageController {
           return b.commentsQuantity - a.commentsQuantity;
         });
 
-    newFilms = this.renderFilms(mostCommentedDivElement, mostCommented.slice(0, EXTRA_BLOCKS_QUANTITY), this._onDataChange);
+    newFilms = renderFilms(mostCommentedDivElement, mostCommented.slice(0, EXTRA_BLOCKS_QUANTITY), this._onDataChange, this._onViewChange);
     this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
     console.log(this.showedFilmControllers);
     this.setSortNavigation();
-  }
-
-  renderFilms(filmsListElement, films, onDataChange, onViewChange) {
-    return films.map((film)=> {
-      const movieController = new MovieController(filmsListElement, onDataChange, onViewChange);
-      movieController.renderCard(film);
-      return movieController;
-    });
   }
 
   renderShowMoreButton() {
@@ -102,7 +103,7 @@ export default class PageController {
       const prevShowedCards = this._totalFilmsVisible;
       this._totalFilmsVisible = this._totalFilmsVisible + CARDS_VISIBLE_BY_BUTTON;
 
-      const newFilms = this.renderFilms(this._filmsContainerElement, this._renderingFilms.slice(prevShowedCards, this._totalFilmsVisible), this._onDataChange);
+      const newFilms = renderFilms(this._filmsContainerElement, this._renderingFilms.slice(prevShowedCards, this._totalFilmsVisible), this._onDataChange, this._onViewChange);
       this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
 
       console.log(this.showedFilmControllers);
@@ -129,14 +130,14 @@ export default class PageController {
       }
       this._filmsContainerElement.innerHTML = ``;
 
-      this.newFilms = this.renderFilms(this._filmsContainerElement, sortedFilms.slice(0, this._totalFilmsVisible), this._onDataChange);
+      this.newFilms = renderFilms(this._filmsContainerElement, sortedFilms.slice(0, this._totalFilmsVisible), this._onDataChange, this._onViewChange);
       this.showedFilmControllers = this.showedFilmControllers.concat(this.newFilms);
       console.log(this.showedFilmControllers);
     });
   }
 
   _onViewChange() {
-    console.log(`Апп`,this.showedFilmControllers);
+    console.log(`Апп`, this.showedFilmControllers);
     this.showedFilmControllers.forEach((it) => it.setDefaultView());
   }
 
