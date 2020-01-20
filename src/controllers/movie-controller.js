@@ -81,19 +81,14 @@ export default class MovieController extends AbstractComponent {
   setDefaultView() {
     if (this.mode !== Mode.DEFAULT) {
       this.closePopup();
-      this.mode = Mode.DEFAULT;
+      document.removeEventListener(`keydown`, this.onEscPress);
     }
-    document.removeEventListener(`keydown`, this.onEscPress);
   }
 
   subscribeEvents() {
     this.filmDetailsComponent.setClickHandler(this.closePopup);
-    document.addEventListener(`keydown`, this.onEscPress);
     this.filmDetailsComponent._subscribeOnEvents();
-    // this.filmDetailsComponent.setTest(() => {
-    //   this.isRatingShowing = !this.isRatingShowing;
-    // });
-
+    document.addEventListener(`keydown`, this.onEscPress);
   }
 
   closePopup() {
@@ -109,6 +104,7 @@ export default class MovieController extends AbstractComponent {
     if (isEscKey) {
       this.footerElement.removeChild(this.filmDetailsElement);
       document.removeEventListener(`keydown`, this.onEscPress);
+      this.mode = Mode.DEFAULT;
     }
   }
 }

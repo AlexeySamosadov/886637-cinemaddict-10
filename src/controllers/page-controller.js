@@ -62,7 +62,6 @@ export default class PageController {
 
     let newFilms = renderFilms(this._filmsContainerElement, filmsData.slice(0, this._totalFilmsVisible), this._onDataChange, this._onViewChange);
     this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
-    console.log(this.showedFilmControllers);
     this.renderShowMoreButton();
 
     new Array(EXTRA_BLOCKS_QUANTITY).fill(``).forEach(()=> render(filmsElement, new FilmsExtraComponent().getElement()));
@@ -77,7 +76,6 @@ export default class PageController {
 
     newFilms = renderFilms(topRatedDivElement, topRated.slice(0, EXTRA_BLOCKS_QUANTITY), this._onDataChange, this._onViewChange);
     this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
-    console.log(this.showedFilmControllers);
 
     const mostCommentedTitleElement = extraBlockElements[1].querySelector(`.films-list__title`);
     const mostCommentedDivElement = extraBlockElements[1].querySelector(`.films-list__container`);
@@ -90,7 +88,6 @@ export default class PageController {
 
     newFilms = renderFilms(mostCommentedDivElement, mostCommented.slice(0, EXTRA_BLOCKS_QUANTITY), this._onDataChange, this._onViewChange);
     this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
-    console.log(this.showedFilmControllers);
     this.setSortNavigation();
   }
 
@@ -106,7 +103,6 @@ export default class PageController {
       const newFilms = renderFilms(this._filmsContainerElement, this._renderingFilms.slice(prevShowedCards, this._totalFilmsVisible), this._onDataChange, this._onViewChange);
       this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
 
-      console.log(this.showedFilmControllers);
       if (this._totalFilmsVisible > this._renderingFilms.length) {
         showMoreButtonElement.remove();
       }
@@ -132,12 +128,10 @@ export default class PageController {
 
       this.newFilms = renderFilms(this._filmsContainerElement, sortedFilms.slice(0, this._totalFilmsVisible), this._onDataChange, this._onViewChange);
       this.showedFilmControllers = this.showedFilmControllers.concat(this.newFilms);
-      console.log(this.showedFilmControllers);
     });
   }
 
   _onViewChange() {
-    console.log(`Апп`, this.showedFilmControllers);
     this.showedFilmControllers.forEach((it) => it.setDefaultView());
   }
 
