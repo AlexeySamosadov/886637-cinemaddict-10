@@ -258,10 +258,6 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.setMarkAsWatchedClickHandler();
     this.setMarkAsFavoriteClickHandler();
     this.setEmotionHandler();
-    // this.setSmileHandler();
-    // this.setSleepHandler();
-    // this.setGpukeHandler();
-    // this.setAngryHandler();
   }
 
   setEmotionImage() {
@@ -315,50 +311,6 @@ export default class FilmDetails extends AbstractSmartComponent {
       this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
     });
   }
-  //
-  // setSmileHandler() {
-  //   this._element.querySelector(`.film-details__emoji-label[for="emoji-smile"]`).addEventListener(`click`, ()=>{
-  //     if (this.emotionImage) {
-  //       this.emotionImage.remove();
-  //     }
-  //     this.setEmotionImage();
-  //     this.emotionImage.setAttribute(`src`, `./images/emoji/smile.png`);
-  //     this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
-  //   });
-  // }
-  //
-  // setSleepHandler() {
-  //   this._element.querySelector(`.film-details__emoji-label[for="emoji-sleeping"]`).addEventListener(`click`, ()=>{
-  //     if (this.emotionImage) {
-  //       this.emotionImage.remove();
-  //     }
-  //     this.setEmotionImage();
-  //     this.emotionImage.setAttribute(`src`, `./images/emoji/sleeping.png`);
-  //     this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
-  //   });
-  // }
-  //
-  // setGpukeHandler() {
-  //   this._element.querySelector(`.film-details__emoji-label[for="emoji-gpuke"]`).addEventListener(`click`, ()=>{
-  //     if (this.emotionImage) {
-  //       this.emotionImage.remove();
-  //     }
-  //     this.setEmotionImage();
-  //     this.emotionImage.setAttribute(`src`, `./images/emoji/puke.png`);
-  //     this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
-  //   });
-  // }
-  //
-  // setAngryHandler() {
-  //   this._element.querySelector(`.film-details__emoji-label[for="emoji-angry"]`).addEventListener(`click`, ()=>{
-  //     if (this.emotionImage) {
-  //       this.emotionImage.remove();
-  //     }
-  //     this.setEmotionImage();
-  //     this.emotionImage.setAttribute(`src`, `./images/emoji/angry.png`);
-  //     this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
-  //   });
-  // }
 
   ratingHandler() {
     this.isRatingShowing = !this.isRatingShowing;
