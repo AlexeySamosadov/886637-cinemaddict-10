@@ -9,7 +9,7 @@ const generateGenreContent = (genres) => {
 };
 
 const getFilmCardTemplate = (filmData) => {
-  const {title, rating, year, duration, genres, posterSource, description, commentsQuantity, isAddWatch, isWatched, isFavorite} = filmData;
+  const {title, rating, year, duration, genres, posterSource, description, commentsQuantity} = filmData;
   const genreContent = generateGenreContent(genres);
 
   return (`<article class="film-card">
@@ -21,11 +21,6 @@ const getFilmCardTemplate = (filmData) => {
             <span class="film-card__year">${year}</span>
             <span class="film-card__duration">${duration}</span>
             ${genreContent}
-            ${isAddWatch ? `<br><span style="color: blue">Добавил к просмотру в будущем</span>` : ``}
-            ${isWatched ? `<br><span style="color: red">Добавил в просмотренные</span>` : ``}
-            ${isFavorite ? `<br><span style="color: green">Добавил в избранное</span>` : ``}
-
-
           </p>
           <img src="./images/posters/${posterSource}" alt="" class="film-card__poster">
           <p class="film-card__description">${description}</p>

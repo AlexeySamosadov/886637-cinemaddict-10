@@ -294,7 +294,7 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   setAddWatchlistClickHandler() {
     this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, ()=>{
-      this.rerender();
+      // this.rerender();
     });
   }
 
@@ -308,7 +308,7 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   setMarkAsFavoriteClickHandler() {
     this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, ()=>{
-      this.rerender();
+      // this.rerender();
     });
   }
 
