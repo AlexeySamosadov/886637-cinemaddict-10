@@ -235,26 +235,12 @@ export default class FilmDetails extends AbstractSmartComponent {
     super();
     this._filmData = filmData;
     this.filmDetailsRatingElement = null;
-    this.filmDetailsRatingComponent = new FilmDetailsRating();
+    this.filmDetailsRatingComponent = null;
     this.isRatingShowing = filmData.isRatingShowing;
 
+    this.targetSource = null;
     this.emotionImage = null;
     this.emotionContainer = null;
-
-
-    this.ratingHandler = () => {
-      this.isRatingShowing = !this.isRatingShowing;
-
-      if (this.isRatingShowing) {
-        this.filmDetailsRatingElement = this.filmDetailsRatingComponent.getElement();
-        const topContainer = this._element.querySelector(`.form-details__top-container`);
-        topContainer.insertAdjacentElement(`afterend`, this.filmDetailsRatingElement);
-      } else {
-        this.filmDetailsRatingComponent.removeElement();
-        this.filmDetailsRatingElement.remove();
-        this.isRatingShowing = false;
-      }
-    };
   }
 
   getTemplate() {
@@ -271,10 +257,11 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.setAddWatchlistClickHandler();
     this.setMarkAsWatchedClickHandler();
     this.setMarkAsFavoriteClickHandler();
-    this.setSmileHandler();
-    this.setSleepHandler();
-    this.setGpukeHandler();
-    this.setAngryHandler();
+    this.setEmotionHandler();
+    // this.setSmileHandler();
+    // this.setSleepHandler();
+    // this.setGpukeHandler();
+    // this.setAngryHandler();
   }
 
   setEmotionImage() {
@@ -312,48 +299,81 @@ export default class FilmDetails extends AbstractSmartComponent {
     });
   }
 
-  setSmileHandler() {
-    this._element.querySelector(`.film-details__emoji-label[for="emoji-smile"]`).addEventListener(`click`, ()=>{
+  setEmotionHandler() {
+    this._element.querySelector(`.film-details__emoji-list`).addEventListener(`click`, (event)=>{
       if (this.emotionImage) {
         this.emotionImage.remove();
       }
+
+      const target = event.target;
+
+      if (target.tagName === `IMG`) {
+        this.targetSource = target.getAttribute(`src`);
+      }
       this.setEmotionImage();
-      this.emotionImage.setAttribute(`src`, `./images/emoji/smile.png`);
+      this.emotionImage.setAttribute(`src`, `${this.targetSource}`);
       this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
     });
   }
+  //
+  // setSmileHandler() {
+  //   this._element.querySelector(`.film-details__emoji-label[for="emoji-smile"]`).addEventListener(`click`, ()=>{
+  //     if (this.emotionImage) {
+  //       this.emotionImage.remove();
+  //     }
+  //     this.setEmotionImage();
+  //     this.emotionImage.setAttribute(`src`, `./images/emoji/smile.png`);
+  //     this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
+  //   });
+  // }
+  //
+  // setSleepHandler() {
+  //   this._element.querySelector(`.film-details__emoji-label[for="emoji-sleeping"]`).addEventListener(`click`, ()=>{
+  //     if (this.emotionImage) {
+  //       this.emotionImage.remove();
+  //     }
+  //     this.setEmotionImage();
+  //     this.emotionImage.setAttribute(`src`, `./images/emoji/sleeping.png`);
+  //     this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
+  //   });
+  // }
+  //
+  // setGpukeHandler() {
+  //   this._element.querySelector(`.film-details__emoji-label[for="emoji-gpuke"]`).addEventListener(`click`, ()=>{
+  //     if (this.emotionImage) {
+  //       this.emotionImage.remove();
+  //     }
+  //     this.setEmotionImage();
+  //     this.emotionImage.setAttribute(`src`, `./images/emoji/puke.png`);
+  //     this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
+  //   });
+  // }
+  //
+  // setAngryHandler() {
+  //   this._element.querySelector(`.film-details__emoji-label[for="emoji-angry"]`).addEventListener(`click`, ()=>{
+  //     if (this.emotionImage) {
+  //       this.emotionImage.remove();
+  //     }
+  //     this.setEmotionImage();
+  //     this.emotionImage.setAttribute(`src`, `./images/emoji/angry.png`);
+  //     this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
+  //   });
+  // }
 
-  setSleepHandler() {
-    this._element.querySelector(`.film-details__emoji-label[for="emoji-sleeping"]`).addEventListener(`click`, ()=>{
-      if (this.emotionImage) {
-        this.emotionImage.remove();
-      }
-      this.setEmotionImage();
-      this.emotionImage.setAttribute(`src`, `./images/emoji/sleeping.png`);
-      this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
-    });
-  }
+  ratingHandler() {
+    this.isRatingShowing = !this.isRatingShowing;
 
-  setGpukeHandler() {
-    this._element.querySelector(`.film-details__emoji-label[for="emoji-gpuke"]`).addEventListener(`click`, ()=>{
-      if (this.emotionImage) {
-        this.emotionImage.remove();
-      }
-      this.setEmotionImage();
-      this.emotionImage.setAttribute(`src`, `./images/emoji/puke.png`);
-      this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
-    });
-  }
+    if (this.isRatingShowing) {
+      this.filmDetailsRatingComponent = new FilmDetailsRating();
+      this.filmDetailsRatingElement = this.filmDetailsRatingComponent.getElement();
 
-  setAngryHandler() {
-    this._element.querySelector(`.film-details__emoji-label[for="emoji-angry"]`).addEventListener(`click`, ()=>{
-      if (this.emotionImage) {
-        this.emotionImage.remove();
-      }
-      this.setEmotionImage();
-      this.emotionImage.setAttribute(`src`, `./images/emoji/angry.png`);
-      this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
-    });
+      const topContainer = document.querySelector(`.form-details__top-container`);
+      topContainer.insertAdjacentElement(`afterend`, this.filmDetailsRatingElement);
+    } else {
+      this.filmDetailsRatingComponent.removeElement();
+      this.filmDetailsRatingElement.remove();
+      this.isRatingShowing = false;
+    }
   }
 
 }
