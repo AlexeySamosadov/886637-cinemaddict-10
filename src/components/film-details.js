@@ -1,4 +1,4 @@
-import {getRandomItem, getRandomNumber} from "../util/util";
+import {createElement, getRandomItem, getRandomNumber} from "../util/util";
 import AbstractSmartComponent from "./abstract-smart-component";
 import FilmDetailsRating from "./film-details-raiting";
 
@@ -102,12 +102,13 @@ const generateCommentsTemplate = (count) => {
 
 
 export const getFilmDetailsTemplate = (filmData) => {
-  const {title, titleDetails, rating, releaseDate, year, duration, genres, posterSource, country, description, commentsQuantity} = filmData;
+  const {title, titleDetails, rating, releaseDate, year, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite} = filmData;
   const genreContent = generateGenreContent(genres);
   const countriesContent = generateCountryContent(country);
   const filmDateProduction = `${releaseDate} ${year}`;
 
   const comments = generateCommentsTemplate(commentsQuantity);
+
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -174,16 +175,18 @@ export const getFilmDetailsTemplate = (filmData) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isAddWatch ? `checked` : ``}>
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? `checked` : ``}>
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorite ? `checked` : ``}>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
+
+
 
 
     <div class="form-details__bottom-container">
@@ -229,6 +232,9 @@ export const getFilmDetailsTemplate = (filmData) => {
 </section>`);
 };
 
+const setEmotionImageTemplate = () => {
+  return (`<img height="55" width="55"></img>`);
+};
 
 export default class FilmDetails extends AbstractSmartComponent {
   constructor(filmData) {
@@ -245,7 +251,7 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   getTemplate() {
     return getFilmDetailsTemplate(this._filmData, {
-      isRatingShowing: this.isRatingShowing,
+      isTest: true,
     });
   }
 
@@ -260,13 +266,6 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.setEmotionHandler();
   }
 
-  setEmotionImage() {
-    this.emotionContainer = this._element.querySelector(`.film-details__add-emoji-label`);
-    this.emotionImage = document.createElement(`img`);
-    this.emotionImage.setAttribute(`width`, `55`);
-    this.emotionImage.setAttribute(`height`, `55`);
-  }
-
   setClickHandler(handler) {
     this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
   }
@@ -277,7 +276,6 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   setAddWatchlistClickHandler() {
     this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, ()=>{
-      // this.rerender();
     });
   }
 
@@ -291,7 +289,6 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   setMarkAsFavoriteClickHandler() {
     this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, ()=>{
-      // this.rerender();
     });
   }
 
@@ -306,25 +303,29 @@ export default class FilmDetails extends AbstractSmartComponent {
       if (target.tagName === `IMG`) {
         this.targetSource = target.getAttribute(`src`);
       }
-      this.setEmotionImage();
+      this.emotionContainer = this._element.querySelector(`.film-details__add-emoji-label`);
+      this.emotionImage = createElement(setEmotionImageTemplate());
       this.emotionImage.setAttribute(`src`, `${this.targetSource}`);
       this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
     });
   }
 
   ratingHandler() {
-    this.isRatingShowing = !this.isRatingShowing;
+    this.isWatched = !this.isWatched;
 
-    if (this.isRatingShowing) {
+
+    if (this.isWatched === true) {
       this.filmDetailsRatingComponent = new FilmDetailsRating();
       this.filmDetailsRatingElement = this.filmDetailsRatingComponent.getElement();
 
       const topContainer = document.querySelector(`.form-details__top-container`);
       topContainer.insertAdjacentElement(`afterend`, this.filmDetailsRatingElement);
     } else {
-      this.filmDetailsRatingComponent.removeElement();
-      this.filmDetailsRatingElement.remove();
-      this.isRatingShowing = false;
+      if (this.filmDetailsRatingComponent) {
+        this.filmDetailsRatingComponent.removeElement();
+        this.filmDetailsRatingElement.remove();
+        this.isWatched = false;
+      }
     }
   }
 
