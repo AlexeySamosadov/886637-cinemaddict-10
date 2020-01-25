@@ -103,12 +103,15 @@ const generateCommentsTemplate = (count) => {
 
 export const getFilmDetailsTemplate = (filmData) => {
   const {title, titleDetails, rating, releaseDate, year, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite} = filmData;
+
   const genreContent = generateGenreContent(genres);
   const countriesContent = generateCountryContent(country);
   const filmDateProduction = `${releaseDate} ${year}`;
 
   const comments = generateCommentsTemplate(commentsQuantity);
 
+  const razmetka = new FilmDetailsRating().getTemplate();
+  // console.log(razmetka);
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -186,7 +189,7 @@ export const getFilmDetailsTemplate = (filmData) => {
       </section>
     </div>
 
-
+    ${isWatched ? razmetka : ``}
 
 
     <div class="form-details__bottom-container">
@@ -242,8 +245,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._filmData = filmData;
     this.filmDetailsRatingElement = null;
     this.filmDetailsRatingComponent = null;
-    this.isRatingShowing = filmData.isRatingShowing;
-
+    this.isWatched = filmData.isWatched;
     this.targetSource = null;
     this.emotionImage = null;
     this.emotionContainer = null;
@@ -280,11 +282,11 @@ export default class FilmDetails extends AbstractSmartComponent {
   }
 
   setMarkAsWatchedClickHandler() {
-    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this.ratingHandler);
+    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this.ratingHandler.bind(this));
   }
 
   removeMarkAsWatchedClickHandler() {
-    this._element.querySelector(`.film-details__control-label--watched`).removeEventListener(`click`, this.ratingHandler);
+    this._element.querySelector(`.film-details__control-label--watched`).removeEventListener(`click`, this.ratingHandler.bind(this));
   }
 
   setMarkAsFavoriteClickHandler() {
@@ -312,7 +314,9 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   ratingHandler() {
     this.isWatched = !this.isWatched;
-
+    if (document.querySelector(`.form-details__middle-container`)) {
+      document.querySelector(`.form-details__middle-container`).remove();
+    }
 
     if (this.isWatched === true) {
       this.filmDetailsRatingComponent = new FilmDetailsRating();
@@ -328,5 +332,4 @@ export default class FilmDetails extends AbstractSmartComponent {
       }
     }
   }
-
 }
