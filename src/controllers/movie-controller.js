@@ -64,7 +64,6 @@ export default class MovieController extends AbstractComponent {
     if (oldFilmCardComponent && this.oldFilmDetailsComponent) {
       replaceComponentElement(filmCardComponent, oldFilmCardComponent);
       replaceComponentElement(this.filmDetailsComponent, this.oldFilmDetailsComponent);
-      // this.subscribeEvents();
     } else {
       render(this.place, filmCardElement);
     }
