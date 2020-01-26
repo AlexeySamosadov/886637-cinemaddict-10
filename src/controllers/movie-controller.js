@@ -34,7 +34,6 @@ export default class MovieController extends AbstractComponent {
 
     this.filmData = filmData;
     this.filmCardComponent = new FilmCardComponent(this.filmData);
-    this.filmDetailsComponent = new FilmDetailsComponent(this.filmData);
 
     const filmCardComponent = this.filmCardComponent;
     const filmCardElement = filmCardComponent.getElement();
@@ -67,11 +66,8 @@ export default class MovieController extends AbstractComponent {
       }));
     });
 
-    if (oldFilmCardComponent && this.oldFilmDetailsComponent) {
-      console.log(`Нев дата`, this.filmData);
+    if (oldFilmCardComponent) {
       replaceComponentElement(filmCardComponent, oldFilmCardComponent);
-    } else if (this.oldFilmDetailsComponent) {
-      replaceComponentElement(this.filmDetailsComponent, this.oldFilmDetailsComponent);
     } else {
       render(this.place, filmCardElement);
     }
@@ -88,6 +84,7 @@ export default class MovieController extends AbstractComponent {
   }
 
   showPopup() {
+    this.filmDetailsComponent = new FilmDetailsComponent(this.filmData);
     this.filmDetailsElement = this.filmDetailsComponent.getElement();
     render(this.footerElement, this.filmDetailsElement);
     this.subscribeEvents();
