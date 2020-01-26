@@ -110,8 +110,7 @@ export const getFilmDetailsTemplate = (filmData) => {
 
   const comments = generateCommentsTemplate(commentsQuantity);
 
-  const razmetka = new FilmDetailsRating().getTemplate();
-  // console.log(razmetka);
+  const filmDetailsRating = new FilmDetailsRating().getTemplate();
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -189,7 +188,7 @@ export const getFilmDetailsTemplate = (filmData) => {
       </section>
     </div>
 
-    ${isWatched ? razmetka : ``}
+    ${isWatched ? filmDetailsRating : ``}
 
 
     <div class="form-details__bottom-container">
@@ -235,7 +234,7 @@ export const getFilmDetailsTemplate = (filmData) => {
 </section>`);
 };
 
-const setEmotionImageTemplate = () => {
+const getEmotionImageTemplate = () => {
   return (`<img height="55" width="55"></img>`);
 };
 
@@ -245,7 +244,6 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._filmData = filmData;
     this.filmDetailsRatingElement = null;
     this.filmDetailsRatingComponent = null;
-    this.isWatched = filmData.isWatched;
     this.targetSource = null;
     this.emotionImage = null;
     this.emotionContainer = null;
@@ -262,9 +260,6 @@ export default class FilmDetails extends AbstractSmartComponent {
   }
 
   _subscribeOnEvents() {
-    this.setAddWatchlistClickHandler();
-    this.setMarkAsWatchedClickHandler();
-    this.setMarkAsFavoriteClickHandler();
     this.setEmotionHandler();
   }
 
@@ -272,26 +267,16 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
   }
 
-  removeClickHandler(handler) {
-    this._element.querySelector(`.film-details__close-btn`).removeEventListener(`click`, handler);
+  setAddWatchlistClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, handler);
   }
 
-  setAddWatchlistClickHandler() {
-    this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, ()=>{
-    });
+  setMarkAsWatchedClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, handler);
   }
 
-  setMarkAsWatchedClickHandler() {
-    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this.ratingHandler.bind(this));
-  }
-
-  removeMarkAsWatchedClickHandler() {
-    this._element.querySelector(`.film-details__control-label--watched`).removeEventListener(`click`, this.ratingHandler.bind(this));
-  }
-
-  setMarkAsFavoriteClickHandler() {
-    this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, ()=>{
-    });
+  setMarkAsFavoriteClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, handler);
   }
 
   setEmotionHandler() {
@@ -306,30 +291,9 @@ export default class FilmDetails extends AbstractSmartComponent {
         this.targetSource = target.getAttribute(`src`);
       }
       this.emotionContainer = this._element.querySelector(`.film-details__add-emoji-label`);
-      this.emotionImage = createElement(setEmotionImageTemplate());
+      this.emotionImage = createElement(getEmotionImageTemplate());
       this.emotionImage.setAttribute(`src`, `${this.targetSource}`);
       this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
     });
-  }
-
-  ratingHandler() {
-    this.isWatched = !this.isWatched;
-    if (document.querySelector(`.form-details__middle-container`)) {
-      document.querySelector(`.form-details__middle-container`).remove();
-    }
-
-    if (this.isWatched === true) {
-      this.filmDetailsRatingComponent = new FilmDetailsRating();
-      this.filmDetailsRatingElement = this.filmDetailsRatingComponent.getElement();
-
-      const topContainer = document.querySelector(`.form-details__top-container`);
-      topContainer.insertAdjacentElement(`afterend`, this.filmDetailsRatingElement);
-    } else {
-      if (this.filmDetailsRatingComponent) {
-        this.filmDetailsRatingComponent.removeElement();
-        this.filmDetailsRatingElement.remove();
-        this.isWatched = false;
-      }
-    }
   }
 }

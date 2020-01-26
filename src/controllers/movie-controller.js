@@ -2,6 +2,7 @@ import FilmCardComponent from "../components/film-card";
 import {render, replaceComponentElement} from "../util/render";
 import FilmDetailsComponent from "../components/film-details";
 import AbstractComponent from "../components/abstract-component";
+import FilmDetailsRating from "../components/film-details-raiting";
 
 const Mode = {
   DEFAULT: `default`,
@@ -44,6 +45,7 @@ export default class MovieController extends AbstractComponent {
 
     filmCardComponent.setAddWatchlistClickHandler((evt) => {
       evt.preventDefault();
+      this.setActiveButton(evt, this.filmData.isAddWatch);
       this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
         isAddWatch: !this.filmData.isAddWatch,
       }));
@@ -51,6 +53,7 @@ export default class MovieController extends AbstractComponent {
 
     filmCardComponent.setMarkAsWatchedClickHandler((evt) => {
       evt.preventDefault();
+      this.setActiveButton(evt, this.filmData.isWatched);
       this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
         isWatched: !this.filmData.isWatched,
       }));
@@ -58,16 +61,29 @@ export default class MovieController extends AbstractComponent {
 
     filmCardComponent.setMarkAsFavoriteClickHandler((evt) => {
       evt.preventDefault();
+      this.setActiveButton(evt, this.filmData.isFavorite);
       this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
         isFavorite: !this.filmData.isFavorite,
       }));
     });
 
     if (oldFilmCardComponent && this.oldFilmDetailsComponent) {
+      console.log(`Нев дата`, this.filmData);
       replaceComponentElement(filmCardComponent, oldFilmCardComponent);
+    } else if (this.oldFilmDetailsComponent) {
       replaceComponentElement(this.filmDetailsComponent, this.oldFilmDetailsComponent);
     } else {
       render(this.place, filmCardElement);
+    }
+  }
+
+  setActiveButton(evt, condition) {
+    if (condition) {
+      const activeButton = document.querySelector(`.film-card__controls-item--active`);
+      activeButton.classList.remove(`film-card__controls-item--active`);
+    } else {
+      const target = evt.target;
+      target.classList.add(`film-card__controls-item--active`);
     }
   }
 
@@ -88,15 +104,51 @@ export default class MovieController extends AbstractComponent {
 
   subscribeEvents() {
     this.filmDetailsComponent.setClickHandler(this.closePopup);
-    this.filmDetailsComponent._subscribeOnEvents();
+    this.filmDetailsComponent.setAddWatchlistClickHandler(this.addWatchHandler.bind(this));
+    this.filmDetailsComponent.setMarkAsWatchedClickHandler(this.ratingHandler.bind(this));
+    this.filmDetailsComponent.setMarkAsFavoriteClickHandler(this.addFavouritesHandler.bind(this));
+    this.filmDetailsComponent.setEmotionHandler();
     document.addEventListener(`keydown`, this.onEscPress);
+  }
+
+  addWatchHandler() {
+    this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
+      isAddWatch: !this.filmData.isAddWatch,
+    }));
+  }
+
+  ratingHandler() {
+    this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
+      isWatched: !this.filmData.isWatched,
+    }));
+    if (document.querySelector(`.form-details__middle-container`)) {
+      document.querySelector(`.form-details__middle-container`).remove();
+    }
+
+    if (this.filmData.isWatched === true) {
+      this.filmDetailsRatingComponent = new FilmDetailsRating();
+      this.filmDetailsRatingElement = this.filmDetailsRatingComponent.getElement();
+
+      const topContainer = document.querySelector(`.form-details__top-container`);
+      topContainer.insertAdjacentElement(`afterend`, this.filmDetailsRatingElement);
+    } else {
+      if (this.filmDetailsRatingComponent) {
+        this.filmDetailsRatingComponent.removeElement();
+        this.filmDetailsRatingElement.remove();
+        this.filmData.isWatched = false;
+      }
+    }
+  }
+
+  addFavouritesHandler() {
+    this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
+      isFavorite: !this.filmData.isFavorite,
+    }));
   }
 
   closePopup() {
     this.footerElement.removeChild(this.filmDetailsElement);
-    this.filmDetailsComponent.removeClickHandler(this.closePopup);
     document.removeEventListener(`keydown`, this.onEscPress);
-    this.filmDetailsComponent.removeMarkAsWatchedClickHandler();
     this.mode = Mode.DEFAULT;
   }
 

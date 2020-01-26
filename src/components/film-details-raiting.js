@@ -1,8 +1,11 @@
 import AbstractComponent from "./abstract-component";
 
-const valuesType = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
+const RATING_SCALE = 9;
 const getFilmDetailsRatingTemplate = () => {
+  const valuesType = [];
+  for (let i = 0; i <= RATING_SCALE; i++) {
+    valuesType.push(i);
+  }
   return (`<div class="form-details__middle-container">
       <section class="film-details__user-rating-wrap">
         <div class="film-details__user-rating-controls">
