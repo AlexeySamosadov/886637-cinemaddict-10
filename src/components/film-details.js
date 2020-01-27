@@ -110,7 +110,7 @@ export const getFilmDetailsTemplate = (filmData) => {
 
   const comments = generateCommentsTemplate(commentsQuantity);
 
-  const filmDetailsRating = new FilmDetailsRating().getTemplate();
+  // const filmDetailsRating = new FilmDetailsRating().getTemplate();
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -188,7 +188,6 @@ export const getFilmDetailsTemplate = (filmData) => {
       </section>
     </div>
 
-    ${isWatched ? filmDetailsRating : ``}
 
 
     <div class="form-details__bottom-container">

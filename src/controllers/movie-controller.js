@@ -87,9 +87,22 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsComponent = new FilmDetailsComponent(this.filmData);
     this.filmDetailsElement = this.filmDetailsComponent.getElement();
     render(this.footerElement, this.filmDetailsElement);
+
+
+    if (this.filmData.isWatched) {
+      this.renderFilmDetailRating();
+    }
+
     this.subscribeEvents();
     this._onViewChange();
     this.mode = Mode.POPUP;
+  }
+
+  renderFilmDetailRating() {
+    this.filmDetailsRatingComponent = new FilmDetailsRating();
+    this.filmDetailsRatingElement = this.filmDetailsRatingComponent.getElement();
+    const topContainer = this.filmDetailsElement.querySelector(`.form-details__top-container`);
+    topContainer.insertAdjacentElement(`afterend`, this.filmDetailsRatingElement);
   }
 
   setDefaultView() {
@@ -118,16 +131,12 @@ export default class MovieController extends AbstractComponent {
     this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
       isWatched: !this.filmData.isWatched,
     }));
-    if (document.querySelector(`.form-details__middle-container`)) {
-      document.querySelector(`.form-details__middle-container`).remove();
+    if (this.filmDetailsElement.querySelector(`.form-details__middle-container`)) {
+      this.filmDetailsElement.querySelector(`.form-details__middle-container`).remove();
     }
 
-    if (this.filmData.isWatched === true) {
-      this.filmDetailsRatingComponent = new FilmDetailsRating();
-      this.filmDetailsRatingElement = this.filmDetailsRatingComponent.getElement();
-
-      const topContainer = document.querySelector(`.form-details__top-container`);
-      topContainer.insertAdjacentElement(`afterend`, this.filmDetailsRatingElement);
+    if (this.filmData.isWatched) {
+      this.renderFilmDetailRating();
     } else {
       if (this.filmDetailsRatingComponent) {
         this.filmDetailsRatingComponent.removeElement();
