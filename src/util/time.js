@@ -1,11 +1,15 @@
 import moment from 'moment';
 
-const formatTime = (date) => {
-  return moment(date).format(`hh:mm A`);
+const formatCommentTime = (date) => {
+  return moment(date).format(`hh:mm DD MMMM YYYY`);
 };
 
-const formatDate = (date) => {
-  return moment(date).format(`DD MMMM`);
+const formatDateFull = (date) => {
+  return moment(date).format(`DD MMMM YYYY`);
 };
 
-export {formatTime, formatDate};
+const formatDateToYear = (date) => {
+  return moment(date).format(`YYYY`);
+};
+
+export {formatCommentTime, formatDateFull, formatDateToYear};
