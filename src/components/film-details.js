@@ -1,6 +1,5 @@
 import {createElement, getRandomItem, getRandomNumber} from "../util/util";
 import AbstractSmartComponent from "./abstract-smart-component";
-import FilmDetailsRating from "./film-details-raiting";
 
 const generateGenreContent = (genres) => {
   return [...genres]
@@ -109,8 +108,6 @@ export const getFilmDetailsTemplate = (filmData) => {
   const filmDateProduction = `${releaseDate} ${year}`;
 
   const comments = generateCommentsTemplate(commentsQuantity);
-
-  // const filmDetailsRating = new FilmDetailsRating().getTemplate();
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">

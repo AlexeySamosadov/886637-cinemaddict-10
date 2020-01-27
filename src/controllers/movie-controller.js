@@ -45,25 +45,19 @@ export default class MovieController extends AbstractComponent {
     filmCardComponent.setAddWatchlistClickHandler((evt) => {
       evt.preventDefault();
       this.setActiveButton(evt, this.filmData.isAddWatch);
-      this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
-        isAddWatch: !this.filmData.isAddWatch,
-      }));
+      this.filmData.isAddWatch = !this.filmData.isAddWatch;
     });
 
     filmCardComponent.setMarkAsWatchedClickHandler((evt) => {
       evt.preventDefault();
       this.setActiveButton(evt, this.filmData.isWatched);
-      this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
-        isWatched: !this.filmData.isWatched,
-      }));
+      this.filmData.isWatched = !this.filmData.isWatched;
     });
 
     filmCardComponent.setMarkAsFavoriteClickHandler((evt) => {
       evt.preventDefault();
       this.setActiveButton(evt, this.filmData.isFavorite);
-      this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
-        isFavorite: !this.filmData.isFavorite,
-      }));
+      this.filmData.isFavorite = !this.filmData.isFavorite;
     });
 
     if (oldFilmCardComponent) {
