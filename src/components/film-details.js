@@ -48,7 +48,7 @@ const COMMENTATOR_NAMES = [
 
 const generateComment = () => {
   return {
-    comment: getRandomItem(COMMENTS),
+    commentText: getRandomItem(COMMENTS),
     commentatorName: getRandomItem(COMMENTATOR_NAMES),
     emojiLink: getRandomItem(EMOJIESLINKS),
     commentTime: getRandomFullDate(),
