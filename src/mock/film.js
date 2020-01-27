@@ -92,16 +92,7 @@ const getRandomRating = (minNumber, maxNumber) => {
 const getRandomFullDate = () => {
   const targetDate = new Date();
   const sign = Math.random() > 0.5 ? 1 : -1;
-  const diffDayValue = sign * getRandomNumber(0, 7);
-  const diffMonthValue = sign * getRandomNumber(0, 12);
-  const diffYearValue = sign * getRandomNumber(0, 100);
-  const diffHoursAndMinValue = sign * getRandomNumber(0, 60);
-
-  targetDate.setDate(targetDate.getDate() + diffDayValue);
-  targetDate.setMonth(targetDate.getMonth() + diffMonthValue);
-  targetDate.setFullYear(targetDate.getFullYear() + diffYearValue);
-  targetDate.setHours(targetDate.getHours() + diffHoursAndMinValue);
-  targetDate.setMinutes(targetDate.getMinutes() + diffHoursAndMinValue);
+  targetDate.setMinutes(targetDate.getMinutes() + sign * getRandomNumber(0, 9999999));
   return targetDate;
 };
 
@@ -113,7 +104,7 @@ const generateFilmCardData = () => {
     genres: getRandomArray(genres, 5),
     posterSource: getRandomItem(posters),
     description: getRandomArray(descriptionFilms, 3).join(` `),
-    commentsQuantity: getRandomNumber(0, 99),
+    commentsQuantity: getRandomNumber(0, 15),
     titleDetails: getRandomItem(nameDetails),
     releaseDate: getRandomFullDate(),
     country: getRandomArray(countries, 3),
