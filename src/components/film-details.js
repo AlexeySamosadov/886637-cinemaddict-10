@@ -1,5 +1,7 @@
-import {createElement, getRandomItem, getRandomNumber} from "../util/util";
+import {createElement, getRandomItem} from "../util/util";
 import AbstractSmartComponent from "./abstract-smart-component";
+import {formatDateFull, formatCommentTime} from "../util/time";
+import {getRandomFullDate} from "../mock/film";
 
 const generateGenreContent = (genres) => {
   return [...genres]
@@ -44,28 +46,12 @@ const COMMENTATOR_NAMES = [
   `Chipolino`
 ];
 
-
-const setTimeStyle = (value) => {
-  return value < 10 ? `0${value}` : String(value);
-};
-
-const generateDateTime = () => {
-  const currentTime = new Date();
-  const hours = setTimeStyle(currentTime.getHours() % 12);
-  const minutes = setTimeStyle(currentTime.getMinutes());
-  const month = setTimeStyle(currentTime.getMonth() - getRandomNumber(0, 5));
-  const year = currentTime.getFullYear();
-  const day = setTimeStyle(currentTime.getDate() - getRandomNumber(0, 5));
-
-  return `${year}/${month}/${day} ${hours}:${minutes}`;
-};
-
 const generateComment = () => {
   return {
-    comment: getRandomItem(COMMENTS),
+    commentText: getRandomItem(COMMENTS),
     commentatorName: getRandomItem(COMMENTATOR_NAMES),
     emojiLink: getRandomItem(EMOJIESLINKS),
-    commentTime: generateDateTime(),
+    commentTime: getRandomFullDate(),
   };
 };
 
@@ -80,6 +66,7 @@ const generateCommentsTemplate = (count) => {
   return [...comments]
     .map((comment)=>{
       const {commentText, commentatorName, emojiLink, commentTime} = comment;
+      const clearCommentTime = formatCommentTime(commentTime);
       return (
         `<li class="film-details__comment">
             <span class="film-details__comment-emoji">
@@ -89,7 +76,7 @@ const generateCommentsTemplate = (count) => {
               <p class="film-details__comment-text">${commentText}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${commentatorName}</span>
-                <span class="film-details__comment-day">${commentTime}</span>
+                <span class="film-details__comment-day">${clearCommentTime}</span>
                 <button class="film-details__comment-delete">Delete</button>
               </p>
             </div>
@@ -101,11 +88,11 @@ const generateCommentsTemplate = (count) => {
 
 
 export const getFilmDetailsTemplate = (filmData) => {
-  const {title, titleDetails, rating, releaseDate, year, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite} = filmData;
+  const {title, titleDetails, rating, releaseDate, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite} = filmData;
 
   const genreContent = generateGenreContent(genres);
   const countriesContent = generateCountryContent(country);
-  const filmDateProduction = `${releaseDate} ${year}`;
+  const filmDateProduction = formatDateFull(releaseDate);
 
   const comments = generateCommentsTemplate(commentsQuantity);
 
@@ -238,8 +225,6 @@ export default class FilmDetails extends AbstractSmartComponent {
   constructor(filmData) {
     super();
     this._filmData = filmData;
-    this.filmDetailsRatingElement = null;
-    this.filmDetailsRatingComponent = null;
     this.targetSource = null;
     this.emotionImage = null;
     this.emotionContainer = null;
