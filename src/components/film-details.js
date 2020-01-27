@@ -1,5 +1,5 @@
-import {getRandomItem, getRandomNumber} from "../util/util";
-import AbstractComponent from "./abstract-component";
+import {createElement, getRandomItem, getRandomNumber} from "../util/util";
+import AbstractSmartComponent from "./abstract-smart-component";
 
 const generateGenreContent = (genres) => {
   return [...genres]
@@ -101,7 +101,8 @@ const generateCommentsTemplate = (count) => {
 
 
 export const getFilmDetailsTemplate = (filmData) => {
-  const {title, titleDetails, rating, releaseDate, year, duration, genres, posterSource, country, description, commentsQuantity} = filmData;
+  const {title, titleDetails, rating, releaseDate, year, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite} = filmData;
+
   const genreContent = generateGenreContent(genres);
   const countriesContent = generateCountryContent(country);
   const filmDateProduction = `${releaseDate} ${year}`;
@@ -173,16 +174,18 @@ export const getFilmDetailsTemplate = (filmData) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isAddWatch ? `checked` : ``}>
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? `checked` : ``}>
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorite ? `checked` : ``}>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
+
+
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
@@ -227,22 +230,66 @@ export const getFilmDetailsTemplate = (filmData) => {
 </section>`);
 };
 
+const getEmotionImageTemplate = () => {
+  return (`<img height="55" width="55"></img>`);
+};
 
-export default class FilmDetails extends AbstractComponent {
+export default class FilmDetails extends AbstractSmartComponent {
   constructor(filmData) {
     super();
     this._filmData = filmData;
+    this.filmDetailsRatingElement = null;
+    this.filmDetailsRatingComponent = null;
+    this.targetSource = null;
+    this.emotionImage = null;
+    this.emotionContainer = null;
   }
 
   getTemplate() {
-    return getFilmDetailsTemplate(this._filmData);
+    return getFilmDetailsTemplate(this._filmData, {
+      isTest: true,
+    });
+  }
+
+  recoveryListeners() {
+    this._subscribeOnEvents();
+  }
+
+  _subscribeOnEvents() {
+    this.setEmotionHandler();
   }
 
   setClickHandler(handler) {
     this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
   }
 
-  removeClickHandler(handler) {
-    this._element.querySelector(`.film-details__close-btn`).removeEventListener(`click`, handler);
+  setAddWatchlistClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, handler);
+  }
+
+  setMarkAsWatchedClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, handler);
+  }
+
+  setMarkAsFavoriteClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, handler);
+  }
+
+  setEmotionHandler() {
+    this._element.querySelector(`.film-details__emoji-list`).addEventListener(`click`, (event)=>{
+      if (this.emotionImage) {
+        this.emotionImage.remove();
+      }
+
+      const target = event.target;
+
+      if (target.tagName === `IMG`) {
+        this.targetSource = target.getAttribute(`src`);
+      }
+      this.emotionContainer = this._element.querySelector(`.film-details__add-emoji-label`);
+      this.emotionImage = createElement(getEmotionImageTemplate());
+      this.emotionImage.setAttribute(`src`, `${this.targetSource}`);
+      this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
+    });
   }
 }

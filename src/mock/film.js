@@ -27,8 +27,6 @@ const nameDetails = [
 ];
 
 const descriptionFilms = [
-  `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-  `Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra.`,
   `Aliquam id orci ut lectus varius viverra.`,
   `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
@@ -106,10 +104,9 @@ const getRandomRating = (minNumber, maxNumber) => {
   return (Math.random() * (maxNumber - minNumber) + minNumber).toFixed(2);
 };
 
-const gerRandomDate = (mounts) => {
+const getRandomDate = (mounts) => {
   return `${getRandomNumber(1, 30)} ${getRandomItem(mounts)}`;
 };
-
 
 const generateFilmCardData = () => {
   return {
@@ -122,8 +119,11 @@ const generateFilmCardData = () => {
     description: getRandomArray(descriptionFilms, 3).join(` `),
     commentsQuantity: getRandomNumber(0, 99),
     titleDetails: getRandomItem(nameDetails),
-    releaseDate: gerRandomDate(MONTHS),
+    releaseDate: getRandomDate(MONTHS),
     country: getRandomArray(countries, 3),
+    isAddWatch: false,
+    isWatched: false,
+    isFavorite: false,
   };
 };
 
