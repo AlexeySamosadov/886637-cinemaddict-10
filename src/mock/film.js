@@ -101,6 +101,7 @@ const generateFilmCardData = () => {
     title: getRandomItem(filmNames),
     rating: getRandomRating(3, 10),
     duration: getRandomDuration(70, 150),
+    id: String(Math.random() + Math.random()),
     genres: getRandomArray(genres, 5),
     posterSource: getRandomItem(posters),
     description: getRandomArray(descriptionFilms, 3).join(` `),

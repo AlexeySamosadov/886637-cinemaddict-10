@@ -1,21 +1,21 @@
 import {render} from './util/render';
 import ProfileRatingComponent from './components/profile-raiting.js';
-import MainNavigationComponent from './components/main-navigation.js';
-import StatisticComponent from "./components/statistic";
 import PageController from "./controllers/page-controller";
 import {generateFilmCardsData} from "./mock/film";
+import Movies from "./models/movies";
+import FilterController from "./controllers/filter-controller";
 
 const headerElement = document.querySelector(`.header`);
 render(headerElement, new ProfileRatingComponent().getElement());
 const filmsData = generateFilmCardsData(22);
+const moviesModel = new Movies();
+moviesModel.setMovies(filmsData);
 
 const mainElement = document.querySelector(`.main`);
-const mainNavigationElement = new MainNavigationComponent().getElement();
-render(mainElement, mainNavigationElement);
-const WATCHED_FILM_NUMBER = 27;
-render(mainElement, new StatisticComponent(WATCHED_FILM_NUMBER).getElement());
+const filterController = new FilterController(mainElement, moviesModel);
+filterController.render();
 
-const pageController = new PageController();
-pageController.renderFilmList(filmsData);
+const pageController = new PageController(moviesModel);
+pageController.renderFilmList();
 
 
