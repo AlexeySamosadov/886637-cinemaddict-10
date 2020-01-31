@@ -6,15 +6,10 @@ export const getMainNavigationTemplate = (filters) => {
     ${[...filerTypeType]
       .map((filterElement) => {
         const {name, count, active} = filterElement;
-        let isMainElements = false;
-        if (name === `All movies` || name === `Stats`) {
-          isMainElements = true;
-        }
-        console.log(isMainElements);
         return (`<a href="#${name === `All movies` ? name.toLowerCase().substring(3, 0) : name.toLowerCase()}"
                     class="main-navigation__item ${active ? `main-navigation__item--active` : ``}
                         ${name === `Stats` ? `main-navigation__item--additional` : ``}">
-                    ${name} ${isMainElements ? `` : `<span class="main-navigation__item-count">${count}</span>`}
+                    ${name} ${(name === `All movies` || name === `Stats`) ? `` : `<span class="main-navigation__item-count">${count}</span>`}
                 </a>`);
       }).join(`\n`)
 }

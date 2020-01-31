@@ -63,6 +63,7 @@ const countries = [
 ];
 
 const genres = [
+  `history`,
   `feature film`,
   `short film`,
   `action`,

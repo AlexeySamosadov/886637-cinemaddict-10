@@ -2,6 +2,7 @@ import {render, RenderPosition} from '../util/render';
 import {FilterType} from "../const";
 import MainNavigationComponent from '../components/main-navigation.js';
 import StatisticComponent from "../components/statistic";
+import {getMoviesByFilter} from "../util/navigation-filer";
 
 export default class FilterController {
   constructor(container, moviesModel) {
@@ -12,14 +13,15 @@ export default class FilterController {
 
   }
   render() {
-    // const allTasks = this.moviesModel.getAllMovies();
-    const filters = Object.values(FilterType).map((filterType)=>{
+    const allTasks = this.moviesModel.getAllMovies();
+    const filters = Object.values(FilterType).map((filterType) => {
       return {
         name: filterType,
-        count: Math.random().toFixed(2),
+        count: getMoviesByFilter(allTasks, filterType).length,
         active: filterType === this._activeFilterType,
       };
     });
+
     const mainNavigationComponent = new MainNavigationComponent(filters);
     const mainNavigationElement = mainNavigationComponent.getElement();
 
