@@ -3,7 +3,7 @@ import {FilterType} from "../const";
 export default class Movies {
   constructor() {
     this._filmsData = [];
-    this._activeFilterType = FilterType.All_MOVIES;
+    this._activeFilterType = FilterType.AllMOVIES;
 
   }
 

@@ -7,7 +7,7 @@ export default class FilterController {
   constructor(container, moviesModel) {
     this.container = container;
     this.moviesModel = moviesModel;
-    this._activeFilterType = FilterType.All_MOVIES;
+    this._activeFilterType = FilterType.AllMOVIES;
     this.statisticElement = null;
 
   }
