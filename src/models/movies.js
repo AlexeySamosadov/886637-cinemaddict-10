@@ -1,4 +1,5 @@
 import {FilterType} from "../const";
+import {getMoviesByFilter} from "../util/navigation-filer";
 
 export default class Movies {
   constructor() {
@@ -12,7 +13,7 @@ export default class Movies {
   }
 
   getMovies() {
-    return this._filmsData;
+    return getMoviesByFilter(this._filmsData, this._activeFilterType);
   }
 
   getAllMovies() {
