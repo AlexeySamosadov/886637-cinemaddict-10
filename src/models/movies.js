@@ -6,6 +6,8 @@ export default class Movies {
     this._filmsData = [];
     this._activeFilterType = FilterType.AllMOVIES;
     this._filterChangeHandlers = [];
+    this._filteredData = null;
+    this._updateController = [];
   }
 
   setMovies(filmData) {
@@ -13,7 +15,8 @@ export default class Movies {
   }
 
   getMovies() {
-    return getMoviesByFilter(this._filmsData, this._activeFilterType);
+    this._filteredData = getMoviesByFilter(this._filmsData, this._activeFilterType);
+    return this._filteredData;
   }
 
   getAllMovies() {
@@ -21,12 +24,15 @@ export default class Movies {
   }
 
   setFilter(filterType) {
+    console.log(`this._updateController`, this._updateController);
     this._activeFilterType = filterType;
+    // this._updateController.forEach((handler)=> handler());
   }
 
   setFilterChangeHandler(handler) {
-    this._filterChangeHandlers.push(handler);
-    console.log(this._filterChangeHandlers[0]);
+    console.log(`handler hyi`, handler);
+    // this._updateController.push(handler);
+
   }
 
   updateMovies(id, filmData) {
