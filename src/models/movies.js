@@ -5,7 +5,7 @@ export default class Movies {
   constructor() {
     this._filmsData = [];
     this._activeFilterType = FilterType.AllMOVIES;
-    this._filterChangeHandlers = [];
+    this._filterChangeHandlers = null;
   }
 
   setMovies(filmData) {
@@ -22,11 +22,12 @@ export default class Movies {
 
   setFilter(filterType) {
     this._activeFilterType = filterType;
+    this._filterChangeHandlers();
   }
 
   setFilterChangeHandler(handler) {
     console.log(`fsdfdsf`);
-    this._filterChangeHandlers.push(handler);
+    this._filterChangeHandlers = handler;
   }
 
   updateMovies(id, filmData) {
