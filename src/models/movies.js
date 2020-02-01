@@ -40,6 +40,7 @@ export default class Movies {
     filmsData.splice(index, 1, filmData);
     this._filmsData = filmsData;
     // console.log(`updateMovies`, this._filmsData);
+
     return true;
   }
 }
