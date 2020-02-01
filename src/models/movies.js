@@ -18,6 +18,7 @@ export default class Movies {
   }
 
   getAllMovies() {
+    // hgfhgf
     return this._filmsData;
   }
 
