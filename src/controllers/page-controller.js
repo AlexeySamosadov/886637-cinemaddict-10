@@ -33,6 +33,7 @@ export default class PageController {
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
+
     this._moviesModel.setFilterChangeHandler(this._onFilterChange.bind(this));
     this._totalFilmsVisible = START_PAGE_FILMS_VISIBLE;
   }
@@ -42,7 +43,7 @@ export default class PageController {
     this._filmsElement = new FilmsComponent().getElement();
     this._sortNavigationComponent = new SortNavigationComponent();
     const filmsData = this._moviesModel.getMovies();
-setFilter
+
     this.showedFilmControllers = [];
 
     const mainElement = this._mainElement;
@@ -96,6 +97,7 @@ setFilter
     let newFilms = renderFilms(this._filmsContainerElement, filmsData, this._onDataChange, this._onViewChange);
     this.showedFilmControllers = this.showedFilmControllers.concat(newFilms);
     this._totalFilmsVisible = this.showedFilmControllers.length;
+
   }
 
   removeMovies() {
@@ -160,5 +162,4 @@ setFilter
   _onFilterChange() {
     this._updateFilms(this._totalFilmsVisible);
   }
-
 }

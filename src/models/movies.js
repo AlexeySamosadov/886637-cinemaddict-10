@@ -13,7 +13,8 @@ export default class Movies {
   }
 
   getMovies() {
-    return getMoviesByFilter(this._filmsData, this._activeFilterType);
+    this._filteredData = getMoviesByFilter(this._filmsData, this._activeFilterType);
+    return this._filteredData;
   }
 
   getAllMovies() {
@@ -26,8 +27,8 @@ export default class Movies {
   }
 
   setFilterChangeHandler(handler) {
-    console.log(`fsdfdsf`);
     this._filterChangeHandlers = handler;
+    // this._updateController.forEach((handler)=> handler());
   }
 
   updateMovies(id, filmData) {

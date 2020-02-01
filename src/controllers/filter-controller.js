@@ -12,7 +12,8 @@ export default class FilterController {
     this.statisticElement = null;
     this.mainNavigationElement = null;
     this.mainNavigationComponent = null;
-
+    // this.moviesModel.setFilterChangeHandler(this._onDataChange.bind(this));
+    this._onDataChange = this._onDataChange.bind(this);
   }
   render() {
     const allTasks = this.moviesModel.getAllMovies();
@@ -62,6 +63,10 @@ export default class FilterController {
   _onFilterChange(filterType) {
     this.moviesModel.setFilter(filterType);
     this._activeFilterType = filterType;
+    this._onDataChange();
+  }
+
+  _onDataChange() {
     this.render();
   }
 }
