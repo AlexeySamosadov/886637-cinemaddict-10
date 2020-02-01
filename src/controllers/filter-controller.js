@@ -12,7 +12,7 @@ export default class FilterController {
     this.statisticElement = null;
     this.mainNavigationElement = null;
     this.mainNavigationComponent = null;
-
+    this.moviesModel.setFilterChangeHandler(this._onDataChange.bind(this));
   }
   render() {
     const allTasks = this.moviesModel.getAllMovies();
@@ -32,6 +32,7 @@ export default class FilterController {
     this.mainNavigationComponent.setClickMainNavigationHandler(this.onNavigationClick.bind(this));
     this.mainNavigationComponent.setClickStatsHandler(this.renderStatistic.bind(this));
     if (oldComponent) {
+      this.moviesModel.updateMovies
       replaceComponentElement(this.mainNavigationComponent, oldComponent);
     } else {
       render(this.container, this.mainNavigationElement);
@@ -62,6 +63,10 @@ export default class FilterController {
   _onFilterChange(filterType) {
     this.moviesModel.setFilter(filterType);
     this._activeFilterType = filterType;
+    this._onDataChange();
+  }
+
+  _onDataChange() {
     this.render();
   }
 }

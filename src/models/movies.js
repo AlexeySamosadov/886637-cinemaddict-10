@@ -25,8 +25,8 @@ export default class Movies {
   }
 
   setFilterChangeHandler(handler) {
-    console.log(`fsdfdsf`);
     this._filterChangeHandlers.push(handler);
+    console.log(this._filterChangeHandlers[0]);
   }
 
   updateMovies(id, filmData) {
