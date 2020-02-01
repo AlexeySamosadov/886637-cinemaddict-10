@@ -7,6 +7,7 @@ export const getMainNavigationTemplate = (filters) => {
       .map((filterElement) => {
         const {name, count, active} = filterElement;
         return (`<a href="#${name === `All movies` ? name.toLowerCase().substring(3, 0) : name.toLowerCase()}"
+                    data-nav="${name}"
                     class="main-navigation__item ${active ? `main-navigation__item--active` : ``}
                         ${name === `Stats` ? `main-navigation__item--additional` : ``}">
                     ${name} ${(name === `All movies` || name === `Stats`) ? `` : `<span class="main-navigation__item-count">${count}</span>`}
@@ -36,7 +37,7 @@ export default class MainNavigation extends AbstractComponent {
       if (evt.target === this.statsElement) {
         return;
       }
-      handler();
+      handler(evt);
     });
   }
 }

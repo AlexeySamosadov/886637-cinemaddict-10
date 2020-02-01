@@ -115,6 +115,10 @@ export default class MovieController extends AbstractComponent {
     document.addEventListener(`keydown`, this.onEscPress);
   }
 
+  destroy() {
+    console.log(`Удаляется контроллер фильма`);
+  }
+
   addWatchHandler() {
     this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
       isAddWatch: !this.filmData.isAddWatch,

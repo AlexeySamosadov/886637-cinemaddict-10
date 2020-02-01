@@ -1,4 +1,4 @@
-import {render, RenderPosition} from '../util/render';
+import {render, RenderPosition, replaceComponentElement} from '../util/render';
 import {FilterType} from "../const";
 import MainNavigationComponent from '../components/main-navigation.js';
 import StatisticComponent from "../components/statistic";
@@ -10,6 +10,8 @@ export default class FilterController {
     this.moviesModel = moviesModel;
     this._activeFilterType = FilterType.AllMOVIES;
     this.statisticElement = null;
+    this.mainNavigationElement = null;
+    this.mainNavigationComponent = null;
 
   }
   render() {
@@ -22,14 +24,18 @@ export default class FilterController {
       };
     });
 
-    const mainNavigationComponent = new MainNavigationComponent(filters);
-    const mainNavigationElement = mainNavigationComponent.getElement();
 
-    render(this.container, mainNavigationElement);
+    const oldComponent = this.mainNavigationComponent;
 
-    mainNavigationComponent.setClickMainNavigationHandler(this.removeStatistic.bind(this));
-    mainNavigationComponent.setClickStatsHandler(this.renderStatistic.bind(this));
-
+    this.mainNavigationComponent = new MainNavigationComponent(filters);
+    this.mainNavigationElement = this.mainNavigationComponent.getElement();
+    this.mainNavigationComponent.setClickMainNavigationHandler(this.onNavigationClick.bind(this));
+    this.mainNavigationComponent.setClickStatsHandler(this.renderStatistic.bind(this));
+    if (oldComponent) {
+      replaceComponentElement(this.mainNavigationComponent, oldComponent);
+    } else {
+      render(this.container, this.mainNavigationElement);
+    }
   }
 
   renderStatistic() {
@@ -41,10 +47,21 @@ export default class FilterController {
     }
   }
 
+  onNavigationClick(evt) {
+    this._onFilterChange(evt.target.dataset.nav);
+    this.removeStatistic();
+  }
+
   removeStatistic() {
     if (this.statisticElement) {
       this.statisticElement.remove();
       this.statisticElement = null;
     }
+  }
+
+  _onFilterChange(filterType) {
+    this.moviesModel.setFilter(filterType);
+    this._activeFilterType = filterType;
+    this.render();
   }
 }
