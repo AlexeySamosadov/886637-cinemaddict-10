@@ -118,7 +118,7 @@ export default class MovieController extends AbstractComponent {
       if (!id) {
         return;
       }
-      const a = this.filmDetailsComponent.getElement().querySelector(`.film-details__comment`);
+      const a = this.filmDetailsComponent.getElement().querySelector(`[data-comment="${id}"]`);
       console.log(evt.target.dataset.id);
       console.log(a);
       a.remove();

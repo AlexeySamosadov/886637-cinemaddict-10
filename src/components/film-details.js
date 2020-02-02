@@ -24,7 +24,7 @@ const generateCommentsTemplate = (comments) => {
       const {commentText, commentatorName, emojiLink, commentTime, commentId} = comment;
       const clearCommentTime = formatCommentTime(commentTime);
       return (
-        `<li class="film-details__comment" data-comment="${commentId}" id="${commentId}">
+        `<li class="film-details__comment" data-comment="${commentId}">
             <span class="film-details__comment-emoji">
               <img src="./images/emoji/${emojiLink}" width="55" height="55" alt="emoji">
             </span>
