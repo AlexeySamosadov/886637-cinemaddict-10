@@ -112,9 +112,14 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsComponent.setAddWatchlistClickHandler(this.addWatchHandler.bind(this));
     this.filmDetailsComponent.setMarkAsWatchedClickHandler(this.ratingHandler.bind(this));
     this.filmDetailsComponent.setMarkAsFavoriteClickHandler(this.addFavouritesHandler.bind(this));
-    this.filmDetailsComponent.setEmotionHandler();
     this.filmDetailsComponent.setDeleateCommentHandler(this.removeComment.bind(this));
-
+    this.filmDetailsComponent.setEmotionHandler();
+    this.filmDetailsComponent.setAddComment((evt)=>{
+      evt.preventDefault();
+      const data = this.filmDetailsComponent.getData();
+      this.filmData.comments.push(data);
+      console.log(`fdsfsdfdsfsfdsdf`, data);
+    });
 
     document.addEventListener(`keydown`, this.onEscPress);
   }

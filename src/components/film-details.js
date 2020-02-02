@@ -1,6 +1,24 @@
-import {createElement} from "../util/util";
+import {createElement, getRandomItem, getRandomNumber} from "../util/util";
 import AbstractSmartComponent from "./abstract-smart-component";
 import {formatDateFull, formatCommentTime} from "../util/time";
+import {getRandomFullDate} from "../mock/film";
+
+const COMMENTATOR_NAMES = [
+  `Antonio`,
+  `Hyan`,
+  `Genry`,
+  `Sergey Talizin`,
+  `Mark`,
+  `Fill`,
+  `Chipolino`
+];
+
+const EMOJIESLINKS = [
+  `smile.png`,
+  `angry.png`,
+  `puke.png`,
+  `sleeping.png`,
+];
 
 const generateGenreContent = (genres) => {
   return [...genres]
@@ -20,11 +38,16 @@ const generateCountryContent = (countries) => {
 
 const generateCommentsTemplate = (comments) => {
   return [...comments]
-    .map((comment)=>{
-      const {commentText, commentatorName, emojiLink, commentTime, commentId} = comment;
-      const clearCommentTime = formatCommentTime(commentTime);
-      return (
-        `<li class="film-details__comment" data-comment="${commentId}">
+    .map((comment)=> generateCommentTemplate(comment))
+    .join(`\n`);
+};
+
+const generateCommentTemplate = (comment) => {
+
+  const {commentText, commentatorName, emojiLink, commentTime, commentId} = comment;
+  const clearCommentTime = formatCommentTime(commentTime);
+  return (
+    `<li class="film-details__comment" data-comment="${commentId}">
             <span class="film-details__comment-emoji">
               <img src="./images/emoji/${emojiLink}" width="55" height="55" alt="emoji">
             </span>
@@ -37,11 +60,9 @@ const generateCommentsTemplate = (comments) => {
               </p>
             </div>
           </li>`
-      );
-    })
-    .join(`\n`);
-};
+  );
 
+};
 
 export const getFilmDetailsTemplate = (filmData) => {
   const {title, titleDetails, rating, releaseDate, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite, comments} = filmData;
@@ -165,6 +186,7 @@ export const getFilmDetailsTemplate = (filmData) => {
             <label class="film-details__emoji-label" for="emoji-angry">
               <img src="./images/emoji/angry.png" data-emotion="angry.png" width="30" height="30" alt="emoji">
             </label>
+            <button type="submit">Отправить</button>
           </div>
         </div>
       </section>
@@ -185,6 +207,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.emotionImage = null;
     this.emotionContainer = null;
     this.emotion = null;
+    this.emotionUrl = null;
   }
 
   getTemplate() {
@@ -221,7 +244,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._element.querySelector(`.film-details__comments-list`).addEventListener(`click`, handler);
   }
 
-  setEmotionHandler() {
+  setEmotionHandler(handler) {
     this._element.querySelector(`.film-details__emoji-list`).addEventListener(`click`, (event)=>{
       if (this.emotionImage) {
         this.emotionImage.remove();
@@ -231,12 +254,36 @@ export default class FilmDetails extends AbstractSmartComponent {
 
       if (this.emotion) {
         this.targetSource = `./images/emoji/${this.emotion}`;
+        this.emotionUrl = this.emotion;
         this.emotionContainer = this._element.querySelector(`.film-details__add-emoji-label`);
       }
       this.emotionImage = createElement(getEmotionImageTemplate());
       this.emotionImage.setAttribute(`src`, `${this.targetSource}`);
       this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
-
+      // handler();
     });
   }
+
+  setAddComment(handler) {
+    this._element.querySelector(`.film-details__inner`).addEventListener(`submit`, handler);
+  }
+
+  getData() {
+    const form = this.getElement().querySelector(`.film-details__inner`);
+    const formData = new FormData(form);
+    const url = this.emotionUrl;
+    return parseFormData(formData, url);
+  }
 }
+
+
+const parseFormData = (formData, url) => {
+  const date = formData.get(`date`);
+  return {
+    commentId: `id` + String(getRandomNumber(1, 99999999)),
+    commentText: formData.get(`comment`),
+    commentatorName: getRandomItem(COMMENTATOR_NAMES),
+    emojiLink: url,
+    commentTime: new Date(),
+  };
+};

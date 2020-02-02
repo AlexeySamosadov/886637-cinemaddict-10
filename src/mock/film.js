@@ -140,8 +140,6 @@ const createComments = (count) => {
     .map(generateComment);
 };
 
-
-
 const generateFilmCardData = () => {
   const getComments = createComments(getRandomNumber(1, 10));
   return {
