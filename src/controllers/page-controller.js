@@ -126,6 +126,7 @@ export default class PageController {
 
   setSortNavigation() {
     const filmsData = this._moviesModel.getMovies();
+    console.log(`filmsData`, filmsData);
     this._sortNavigationComponent.setSortTypeHandler((sortType) => {
       let sortedFilms = [];
       switch (sortType) {
@@ -140,7 +141,6 @@ export default class PageController {
           break;
       }
       this.removeMovies();
-
       this.renderMovies(sortedFilms.slice(0, this._totalFilmsVisible));
     });
   }

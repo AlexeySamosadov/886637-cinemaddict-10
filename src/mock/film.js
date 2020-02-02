@@ -86,6 +86,33 @@ const genres = [
   `post-apocalyptic`,
 ];
 
+const EMOJIESLINKS = [
+  `smile.png`,
+  `angry.png`,
+  `puke.png`,
+  `sleeping.png`,
+];
+
+const COMMENTS = [
+  `stupid`,
+  `nice`,
+  `Я плакал`,
+  `Хотел бы быть как главный герой`,
+  `Почему он?`,
+  `Нереальная концовка`,
+  `Фильм хорош, чтобы уснуть`,
+];
+
+const COMMENTATOR_NAMES = [
+  `Antonio`,
+  `Hyan`,
+  `Genry`,
+  `Sergey Talizin`,
+  `Mark`,
+  `Fill`,
+  `Chipolino`
+];
+
 const getRandomRating = (minNumber, maxNumber) => {
   return (Math.random() * (maxNumber - minNumber) + minNumber).toFixed(2);
 };
@@ -97,7 +124,26 @@ const getRandomFullDate = () => {
   return targetDate;
 };
 
+const generateComment = () => {
+  return {
+    commentId: Math.random(),
+    commentText: getRandomItem(COMMENTS),
+    commentatorName: getRandomItem(COMMENTATOR_NAMES),
+    emojiLink: getRandomItem(EMOJIESLINKS),
+    commentTime: getRandomFullDate(),
+  };
+};
+
+const createComments = (count) => {
+  return new Array(count)
+    .fill(``)
+    .map(generateComment);
+};
+
+
+
 const generateFilmCardData = () => {
+  const getComments = createComments(getRandomNumber(1, 10));
   return {
     title: getRandomItem(filmNames),
     rating: getRandomRating(3, 10),
@@ -106,13 +152,14 @@ const generateFilmCardData = () => {
     genres: getRandomArray(genres, 5),
     posterSource: getRandomItem(posters),
     description: getRandomArray(descriptionFilms, 3).join(` `),
-    commentsQuantity: getRandomNumber(0, 15),
+    commentsQuantity: getComments.length,
     titleDetails: getRandomItem(nameDetails),
     releaseDate: getRandomFullDate(),
     country: getRandomArray(countries, 3),
     isAddWatch: Math.random() > 0.5,
     isWatched: Math.random() > 0.5,
     isFavorite: Math.random() > 0.5,
+    comments: getComments,
   };
 };
 

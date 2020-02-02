@@ -7,7 +7,7 @@ import FilterController from "./controllers/filter-controller";
 
 const headerElement = document.querySelector(`.header`);
 render(headerElement, new ProfileRatingComponent().getElement());
-const filmsData = generateFilmCardsData(22);
+const filmsData = generateFilmCardsData(23);
 const moviesModel = new Movies();
 moviesModel.setMovies(filmsData);
 

@@ -112,6 +112,12 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsComponent.setMarkAsWatchedClickHandler(this.ratingHandler.bind(this));
     this.filmDetailsComponent.setMarkAsFavoriteClickHandler(this.addFavouritesHandler.bind(this));
     this.filmDetailsComponent.setEmotionHandler();
+    this.filmDetailsComponent.setDeleateCommentHandler((evt) => {
+      evt.preventDefault();
+      console.log(evt.target.dataset.id);
+    });
+
+
     document.addEventListener(`keydown`, this.onEscPress);
   }
 

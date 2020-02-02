@@ -1,7 +1,6 @@
-import {createElement, getRandomItem} from "../util/util";
+import {createElement} from "../util/util";
 import AbstractSmartComponent from "./abstract-smart-component";
 import {formatDateFull, formatCommentTime} from "../util/time";
-import {getRandomFullDate} from "../mock/film";
 
 const generateGenreContent = (genres) => {
   return [...genres]
@@ -19,53 +18,10 @@ const generateCountryContent = (countries) => {
     .join(`\n`);
 };
 
-const EMOJIESLINKS = [
-  `smile.png`,
-  `angry.png`,
-  `puke.png`,
-  `sleeping.png`,
-];
-
-const COMMENTS = [
-  `stupid`,
-  `nice`,
-  `Я плакал`,
-  `Хотел бы быть как главный герой`,
-  `Почему он?`,
-  `Нереальная концовка`,
-  `Фильм хорош, чтобы уснуть`,
-];
-
-const COMMENTATOR_NAMES = [
-  `Antonio`,
-  `Hyan`,
-  `Genry`,
-  `Sergey Talizin`,
-  `Mark`,
-  `Fill`,
-  `Chipolino`
-];
-
-const generateComment = () => {
-  return {
-    commentText: getRandomItem(COMMENTS),
-    commentatorName: getRandomItem(COMMENTATOR_NAMES),
-    emojiLink: getRandomItem(EMOJIESLINKS),
-    commentTime: getRandomFullDate(),
-  };
-};
-
-const createComments = (count) => {
-  return new Array(count)
-    .fill(``)
-    .map(generateComment);
-};
-
-const generateCommentsTemplate = (count) => {
-  const comments = createComments(count);
+const generateCommentsTemplate = (comments) => {
   return [...comments]
     .map((comment)=>{
-      const {commentText, commentatorName, emojiLink, commentTime} = comment;
+      const {commentText, commentatorName, emojiLink, commentTime, commentId} = comment;
       const clearCommentTime = formatCommentTime(commentTime);
       return (
         `<li class="film-details__comment">
@@ -77,7 +33,7 @@ const generateCommentsTemplate = (count) => {
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${commentatorName}</span>
                 <span class="film-details__comment-day">${clearCommentTime}</span>
-                <button class="film-details__comment-delete">Delete</button>
+                <button class="film-details__comment-delete" data-id="${commentId}">Delete</button>
               </p>
             </div>
           </li>`
@@ -88,13 +44,13 @@ const generateCommentsTemplate = (count) => {
 
 
 export const getFilmDetailsTemplate = (filmData) => {
-  const {title, titleDetails, rating, releaseDate, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite} = filmData;
+  const {title, titleDetails, rating, releaseDate, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite, comments} = filmData;
 
   const genreContent = generateGenreContent(genres);
   const countriesContent = generateCountryContent(country);
   const filmDateProduction = formatDateFull(releaseDate);
-
-  const comments = generateCommentsTemplate(commentsQuantity);
+  console.log(comments);
+  const commentsTemplate = generateCommentsTemplate(comments);
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -179,7 +135,7 @@ export const getFilmDetailsTemplate = (filmData) => {
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsQuantity}</span></h3>
 
         <ul class="film-details__comments-list">
-            ${comments}
+            ${commentsTemplate}
         </ul>
 
         <div class="film-details__new-comment">
@@ -258,6 +214,10 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   setMarkAsFavoriteClickHandler(handler) {
     this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, handler);
+  }
+
+  setDeleateCommentHandler(handler) {
+    this._element.querySelector(`.film-details__comments-list`).addEventListener(`click`, handler);
   }
 
   setEmotionHandler() {
