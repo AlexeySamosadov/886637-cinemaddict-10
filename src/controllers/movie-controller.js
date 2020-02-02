@@ -113,23 +113,32 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsComponent.setMarkAsWatchedClickHandler(this.ratingHandler.bind(this));
     this.filmDetailsComponent.setMarkAsFavoriteClickHandler(this.addFavouritesHandler.bind(this));
     this.filmDetailsComponent.setEmotionHandler();
-    this.filmDetailsComponent.setDeleateCommentHandler((evt) => {
-      evt.preventDefault();
-      const id = evt.target.dataset.id;
-      if (!id) {
-        return;
-      }
-      const comment = this.filmDetailsComponent.getElement().querySelector(`[data-comment="${id}"]`);
-      console.log(evt.target.dataset.id);
-      console.log(comment);
-      comment.remove();
-      const commentsNumber = this.filmDetailsComponent.getElement().querySelector(`.film-details__comments-count`);
-      commentsNumber.textContent = String(getRandomNumber(1, 10));
-      console.log(commentsNumber);
-    });
+    this.filmDetailsComponent.setDeleateCommentHandler(this.removeComment.bind(this));
 
 
     document.addEventListener(`keydown`, this.onEscPress);
+  }
+
+  removeComment(evt) {
+    evt.preventDefault();
+    const id = evt.target.dataset.id;
+    if (!id) {
+      return;
+    }
+    const index = this.filmData.comments.findIndex((it) => it.commentId === id);
+    if (index === -1) {
+      return;
+    }
+
+    this.filmDetailsComponent.getElement().querySelector(`[data-comment="${id}"]`).remove();
+    this.filmData.comments.splice(index, 1);
+
+    this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
+      commentsQuantity: this.filmData.comments.length,
+    }));
+
+    const commentsNumber = this.filmDetailsComponent.getElement().querySelector(`.film-details__comments-count`);
+    commentsNumber.textContent = String(this.filmData.commentsQuantity);
   }
 
   destroy() {
