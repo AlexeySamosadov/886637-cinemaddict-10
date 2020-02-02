@@ -3,6 +3,7 @@ import {render, replaceComponentElement} from "../util/render";
 import FilmDetailsComponent from "../components/film-details";
 import AbstractComponent from "../components/abstract-component";
 import FilmDetailsRating from "../components/film-details-raiting";
+import {getRandomNumber} from "../util/util";
 
 const Mode = {
   DEFAULT: `default`,
@@ -118,10 +119,13 @@ export default class MovieController extends AbstractComponent {
       if (!id) {
         return;
       }
-      const a = this.filmDetailsComponent.getElement().querySelector(`[data-comment="${id}"]`);
+      const comment = this.filmDetailsComponent.getElement().querySelector(`[data-comment="${id}"]`);
       console.log(evt.target.dataset.id);
-      console.log(a);
-      a.remove();
+      console.log(comment);
+      comment.remove();
+      const commentsNumber = this.filmDetailsComponent.getElement().querySelector(`.film-details__comments-count`);
+      commentsNumber.textContent = String(getRandomNumber(1, 10));
+      console.log(commentsNumber);
     });
 
 
