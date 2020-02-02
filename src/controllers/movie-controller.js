@@ -114,7 +114,14 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsComponent.setEmotionHandler();
     this.filmDetailsComponent.setDeleateCommentHandler((evt) => {
       evt.preventDefault();
+      const id = evt.target.dataset.id;
+      if (!id) {
+        return;
+      }
+      const a = this.filmDetailsComponent.getElement().querySelector(`.film-details__comment`);
       console.log(evt.target.dataset.id);
+      console.log(a);
+      a.remove();
     });
 
 

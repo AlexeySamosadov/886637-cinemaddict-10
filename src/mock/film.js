@@ -126,7 +126,7 @@ const getRandomFullDate = () => {
 
 const generateComment = () => {
   return {
-    commentId: Math.random(),
+    commentId: getRandomNumber(1, 99999999),
     commentText: getRandomItem(COMMENTS),
     commentatorName: getRandomItem(COMMENTATOR_NAMES),
     emojiLink: getRandomItem(EMOJIESLINKS),
