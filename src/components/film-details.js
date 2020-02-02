@@ -1,7 +1,6 @@
 import {createElement, getRandomItem, getRandomNumber} from "../util/util";
 import AbstractSmartComponent from "./abstract-smart-component";
 import {formatDateFull, formatCommentTime} from "../util/time";
-import {getRandomFullDate} from "../mock/film";
 
 const COMMENTATOR_NAMES = [
   `Antonio`,
@@ -11,13 +10,6 @@ const COMMENTATOR_NAMES = [
   `Mark`,
   `Fill`,
   `Chipolino`
-];
-
-const EMOJIESLINKS = [
-  `smile.png`,
-  `angry.png`,
-  `puke.png`,
-  `sleeping.png`,
 ];
 
 const generateGenreContent = (genres) => {
@@ -42,8 +34,7 @@ const generateCommentsTemplate = (comments) => {
     .join(`\n`);
 };
 
-const generateCommentTemplate = (comment) => {
-
+export const generateCommentTemplate = (comment) => {
   const {commentText, commentatorName, emojiLink, commentTime, commentId} = comment;
   const clearCommentTime = formatCommentTime(commentTime);
   return (
@@ -61,7 +52,6 @@ const generateCommentTemplate = (comment) => {
             </div>
           </li>`
   );
-
 };
 
 export const getFilmDetailsTemplate = (filmData) => {
@@ -70,7 +60,6 @@ export const getFilmDetailsTemplate = (filmData) => {
   const genreContent = generateGenreContent(genres);
   const countriesContent = generateCountryContent(country);
   const filmDateProduction = formatDateFull(releaseDate);
-  console.log(comments);
   const commentsTemplate = generateCommentsTemplate(comments);
 
   return (`<section class="film-details">
@@ -186,9 +175,9 @@ export const getFilmDetailsTemplate = (filmData) => {
             <label class="film-details__emoji-label" for="emoji-angry">
               <img src="./images/emoji/angry.png" data-emotion="angry.png" width="30" height="30" alt="emoji">
             </label>
-            <button type="submit">Отправить</button>
           </div>
         </div>
+        <button type="submit">Отправить</button>
       </section>
     </div>
   </form>
@@ -244,11 +233,12 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._element.querySelector(`.film-details__comments-list`).addEventListener(`click`, handler);
   }
 
-  setEmotionHandler(handler) {
-    this._element.querySelector(`.film-details__emoji-list`).addEventListener(`click`, (event)=>{
+  setEmotionHandler() {
+    this._element.querySelector(`.film-details__emoji-list`).addEventListener(`click`, (event) => {
       if (this.emotionImage) {
         this.emotionImage.remove();
       }
+
       const target = event.target;
       this.emotion = target.dataset.emotion;
 
@@ -260,12 +250,17 @@ export default class FilmDetails extends AbstractSmartComponent {
       this.emotionImage = createElement(getEmotionImageTemplate());
       this.emotionImage.setAttribute(`src`, `${this.targetSource}`);
       this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
-      // handler();
     });
   }
 
   setAddComment(handler) {
-    this._element.querySelector(`.film-details__inner`).addEventListener(`submit`, handler);
+    this._element.querySelector(`.film-details__inner`).addEventListener(`submit`, (evt)=>{
+      evt.preventDefault();
+      if (!this.emotionUrl) {
+        return;
+      }
+      handler(evt);
+    });
   }
 
   getData() {
@@ -278,7 +273,6 @@ export default class FilmDetails extends AbstractSmartComponent {
 
 
 const parseFormData = (formData, url) => {
-  const date = formData.get(`date`);
   return {
     commentId: `id` + String(getRandomNumber(1, 99999999)),
     commentText: formData.get(`comment`),

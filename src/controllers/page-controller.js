@@ -126,7 +126,6 @@ export default class PageController {
 
   setSortNavigation() {
     const filmsData = this._moviesModel.getMovies();
-    console.log(`filmsData`, filmsData);
     this._sortNavigationComponent.setSortTypeHandler((sortType) => {
       let sortedFilms = [];
       switch (sortType) {
