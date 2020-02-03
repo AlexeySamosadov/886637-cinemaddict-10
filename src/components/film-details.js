@@ -56,7 +56,6 @@ const generateCommentEmotion = (emojies) => {
 
 export const generateCommentTemplate = (comment) => {
   const {commentText, commentatorName, emojiLink, commentTime, commentId} = comment;
-  console.log(commentText);
   const saveCommentsText = he.encode(commentText);
 
   const clearCommentTime = formatCommentTime(commentTime);

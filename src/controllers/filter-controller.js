@@ -1,4 +1,4 @@
-import {render, RenderPosition, replaceComponentElement} from '../util/render';
+import {render, replaceComponentElement} from '../util/render';
 import {FilterType} from "../const";
 import MainNavigationComponent from '../components/main-navigation.js';
 import StatisticComponent from "../components/statistic";
@@ -45,7 +45,7 @@ export default class FilterController {
       const mainNavigation = this.container.querySelector(`.main-navigation`);
       const statisticComponent = new StatisticComponent(WATCHED_FILM_NUMBER);
       this.statisticElement = statisticComponent.getElement();
-      render(mainNavigation, this.statisticElement, RenderPosition.AFTEREND);
+      render(mainNavigation, this.statisticElement, `afterend`);
       statisticComponent.setCharts();
     }
   }

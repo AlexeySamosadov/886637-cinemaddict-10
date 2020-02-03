@@ -83,10 +83,9 @@ const getStatisticTemplate = (watchedFilmsQuantity) => {
 };
 
 
-
 const renderCharts = () =>{
   const ctx = document.querySelector(`.statistic__chart`).getContext(`2d`);
-  const chart = new Charts(ctx, {
+  return new Charts(ctx, {
     type: `horizontalBar`,
 
     // The data for our dataset
