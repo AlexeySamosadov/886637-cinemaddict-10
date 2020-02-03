@@ -12,10 +12,10 @@ const moviesModel = new Movies();
 moviesModel.setMovies(filmsData);
 
 const mainElement = document.querySelector(`.main`);
-const filterController = new FilterController(mainElement, moviesModel);
-filterController.render();
-
 const pageController = new PageController(moviesModel);
+const filterController = new FilterController(mainElement, moviesModel, pageController);
+
+filterController.render();
 pageController.renderFilmList();
 
 

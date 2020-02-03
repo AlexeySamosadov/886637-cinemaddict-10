@@ -7,13 +7,14 @@ import {getMoviesByFilter} from "../util/navigation-filer";
 const WATCHED_FILM_NUMBER = 27;
 
 export default class FilterController {
-  constructor(container, moviesModel) {
+  constructor(container, moviesModel, pageController) {
     this.container = container;
     this.moviesModel = moviesModel;
     this._activeFilterType = FilterType.AllMOVIES;
     this.statisticElement = null;
     this.mainNavigationElement = null;
     this.mainNavigationComponent = null;
+    this.pageController = pageController;
     this._onDataChange = this._onDataChange.bind(this);
   }
   render() {
@@ -47,6 +48,7 @@ export default class FilterController {
       this.statisticElement = statisticComponent.getElement();
       render(mainNavigation, this.statisticElement, `afterend`);
       statisticComponent.setCharts();
+      this.pageController.removeFilmList();
       document.querySelector(`.films`).setAttribute(`style`, `display: none;`);
       document.querySelector(`.sort`).setAttribute(`style`, `display: none;`);
     }

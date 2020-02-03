@@ -105,6 +105,10 @@ export default class PageController {
     this.showedFilmControllers = [];
   }
 
+  removeFilmList() {
+    this._filmListElement.innerHTML = ``;
+  }
+
   renderShowMoreButton() {
     const filmsData = this._moviesModel.getMovies();
     const showMoreButtonComponent = new ShowMoreButtonComponent();
