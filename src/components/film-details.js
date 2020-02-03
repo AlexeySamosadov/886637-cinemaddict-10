@@ -1,6 +1,7 @@
 import {createElement, getRandomItem, getRandomNumber} from "../util/util";
 import AbstractSmartComponent from "./abstract-smart-component";
 import {formatDateFull, formatCommentTime} from "../util/time";
+import he from "he";
 
 const COMMENTATOR_NAMES = [
   `Antonio`,
@@ -55,6 +56,9 @@ const generateCommentEmotion = (emojies) => {
 
 export const generateCommentTemplate = (comment) => {
   const {commentText, commentatorName, emojiLink, commentTime, commentId} = comment;
+  console.log(commentText);
+  const saveCommentsText = he.encode(commentText);
+
   const clearCommentTime = formatCommentTime(commentTime);
   return (
     `<li class="film-details__comment" data-comment="${commentId}">
@@ -62,7 +66,7 @@ export const generateCommentTemplate = (comment) => {
               <img src="./images/emoji/${emojiLink}" width="55" height="55" alt="emoji">
             </span>
             <div>
-              <p class="film-details__comment-text">${commentText}</p>
+              <p class="film-details__comment-text">${saveCommentsText}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${commentatorName}</span>
                 <span class="film-details__comment-day">${clearCommentTime}</span>
