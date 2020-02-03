@@ -1,8 +1,6 @@
 const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
-  AFTEREND: `afterend`,
-  BEFOREBEGIN: `beforebegin`,
 };
 
 const render = (container, element, position = RenderPosition.BEFOREEND) => {
@@ -13,10 +11,10 @@ const render = (container, element, position = RenderPosition.BEFOREEND) => {
     case RenderPosition.BEFOREEND:
       container.append(element);
       break;
-    case RenderPosition.AFTEREND:
+    case `afterend`:
       container.insertAdjacentElement(`afterend`, element);
       break;
-    case RenderPosition.BEFOREBEGIN:
+    case `beforebegin`:
       container.insertAdjacentElement(`beforebegin`, element);
       break;
   }

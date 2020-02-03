@@ -4,6 +4,8 @@ import MainNavigationComponent from '../components/main-navigation.js';
 import StatisticComponent from "../components/statistic";
 import {getMoviesByFilter} from "../util/navigation-filer";
 
+const WATCHED_FILM_NUMBER = 27;
+
 export default class FilterController {
   constructor(container, moviesModel) {
     this.container = container;
@@ -12,7 +14,6 @@ export default class FilterController {
     this.statisticElement = null;
     this.mainNavigationElement = null;
     this.mainNavigationComponent = null;
-    // this.moviesModel.setFilterChangeHandler(this._onDataChange.bind(this));
     this._onDataChange = this._onDataChange.bind(this);
   }
   render() {
@@ -42,9 +43,10 @@ export default class FilterController {
   renderStatistic() {
     if (!this.statisticElement) {
       const mainNavigation = this.container.querySelector(`.main-navigation`);
-      const WATCHED_FILM_NUMBER = 27;
-      this.statisticElement = new StatisticComponent(WATCHED_FILM_NUMBER).getElement();
+      const statisticComponent = new StatisticComponent(WATCHED_FILM_NUMBER);
+      this.statisticElement = statisticComponent.getElement();
       render(mainNavigation, this.statisticElement, RenderPosition.AFTEREND);
+      statisticComponent.setCharts();
     }
   }
 

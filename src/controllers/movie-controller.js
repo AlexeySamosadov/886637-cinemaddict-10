@@ -112,7 +112,7 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsComponent.setAddWatchlistClickHandler(this.addWatchHandler.bind(this));
     this.filmDetailsComponent.setMarkAsWatchedClickHandler(this.ratingHandler.bind(this));
     this.filmDetailsComponent.setMarkAsFavoriteClickHandler(this.addFavouritesHandler.bind(this));
-    this.filmDetailsComponent.setDeleateCommentHandler(this.removeComment.bind(this));
+    this.filmDetailsComponent.setDeleteCommentHandler(this.removeComment.bind(this));
     this.filmDetailsComponent.setEmotionHandler();
     this.filmDetailsComponent.setAddComment(this.addComment.bind(this));
 

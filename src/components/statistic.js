@@ -1,6 +1,7 @@
 import {getRandomItem, getRandomNumber} from "../util/util";
 import {genres} from "../mock/film";
 import AbstractComponent from "./abstract-component";
+import Charts from "chart.js";
 
 const filterDuration = [
   `All time`,
@@ -82,6 +83,29 @@ const getStatisticTemplate = (watchedFilmsQuantity) => {
 };
 
 
+
+const renderCharts = () =>{
+  const ctx = document.querySelector(`.statistic__chart`).getContext(`2d`);
+  const chart = new Charts(ctx, {
+    type: `horizontalBar`,
+
+    // The data for our dataset
+    data: {
+      labels: [`Ужасы`, `Фантастика`, `Мелодраммы`, `Приключения`, `Спорт`, `Комедия`, `Детектив`],
+      datasets: [{
+        label: `Statistic`,
+        backgroundColor: `#ffe800`,
+        borderColor: `rgb(255, 99, 132)`,
+        data: [30, 10, 5, 2, 20, 30, 11]
+      }]
+    },
+
+    // Configuration options go here
+    options: {}
+  });
+};
+
+
 export default class Statistic extends AbstractComponent {
   constructor(watchedFilmsQuantity) {
     super();
@@ -89,5 +113,9 @@ export default class Statistic extends AbstractComponent {
   }
   getTemplate() {
     return getStatisticTemplate(this._watchedFilmsQuantity);
+  }
+
+  setCharts() {
+    renderCharts();
   }
 }
