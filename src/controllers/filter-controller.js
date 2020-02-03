@@ -47,6 +47,8 @@ export default class FilterController {
       this.statisticElement = statisticComponent.getElement();
       render(mainNavigation, this.statisticElement, `afterend`);
       statisticComponent.setCharts();
+      document.querySelector(`.films`).setAttribute(`style`, `display: none;`);
+      document.querySelector(`.sort`).setAttribute(`style`, `display: none;`);
     }
   }
 
@@ -59,6 +61,8 @@ export default class FilterController {
     if (this.statisticElement) {
       this.statisticElement.remove();
       this.statisticElement = null;
+      document.querySelector(`.films`).removeAttribute(`style`);
+      document.querySelector(`.sort`).removeAttribute(`style`);
     }
   }
 
