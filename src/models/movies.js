@@ -6,8 +6,6 @@ export default class Movies {
     this._filmsData = [];
     this._activeFilterType = FilterType.AllMOVIES;
     this._filterChangeHandlers = null;
-    // this.timeout = setInterval(() => console.log(this._filmsData, 20000));
-    // this.timeout();
   }
 
   setMovies(filmData) {
@@ -20,7 +18,6 @@ export default class Movies {
   }
 
   getAllMovies() {
-    // hgfhgf
     return this._filmsData;
   }
 

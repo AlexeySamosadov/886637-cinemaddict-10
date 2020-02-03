@@ -12,6 +12,13 @@ const COMMENTATOR_NAMES = [
   `Chipolino`
 ];
 
+const EMOJIES = [
+  `smile`,
+  `angry`,
+  `puke`,
+  `sleeping`,
+];
+
 const generateGenreContent = (genres) => {
   return [...genres]
     .map((genre)=> {
@@ -31,6 +38,18 @@ const generateCountryContent = (countries) => {
 const generateCommentsTemplate = (comments) => {
   return [...comments]
     .map((comment)=> generateCommentTemplate(comment))
+    .join(`\n`);
+};
+
+
+const generateCommentEmotion = (emojies) => {
+  return [...emojies]
+    .map((emoji) => {
+      return (`<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}">
+            <label class="film-details__emoji-label" for="emoji-${emoji}">
+              <img src="./images/emoji/${emoji}.png" data-emotion="${emoji}.png" width="30" height="30" alt="emoji">
+            </label>`);
+    })
     .join(`\n`);
 };
 
@@ -61,6 +80,7 @@ export const getFilmDetailsTemplate = (filmData) => {
   const countriesContent = generateCountryContent(country);
   const filmDateProduction = formatDateFull(releaseDate);
   const commentsTemplate = generateCommentsTemplate(comments);
+  const commentEmotionTemplate = generateCommentEmotion(EMOJIES);
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -156,25 +176,7 @@ export const getFilmDetailsTemplate = (filmData) => {
           </label>
 
           <div class="film-details__emoji-list">
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="sleeping">
-            <label class="film-details__emoji-label" for="emoji-smile">
-              <img src="./images/emoji/smile.png" data-emotion="smile.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="neutral-face">
-            <label class="film-details__emoji-label" for="emoji-sleeping">
-              <img src="./images/emoji/sleeping.png" data-emotion="sleeping.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-gpuke" value="grinning">
-            <label class="film-details__emoji-label" for="emoji-gpuke">
-              <img src="./images/emoji/puke.png" data-emotion="puke.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="grinning">
-            <label class="film-details__emoji-label" for="emoji-angry">
-              <img src="./images/emoji/angry.png" data-emotion="angry.png" width="30" height="30" alt="emoji">
-            </label>
+            ${commentEmotionTemplate}
           </div>
         </div>
         <button type="submit">Отправить</button>
