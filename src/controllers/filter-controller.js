@@ -29,7 +29,6 @@ export default class FilterController {
 
 
     const oldComponent = this.mainNavigationComponent;
-
     this.mainNavigationComponent = new MainNavigationComponent(filters);
     this.mainNavigationElement = this.mainNavigationComponent.getElement();
     this.mainNavigationComponent.setClickMainNavigationHandler(this.onNavigationClick.bind(this));

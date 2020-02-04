@@ -22,7 +22,7 @@ export const renderFilms = (filmsListElement, films, onDataChange, onViewChange)
   });
 };
 
-export default class PageController {
+export default class MoviesController {
   constructor(moviesModel) {
     this._filmListElement = null;
     this._filmsElement = null;

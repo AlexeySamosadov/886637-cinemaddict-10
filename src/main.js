@@ -1,7 +1,7 @@
 import API from "./api";
 import {render} from './util/render';
 import ProfileRatingComponent from './components/profile-raiting.js';
-import PageController from "./controllers/page-controller";
+import MoviesController from "./controllers/movies-controller";
 import {generateFilmCardsData} from "./mock/film";
 import Movies from "./models/movies";
 import FilterController from "./controllers/filter-controller";
@@ -17,7 +17,7 @@ moviesModel.setMovies(filmsData);
 const headerElement = document.querySelector(`.header`);
 render(headerElement, new ProfileRatingComponent().getElement());
 const mainElement = document.querySelector(`.main`);
-const pageController = new PageController(moviesModel);
+const pageController = new MoviesController(moviesModel);
 const filterController = new FilterController(mainElement, moviesModel, pageController);
 filterController.render();
 
