@@ -43,13 +43,10 @@ const generateDurationTemplate = (min, max) => {
 };
 
 const getStatisticTemplate = (filteredMovies) => {
-  console.log(`filteredMovies`, filteredMovies);
+  // console.log(`filteredMovies`, filteredMovies);
 
-  const totalDuration = filteredMovies.map((it, t) => {
-    return t;
-  })
-  ;
-  console.log(totalDuration);
+  const totalDuration = filteredMovies.reduce((acc, cur) => acc + cur.duration, 0);
+  // console.log(`dvddfbbg`, totalDuration);
 
   const rang = getRandomItem(rangs);
   const filters = getFilterDurationTemplate(filterDuration);
@@ -93,7 +90,18 @@ const getStatisticTemplate = (filteredMovies) => {
 
 const renderCharts = (filteredMovies) =>{
   const filmGenres = filteredMovies.map((it)=> it.genres);
-  console.log(`filmGenres`, filmGenres);
+  // console.log(`filmGenres`, filmGenres);
+  const genreses = {};
+  filmGenres.forEach(arr => arr.forEach(genre => {
+    if (!genreses[genre]) {
+      genreses[genre] = 1;
+    } else {
+      genreses[genre] += 1;
+    }
+  }));
+  const sortFilmGenres = Object.entries(genreses).sort((a, b) => b[1] - a[1])
+
+  console.log(sortFilmGenres)
   const ctx = document.querySelector(`.statistic__chart`).getContext(`2d`);
   return new Charts(ctx, {
     type: `horizontalBar`,
