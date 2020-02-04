@@ -7,7 +7,7 @@ import {getMoviesByFilter} from "../util/navigation-filer";
 const WATCHED_FILM_NUMBER = 27;
 
 export default class FilterController {
-  constructor(container, moviesModel) {
+  constructor(container, moviesModel, pageController) {
     this.container = container;
     this.moviesModel = moviesModel;
     this._activeFilterType = FilterType.AllMOVIES;
@@ -15,6 +15,7 @@ export default class FilterController {
     this.mainNavigationElement = null;
     this.mainNavigationComponent = null;
     this._onDataChange = this._onDataChange.bind(this);
+    this.pageController = pageController;
   }
   render() {
     const allTasks = this.moviesModel.getAllMovies();
@@ -47,8 +48,9 @@ export default class FilterController {
       this.statisticElement = statisticComponent.getElement();
       render(mainNavigation, this.statisticElement, `afterend`);
       statisticComponent.setCharts();
-      document.querySelector(`.films`).setAttribute(`style`, `display: none;`);
-      document.querySelector(`.sort`).setAttribute(`style`, `display: none;`);
+      // document.querySelector(`.films`).setAttribute(`style`, `display: none;`);
+      // document.querySelector(`.sort`).setAttribute(`style`, `display: none;`);
+      this.pageController.removeFilms();
     }
   }
 
@@ -61,8 +63,9 @@ export default class FilterController {
     if (this.statisticElement) {
       this.statisticElement.remove();
       this.statisticElement = null;
-      document.querySelector(`.films`).removeAttribute(`style`);
-      document.querySelector(`.sort`).removeAttribute(`style`);
+      // document.querySelector(`.films`).removeAttribute(`style`);
+      // document.querySelector(`.sort`).removeAttribute(`style`);
+      // this.pageController.renderFilmList();
     }
   }
 

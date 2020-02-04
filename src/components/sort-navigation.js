@@ -48,6 +48,9 @@ export default class SortNavigation extends AbstractComponent {
       evt.target.classList.add(`sort__button--active`);
       this.save = evt.target;
     });
-
   }
+
+  removeElement() {
+  super.removeElement();
+ }
 }

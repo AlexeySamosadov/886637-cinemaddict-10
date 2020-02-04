@@ -15,15 +15,16 @@ const checkStatus = (response) => {
   }
 };
 
-export default class API {
+const API = class {
   constructor(endPoint, authorization) {
     this._endPoint = endPoint;
     this._authorization = authorization;
   }
 
-  getTasks() {
-    return this._load({url: `films`})
-      .then((response) => response.json).then(Movie.parseFilms);
+  getMovies() {
+    return this._load({url: `movies`})
+      .then((response) => response.json)
+      .then(Movie.parseMovies);
   }
 
   createTask(task) {
@@ -47,4 +48,7 @@ export default class API {
         throw err;
       });
   }
-}
+};
+
+
+export default API;
