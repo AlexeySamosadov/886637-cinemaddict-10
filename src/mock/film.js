@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomDuration, getRandomArray, getRandomItem} from "../util/util";
+import {getRandomNumber, getRandomArray, getRandomItem} from "../util/util";
 
 const filmNames = [
   `Полет над гнездом кукушки`,
@@ -145,7 +145,7 @@ const generateFilmCardData = () => {
   return {
     title: getRandomItem(filmNames),
     rating: getRandomRating(3, 10),
-    duration: getRandomDuration(70, 150),
+    duration: getRandomNumber(70, 150),
     id: String(Math.random() + Math.random()),
     genres: getRandomArray(genres, 5),
     posterSource: getRandomItem(posters),

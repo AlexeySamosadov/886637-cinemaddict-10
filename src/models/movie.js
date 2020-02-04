@@ -1,10 +1,12 @@
+import {getRandomNumber} from "../util/util";
+
 export default class Movie {
   constructor(data) {
     this.id = data[`id`];
     this.comments = new Set(data[`comments`] || []);
     this.title = getRandomItem(filmNames);
     this.rating = getRandomRating(3, 10);
-    this.duration = getRandomDuration(70, 150);
+    this.duration = getRandomNumber(70, 150);
     this.genres = getRandomArray(genres, 5);
     this.posterSource = getRandomItem(posters);
     this.description = getRandomArray(descriptionFilms, 3).join(` `);

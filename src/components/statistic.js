@@ -51,8 +51,6 @@ const getStatisticTemplate = (filteredMovies) => {
   const duration = generateDurationTemplate(100, 1000);
   const genre = getRandomItem(genres);
 
-
-
   return (`<section class="statistic">
     <p class="statistic__rank">
       Your rank
@@ -116,7 +114,7 @@ export default class Statistic extends AbstractComponent {
     this._filteredMovies = filteredMovies;
   }
   getTemplate() {
-     return getStatisticTemplate(this._filteredMovies, this._watchedFilmsQuantity);
+    return getStatisticTemplate(this._filteredMovies, this._watchedFilmsQuantity);
   }
 
   setCharts() {

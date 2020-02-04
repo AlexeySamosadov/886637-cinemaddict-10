@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {formatDateToYear} from "../util/time";
+import {formatDateToYear, formatMovieDuration} from "../util/time";
 
 const generateGenreContent = (genres) => {
   return genres
@@ -12,7 +12,7 @@ const generateGenreContent = (genres) => {
 const getFilmCardTemplate = (filmData) => {
   const {title, rating, releaseDate, duration, genres, posterSource, description, commentsQuantity, isAddWatch, isWatched, isFavorite} = filmData;
   const genreContent = generateGenreContent(genres);
-
+  const formattedDuration = formatMovieDuration(duration);
   const releaseYear = formatDateToYear(releaseDate);
 
   return (`<article class="film-card">
@@ -22,7 +22,8 @@ const getFilmCardTemplate = (filmData) => {
           <p class="film-card__rating">${rating}</p>
           <p class="film-card__info">
             <span class="film-card__year">${releaseYear}</span>
-            <span class="film-card__duration">${duration}</span>
+            <span class="film-card__duration">${formattedDuration}</span>
+            <span class="film-card__duration">${formattedDuration}</span>
             ${genreContent}
           </p>
           <img src="./images/posters/${posterSource}" alt="" class="film-card__poster">
