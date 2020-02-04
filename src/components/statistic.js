@@ -91,7 +91,9 @@ const getStatisticTemplate = (filteredMovies) => {
 };
 
 
-const renderCharts = () =>{
+const renderCharts = (filteredMovies) =>{
+  const filmGenres = filteredMovies.map((it)=> it.genres);
+  console.log(`filmGenres`, filmGenres);
   const ctx = document.querySelector(`.statistic__chart`).getContext(`2d`);
   return new Charts(ctx, {
     type: `horizontalBar`,
@@ -120,10 +122,10 @@ export default class Statistic extends AbstractComponent {
     this._filteredMovies = filteredMovies;
   }
   getTemplate() {
-    return getStatisticTemplate(this._filteredMovies, this._watchedFilmsQuantity);
+    return getStatisticTemplate(this._filteredMovies);
   }
 
   setCharts() {
-    renderCharts();
+    renderCharts(this._filteredMovies);
   }
 }
