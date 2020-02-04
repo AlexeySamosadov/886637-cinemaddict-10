@@ -43,7 +43,7 @@ export default class FilterController {
   renderStatistic() {
     if (!this.statisticElement) {
       const mainNavigation = this.container.querySelector(`.main-navigation`);
-      const statisticComponent = new StatisticComponent(WATCHED_FILM_NUMBER);
+      const statisticComponent = new StatisticComponent(this.moviesModel.getWatchedMovies(), WATCHED_FILM_NUMBER);
       this.statisticElement = statisticComponent.getElement();
       render(mainNavigation, this.statisticElement, `afterend`);
       statisticComponent.setCharts();

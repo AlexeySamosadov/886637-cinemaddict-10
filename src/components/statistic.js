@@ -42,12 +42,16 @@ const generateDurationTemplate = (min, max) => {
   return (`<p class="statistic__item-text">${(minutes / 60).toFixed(0)}<span class="statistic__item-description">h</span> ${minutes % 60} <span class="statistic__item-description">m</span></p>`);
 };
 
-const getStatisticTemplate = (watchedFilmsQuantity) => {
+const getStatisticTemplate = (filteredMovies, watchedFilmsQuantity) => {
+  console.log(`filteredMovies`,filteredMovies);
+
   const rang = getRandomItem(rangs);
   const filters = getFilterDurationTemplate(filterDuration);
   const watchedFilmsNumber = watchedFilmsQuantity;
   const duration = generateDurationTemplate(100, 1000);
   const genre = getRandomItem(genres);
+
+
 
   return (`<section class="statistic">
     <p class="statistic__rank">
@@ -106,12 +110,13 @@ const renderCharts = () =>{
 
 
 export default class Statistic extends AbstractComponent {
-  constructor(watchedFilmsQuantity) {
+  constructor(filteredMovies, watchedFilmsQuantity) {
     super();
     this._watchedFilmsQuantity = watchedFilmsQuantity;
+    this._filteredMovies = filteredMovies;
   }
   getTemplate() {
-    return getStatisticTemplate(this._watchedFilmsQuantity);
+     return getStatisticTemplate(this._filteredMovies, this._watchedFilmsQuantity);
   }
 
   setCharts() {

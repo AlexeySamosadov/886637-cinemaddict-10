@@ -17,6 +17,10 @@ export default class Movies {
     return this._filteredData;
   }
 
+  getWatchedMovies() {
+    return getMoviesByFilter(this._filmsData, FilterType.HISTORY);
+  }
+
   getAllMovies() {
     return this._filmsData;
   }

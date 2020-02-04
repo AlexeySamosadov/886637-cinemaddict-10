@@ -49,7 +49,6 @@ export default class MoviesController {
     this._filmListElement = this.filmListComponent.getElement();
     this._filmsElement = this.filmsComonent.getElement();
     this._sortNavigationElement = this._sortNavigationComponent.getElement();
-    console.log(this._sortNavigationElement);
     const filmsData = this._moviesModel.getMovies();
 
     this.showedFilmControllers = [];
