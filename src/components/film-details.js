@@ -1,6 +1,6 @@
 import {createElement, getRandomItem, getRandomNumber} from "../util/util";
 import AbstractSmartComponent from "./abstract-smart-component";
-import {formatDateFull, formatCommentTime} from "../util/time";
+import {formatDateFull, formatCommentTime, formatMovieDuration} from "../util/time";
 import he from "he";
 
 const COMMENTATOR_NAMES = [
@@ -79,6 +79,7 @@ export const generateCommentTemplate = (comment) => {
 export const getFilmDetailsTemplate = (filmData) => {
   const {title, titleDetails, rating, releaseDate, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite, comments} = filmData;
 
+  const formattedDuration = formatMovieDuration(duration);
   const genreContent = generateGenreContent(genres);
   const countriesContent = generateCountryContent(country);
   const filmDateProduction = formatDateFull(releaseDate);
@@ -129,7 +130,7 @@ export const getFilmDetailsTemplate = (filmData) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${duration}</td>
+              <td class="film-details__cell">${formattedDuration}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
