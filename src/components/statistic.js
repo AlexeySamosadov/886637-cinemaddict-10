@@ -45,6 +45,12 @@ const generateDurationTemplate = (min, max) => {
 const getStatisticTemplate = (filteredMovies) => {
   console.log(`filteredMovies`, filteredMovies);
 
+  const totalDuration = filteredMovies.map((it, t) => {
+    return t;
+  })
+  ;
+  console.log(totalDuration);
+
   const rang = getRandomItem(rangs);
   const filters = getFilterDurationTemplate(filterDuration);
   const watchedFilmsNumber = filteredMovies.length;
