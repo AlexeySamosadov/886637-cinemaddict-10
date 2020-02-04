@@ -65,7 +65,7 @@ export default class FilterController {
       this.statisticElement = null;
       // document.querySelector(`.films`).removeAttribute(`style`);
       // document.querySelector(`.sort`).removeAttribute(`style`);
-      // this.pageController.renderFilmList();
+      this.pageController.renderFilmList();
     }
   }
 

@@ -115,12 +115,10 @@ export default class PageController {
   }
 
   removeFilms() {
-
+    this.filmListComponent.removeElement();
+    this.filmsComonent.removeElement();
     this._sortNavigationComponent.removeElement();
     this._showMoreButtonComponent.removeElement();
-    // this._filmsContainerElement.innerHTML = ``;
-    // this._filmsElement.innerHTML = ``;
-    this.showedFilmControllers = [];
     this.showedFilmControllers = [];
   }
 
