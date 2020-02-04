@@ -33,7 +33,6 @@ export default class MoviesController {
     this.filmListComponent = new FilmListComponent();
     this.filmsComonent = new FilmsComponent();
     this.noFilmsComponent = new NoFilms();
-    this.filmsExtraComponent = new FilmsExtraComponent();
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
 
 
