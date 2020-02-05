@@ -2,21 +2,22 @@ import {getRandomNumber} from "../util/util";
 
 export default class Movie {
   constructor(data) {
-    this.id = data[`id`];
-    this.comments = new Set(data[`comments`] || []);
-    this.title = getRandomItem(filmNames);
-    this.rating = getRandomRating(3, 10);
-    this.duration = getRandomNumber(70, 150);
-    this.genres = getRandomArray(genres, 5);
-    this.posterSource = getRandomItem(posters);
-    this.description = getRandomArray(descriptionFilms, 3).join(` `);
-    this.commentsQuantity = getComments.length;
-    this.titleDetails = getRandomItem(nameDetails);
-    this.releaseDate = getRandomFullDate();
-    this.country = getRandomArray(countries, 3);
-    this.isAddWatch = Math.random() > 0.5;
-    this.isWatched = Math.random() > 0.5;
-    this.isFavorite = Math.random() > 0.5;
+    //console.log(`data contructor`, data);
+    this.id = data.id;
+    this.comments = null;
+    // this.title = null;
+    // this.rating = null;
+    // this.duration = null;
+    // this.genres = null;
+    // this.posterSource = null;
+    // this.description = null;
+    // this.commentsQuantity = null;
+    // this.titleDetails = null;
+    // this.releaseDate = null;
+    // this.country = null;
+    // this.isAddWatch = null;
+    // this.isWatched = Math.random() > 0.5;
+    // this.isFavorite = Math.random() > 0.5;
   }
 
   toRAW() {
@@ -27,11 +28,20 @@ export default class Movie {
   }
 
   static parseMovie(data) {
+    //console.log('data123', data);
+
+    const comments = fetch('https://htmlacademy-es-10.appspot.com/cinemaddict/comments/?movieId: 1', {authorization: "Basic eo0w590ik29889a"})
+      .then(response => response.json())
+      .then(res => console.log('res', res))
+
+    console.log('ç12312312', comments)
+
+
     return new Movie(data);
   }
 
-  static parseMovies(data) {
-    return data.map(Movie.parseMovie());
+  static parseMovies(movies) {
+    return movies.map((movie) => Movie.parseMovie(movie));
   }
 
   static clone(data) {

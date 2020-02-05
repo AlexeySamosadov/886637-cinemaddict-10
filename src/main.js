@@ -6,9 +6,9 @@ import {generateFilmCardsData} from "./mock/film";
 import Movies from "./models/movies";
 import FilterController from "./controllers/filter-controller";
 
-// const AUTHORIZATION = `Basic kTy9gIdsz2317rD`;
-// const END_POINT = `https://htmlacademy-es-10.appspot.com/cinemaddict/`;
-// const api = new API(AUTHORIZATION, END_POINT);
+const AUTHORIZATION = `Basic eo0w590ik29889a`;
+const END_POINT = `https://htmlacademy-es-10.appspot.com/cinemaddict/`;
+const api = new API(END_POINT, AUTHORIZATION);
 
 const filmsData = generateFilmCardsData(23);
 const moviesModel = new Movies();
@@ -23,9 +23,7 @@ filterController.render();
 
 pageController.renderFilmList();
 
-// api.getMovies()
-//   .then((movies) => {
-//     console.log(movies);
-//   });
-
-
+api.getMovies()
+  .then((movies) => {
+    console.log(movies);
+  });
