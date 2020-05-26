@@ -14,4 +14,14 @@ const render = (container, element, position = RenderPosition.BEFOREEND) => {
   }
 };
 
-export {render, RenderPosition};
+const replaceComponentElement = (newComponent, oldComponent) => {
+  const parentElement = oldComponent.getElement().parentElement;
+  const newElement = newComponent.getElement();
+  const oldElement = oldComponent.getElement();
+
+  if (parentElement) {
+    parentElement.replaceChild(newElement, oldElement);
+  }
+};
+
+export {render, replaceComponentElement, RenderPosition};
