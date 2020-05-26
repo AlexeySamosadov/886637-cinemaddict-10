@@ -1,8 +1,9 @@
 import FilmCardComponent from "../components/film-card";
 import {render, replaceComponentElement} from "../util/render";
-import FilmDetailsComponent from "../components/film-details";
+import FilmDetailsComponent, {generateCommentTemplate} from "../components/film-details";
 import AbstractComponent from "../components/abstract-component";
 import FilmDetailsRating from "../components/film-details-raiting";
+import {createElement} from "../util/util";
 
 const Mode = {
   DEFAULT: `default`,
@@ -111,8 +112,45 @@ export default class MovieController extends AbstractComponent {
     this.filmDetailsComponent.setAddWatchlistClickHandler(this.addWatchHandler.bind(this));
     this.filmDetailsComponent.setMarkAsWatchedClickHandler(this.ratingHandler.bind(this));
     this.filmDetailsComponent.setMarkAsFavoriteClickHandler(this.addFavouritesHandler.bind(this));
+    this.filmDetailsComponent.setDeleteCommentHandler(this.removeComment.bind(this));
     this.filmDetailsComponent.setEmotionHandler();
+    this.filmDetailsComponent.setAddComment(this.addComment.bind(this));
+
     document.addEventListener(`keydown`, this.onEscPress);
+  }
+
+  addComment() {
+    const data = this.filmDetailsComponent.getData();
+    const element = createElement(generateCommentTemplate(data));
+    const commentsList = this.filmDetailsComponent.getElement().querySelector(`.film-details__comments-list`);
+
+    render(commentsList, element);
+    this.filmData.comments.push(data);
+    this.updateComment();
+  }
+
+  removeComment(evt) {
+    evt.preventDefault();
+    const id = evt.target.dataset.id;
+    if (!id) {
+      return;
+    }
+    const index = this.filmData.comments.findIndex((it) => it.commentId === id);
+    if (index === -1) {
+      return;
+    }
+
+    this.filmDetailsComponent.getElement().querySelector(`[data-comment="${id}"]`).remove();
+    this.filmData.comments.splice(index, 1);
+    this.updateComment();
+  }
+
+  updateComment() {
+    this.onDataChange(this, this.filmData, Object.assign({}, this.filmData, {
+      commentsQuantity: this.filmData.comments.length,
+    }));
+    const commentsNumber = this.filmDetailsComponent.getElement().querySelector(`.film-details__comments-count`);
+    commentsNumber.textContent = String(this.filmData.commentsQuantity);
   }
 
   addWatchHandler() {

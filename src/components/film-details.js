@@ -1,7 +1,24 @@
-import {createElement, getRandomItem} from "../util/util";
+import {createElement, getRandomItem, getRandomNumber} from "../util/util";
 import AbstractSmartComponent from "./abstract-smart-component";
 import {formatDateFull, formatCommentTime} from "../util/time";
-import {getRandomFullDate} from "../mock/film";
+import he from "he";
+
+const COMMENTATOR_NAMES = [
+  `Antonio`,
+  `Hyan`,
+  `Genry`,
+  `Sergey Talizin`,
+  `Mark`,
+  `Fill`,
+  `Chipolino`
+];
+
+const EMOJIES = [
+  `smile`,
+  `angry`,
+  `puke`,
+  `sleeping`,
+];
 
 const generateGenreContent = (genres) => {
   return [...genres]
@@ -19,82 +36,54 @@ const generateCountryContent = (countries) => {
     .join(`\n`);
 };
 
-const EMOJIESLINKS = [
-  `smile.png`,
-  `angry.png`,
-  `puke.png`,
-  `sleeping.png`,
-];
-
-const COMMENTS = [
-  `stupid`,
-  `nice`,
-  `Я плакал`,
-  `Хотел бы быть как главный герой`,
-  `Почему он?`,
-  `Нереальная концовка`,
-  `Фильм хорош, чтобы уснуть`,
-];
-
-const COMMENTATOR_NAMES = [
-  `Antonio`,
-  `Hyan`,
-  `Genry`,
-  `Sergey Talizin`,
-  `Mark`,
-  `Fill`,
-  `Chipolino`
-];
-
-const generateComment = () => {
-  return {
-    commentText: getRandomItem(COMMENTS),
-    commentatorName: getRandomItem(COMMENTATOR_NAMES),
-    emojiLink: getRandomItem(EMOJIESLINKS),
-    commentTime: getRandomFullDate(),
-  };
-};
-
-const createComments = (count) => {
-  return new Array(count)
-    .fill(``)
-    .map(generateComment);
-};
-
-const generateCommentsTemplate = (count) => {
-  const comments = createComments(count);
+const generateCommentsTemplate = (comments) => {
   return [...comments]
-    .map((comment)=>{
-      const {commentText, commentatorName, emojiLink, commentTime} = comment;
-      const clearCommentTime = formatCommentTime(commentTime);
-      return (
-        `<li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/${emojiLink}" width="55" height="55" alt="emoji">
-            </span>
-            <div>
-              <p class="film-details__comment-text">${commentText}</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">${commentatorName}</span>
-                <span class="film-details__comment-day">${clearCommentTime}</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>`
-      );
-    })
+    .map((comment)=> generateCommentTemplate(comment))
     .join(`\n`);
 };
 
 
+const generateCommentEmotion = (emojies) => {
+  return [...emojies]
+    .map((emoji) => {
+      return (`<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}">
+            <label class="film-details__emoji-label" for="emoji-${emoji}">
+              <img src="./images/emoji/${emoji}.png" data-emotion="${emoji}.png" width="30" height="30" alt="emoji">
+            </label>`);
+    })
+    .join(`\n`);
+};
+
+export const generateCommentTemplate = (comment) => {
+  const {commentText, commentatorName, emojiLink, commentTime, commentId} = comment;
+  const saveCommentsText = he.encode(commentText);
+
+  const clearCommentTime = formatCommentTime(commentTime);
+  return (
+    `<li class="film-details__comment" data-comment="${commentId}">
+            <span class="film-details__comment-emoji">
+              <img src="./images/emoji/${emojiLink}" width="55" height="55" alt="emoji">
+            </span>
+            <div>
+              <p class="film-details__comment-text">${saveCommentsText}</p>
+              <p class="film-details__comment-info">
+                <span class="film-details__comment-author">${commentatorName}</span>
+                <span class="film-details__comment-day">${clearCommentTime}</span>
+                <button class="film-details__comment-delete" data-id="${commentId}">Delete</button>
+              </p>
+            </div>
+          </li>`
+  );
+};
+
 export const getFilmDetailsTemplate = (filmData) => {
-  const {title, titleDetails, rating, releaseDate, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite} = filmData;
+  const {title, titleDetails, rating, releaseDate, duration, genres, posterSource, country, description, commentsQuantity, isAddWatch, isWatched, isFavorite, comments} = filmData;
 
   const genreContent = generateGenreContent(genres);
   const countriesContent = generateCountryContent(country);
   const filmDateProduction = formatDateFull(releaseDate);
-
-  const comments = generateCommentsTemplate(commentsQuantity);
+  const commentsTemplate = generateCommentsTemplate(comments);
+  const commentEmotionTemplate = generateCommentEmotion(EMOJIES);
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -179,38 +168,21 @@ export const getFilmDetailsTemplate = (filmData) => {
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsQuantity}</span></h3>
 
         <ul class="film-details__comments-list">
-            ${comments}
+            ${commentsTemplate}
         </ul>
 
         <div class="film-details__new-comment">
           <div for="add-emoji" class="film-details__add-emoji-label"></div>
 
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" minlength="1" maxlength="140" name="comment" required></textarea>
           </label>
 
           <div class="film-details__emoji-list">
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="sleeping">
-            <label class="film-details__emoji-label" for="emoji-smile">
-              <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="neutral-face">
-            <label class="film-details__emoji-label" for="emoji-sleeping">
-              <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-gpuke" value="grinning">
-            <label class="film-details__emoji-label" for="emoji-gpuke">
-              <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="grinning">
-            <label class="film-details__emoji-label" for="emoji-angry">
-              <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-            </label>
+            ${commentEmotionTemplate}
           </div>
         </div>
+        <button type="submit">Отправить</button>
       </section>
     </div>
   </form>
@@ -228,6 +200,8 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.targetSource = null;
     this.emotionImage = null;
     this.emotionContainer = null;
+    this.emotion = null;
+    this.emotionUrl = null;
   }
 
   getTemplate() {
@@ -260,21 +234,55 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, handler);
   }
 
+  setDeleteCommentHandler(handler) {
+    this._element.querySelector(`.film-details__comments-list`).addEventListener(`click`, handler);
+  }
+
   setEmotionHandler() {
-    this._element.querySelector(`.film-details__emoji-list`).addEventListener(`click`, (event)=>{
+    this._element.querySelector(`.film-details__emoji-list`).addEventListener(`click`, (event) => {
       if (this.emotionImage) {
         this.emotionImage.remove();
       }
 
       const target = event.target;
+      this.emotion = target.dataset.emotion;
 
-      if (target.tagName === `IMG`) {
-        this.targetSource = target.getAttribute(`src`);
+      if (this.emotion) {
+        this.targetSource = `./images/emoji/${this.emotion}`;
+        this.emotionUrl = this.emotion;
+        this.emotionContainer = this._element.querySelector(`.film-details__add-emoji-label`);
       }
-      this.emotionContainer = this._element.querySelector(`.film-details__add-emoji-label`);
       this.emotionImage = createElement(getEmotionImageTemplate());
       this.emotionImage.setAttribute(`src`, `${this.targetSource}`);
       this.emotionContainer.insertAdjacentElement(`afterbegin`, this.emotionImage);
     });
   }
+
+  setAddComment(handler) {
+    this._element.querySelector(`.film-details__inner`).addEventListener(`submit`, (evt)=>{
+      evt.preventDefault();
+      if (!this.emotionUrl) {
+        return;
+      }
+      handler(evt);
+    });
+  }
+
+  getData() {
+    const form = this.getElement().querySelector(`.film-details__inner`);
+    const formData = new FormData(form);
+    const url = this.emotionUrl;
+    return parseFormData(formData, url);
+  }
 }
+
+
+const parseFormData = (formData, url) => {
+  return {
+    commentId: `id` + String(getRandomNumber(1, 99999999)),
+    commentText: formData.get(`comment`),
+    commentatorName: getRandomItem(COMMENTATOR_NAMES),
+    emojiLink: url,
+    commentTime: new Date(),
+  };
+};
