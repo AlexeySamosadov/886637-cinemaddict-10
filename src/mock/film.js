@@ -85,41 +85,28 @@ const genres = [
   `post-apocalyptic`,
 ];
 
-const MONTHS = [
-  `January`,
-  `February`,
-  `March`,
-  `April`,
-  `May`,
-  `June`,
-  `July`,
-  `August`,
-  `September`,
-  `October`,
-  `November`,
-  `December`,
-];
-
 const getRandomRating = (minNumber, maxNumber) => {
   return (Math.random() * (maxNumber - minNumber) + minNumber).toFixed(2);
 };
 
-const getRandomDate = (mounts) => {
-  return `${getRandomNumber(1, 30)} ${getRandomItem(mounts)}`;
+const getRandomFullDate = () => {
+  const targetDate = new Date();
+  const sign = Math.random() > 0.5 ? 1 : -1;
+  targetDate.setMinutes(targetDate.getMinutes() + sign * getRandomNumber(0, 9999999));
+  return targetDate;
 };
 
 const generateFilmCardData = () => {
   return {
     title: getRandomItem(filmNames),
     rating: getRandomRating(3, 10),
-    year: getRandomNumber(1900, 2020),
     duration: getRandomDuration(70, 150),
     genres: getRandomArray(genres, 5),
     posterSource: getRandomItem(posters),
     description: getRandomArray(descriptionFilms, 3).join(` `),
-    commentsQuantity: getRandomNumber(0, 99),
+    commentsQuantity: getRandomNumber(0, 15),
     titleDetails: getRandomItem(nameDetails),
-    releaseDate: getRandomDate(MONTHS),
+    releaseDate: getRandomFullDate(),
     country: getRandomArray(countries, 3),
     isAddWatch: false,
     isWatched: false,
@@ -133,4 +120,4 @@ const generateFilmCardsData = (count) => {
     .map(generateFilmCardData);
 };
 
-export {generateFilmCardData, generateFilmCardsData, genres};
+export {generateFilmCardData, generateFilmCardsData, genres, getRandomFullDate};
