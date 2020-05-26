@@ -1,5 +1,6 @@
-import {createElement, getRandomItem, getRandomNumber} from "../util";
+import {getRandomItem, getRandomNumber} from "../util/util";
 import {genres} from "../mock/film";
+import AbstractComponent from "./abstract-component";
 
 const filterDuration = [
   `All time`,
@@ -40,7 +41,7 @@ const generateDurationTemplate = (min, max) => {
   return (`<p class="statistic__item-text">${(minutes / 60).toFixed(0)}<span class="statistic__item-description">h</span> ${minutes % 60} <span class="statistic__item-description">m</span></p>`);
 };
 
-export const getStatisticTemplate = (watchedFilmsQuantity) => {
+const getStatisticTemplate = (watchedFilmsQuantity) => {
   const rang = getRandomItem(rangs);
   const filters = getFilterDurationTemplate(filterDuration);
   const watchedFilmsNumber = watchedFilmsQuantity;
@@ -81,24 +82,12 @@ export const getStatisticTemplate = (watchedFilmsQuantity) => {
 };
 
 
-export default class Statistic {
+export default class Statistic extends AbstractComponent {
   constructor(watchedFilmsQuantity) {
-    this._element = null;
+    super();
     this._watchedFilmsQuantity = watchedFilmsQuantity;
   }
-
   getTemplate() {
     return getStatisticTemplate(this._watchedFilmsQuantity);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
